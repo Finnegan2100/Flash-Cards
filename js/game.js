@@ -1071,6 +1071,7 @@
 			BEN.swipeDirection = 'right';
 		}
 	}
+	
 	function processingRoutine() {
 	
 	     if (BEN.swipeDirection == 'left' && BEN.currentPage >= 1 && BEN.currentPage < 14 && BEN.canProceed) {
@@ -1291,356 +1292,302 @@
 		}
 	  
 		
-				//COLLISION DETECTION FOR ENGLISH WITH TOUCH
+		//COLLISION DETECTION FOR ENGLISH WITH TOUCH
 
-			if(BEN.tapY > 500 && BEN.tapX <= 320 && BEN.currentPage === -1 && BEN.swipeLength === 0)
-			{
+		if (BEN.tapY > 500 && BEN.tapX <= 320 && BEN.currentPage === -1 && BEN.swipeLength === 0) {
 	 
-			if(BEN.touchDown === true && BEN.pages[0].x === 0)
-			{
-			context.drawImage(englishPressedImage,englishPressed.x,englishPressed.y,englishPressed.width,englishPressed.height);
+			if (BEN.touchDown && BEN.pages[0].x === 0) {
+				context.drawImage(englishPressedImage,englishPressed.x,englishPressed.y,englishPressed.width,englishPressed.height);
 			}
 			
-			if(BEN.touchUp === true && BEN.moveLeft === false && BEN.moveRight === false)
-			{
-			BEN.englishChosen = true;
-			BEN.englishOn = true;
-			BEN.spanishOn = false;
-			BEN.moveLeft = true;
-			}
-	  
-			}
-	  
-	 
-	 //COLLISION DETECTION FOR SPANISH WITH TOUCH
-
-			 if(BEN.tapY > 800 && BEN.tapX > 320 && BEN.currentPage === -1 && BEN.swipeLength === 0)
-			{
-	 
-			if(BEN.touchDown === true  && BEN.pages[0].x === 0)
-			{
-			context.drawImage(spanishPressedImage,spanishPressed.x,spanishPressed.y,spanishPressed.width,spanishPressed.height);
-			}
-			if(BEN.touchUp === true && BEN.currentPage === -1 && BEN.moveLeft === false && BEN.moveRight === false)
-			{
-			BEN.spanishChosen = true;
-			BEN.spanishOn = true;
-			BEN.englishOn = false;
-			BEN.moveLeft = true;
-			}
-			}
-	  
-
-		var vx4 = BEN.mouseX - hotSpot2.centerX();				//COLLISION DETECTION FOR ENGLISH WITH MOUSE
-	  var vy4 = BEN.mouseY - hotSpot2.centerY();
-	  
-	  var combinedHalfWidths4 = 1 + hotSpot2.halfWidth();
-	  var combinedHalfHeights4 = 1 + hotSpot2.halfHeight();
-
-	  if(Math.abs(vx4) < combinedHalfWidths4)
-	  {
-		if(Math.abs(vy4) < combinedHalfHeights4)
-		{
-			if(BEN.mouseDown === true && BEN.currentPage === -1 && BEN.pages[0].x === 0)
-			{
-			context.drawImage(englishPressedImage,englishPressed.x,englishPressed.y,englishPressed.width,englishPressed.height);
-			}
-			
-			if(BEN.mouseUp === true && BEN.currentPage === -1 && BEN.moveLeft === false && BEN.moveRight === false)
-			{
-			
-			BEN.englishChosen = true;
-			BEN.englishOn = true;
-			BEN.spanishOn = false;
-			
+			if (BEN.touchUp && !BEN.moveLeft && !BEN.moveRight) {
+				BEN.englishChosen = true;
+				BEN.englishOn = true;
+				BEN.spanishOn = false;
+				BEN.moveLeft = true;
 			}
 		}
-	  }
 	  
-	 
-	  var vx5 = BEN.mouseX - hotSpot3.centerX();				//COLLISION DETECTION FOR SPANISH WITH MOUSE
-	  var vy5 = BEN.mouseY - hotSpot3.centerY();
-	  
-	  var combinedHalfWidths5 = 1 + hotSpot3.halfWidth();
-	  var combinedHalfHeights5 = 1 + hotSpot3.halfHeight();
+		//COLLISION DETECTION FOR SPANISH WITH TOUCH
 
-	  if(Math.abs(vx5) < combinedHalfWidths5)
-	  {
-		if(Math.abs(vy5) < combinedHalfHeights5)
-		{
-			if(BEN.mouseDown === true && BEN.currentPage === -1 && BEN.pages[0].x === 0)
-			{
+		if (BEN.tapY > 800 && BEN.tapX > 320 && BEN.currentPage === -1 && BEN.swipeLength === 0) {
+	 
+			if (BEN.touchDown && BEN.pages[0].x === 0) {
+				context.drawImage(spanishPressedImage,spanishPressed.x,spanishPressed.y,spanishPressed.width,spanishPressed.height);
+			}
+			if (BEN.touchUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {
+				BEN.spanishChosen = true;
+				BEN.spanishOn = true;
+				BEN.englishOn = false;
+				BEN.moveLeft = true;
+			}
+		}
+	  
+		//COLLISION DETECTION FOR ENGLISH WITH MOUSE
 		
-			context.drawImage(spanishPressedImage,spanishPressed.x,spanishPressed.y,spanishPressed.width,spanishPressed.height);
+		var vx4 = BEN.mouseX - hotSpot2.centerX();				
+	    var vy4 = BEN.mouseY - hotSpot2.centerY();
+	  
+		var combinedHalfWidths4 = 1 + hotSpot2.halfWidth();
+		var combinedHalfHeights4 = 1 + hotSpot2.halfHeight();
 
-			}
-			if(BEN.mouseUp === true && BEN.currentPage === -1 && BEN.moveLeft === false && BEN.moveRight === false)
-			{
-			BEN.spanishChosen = true;
-			BEN.spanishOn = true;
-			BEN.englishOn = false;
+		if (Math.abs(vx4) < combinedHalfWidths4) {
+		
+			if (Math.abs(vy4) < combinedHalfHeights4) {
+			
+				if (BEN.mouseDown && BEN.currentPage === -1 && BEN.pages[0].x === 0) {
+					context.drawImage(englishPressedImage,englishPressed.x,englishPressed.y,englishPressed.width,englishPressed.height);
+				}
+				if (BEN.mouseUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {	
+					BEN.englishChosen = true;
+					BEN.englishOn = true;
+					BEN.spanishOn = false;
+				}
 			}
 		}
-	  }
 	  
+		//COLLISION DETECTION FOR SPANISH WITH MOUSE
+	  
+		var vx5 = BEN.mouseX - hotSpot3.centerX();				
+		var vy5 = BEN.mouseY - hotSpot3.centerY();
+	  
+		var combinedHalfWidths5 = 1 + hotSpot3.halfWidth();
+		var combinedHalfHeights5 = 1 + hotSpot3.halfHeight();
 
+		if (Math.abs(vx5) < combinedHalfWidths5) {
+		
+			if (Math.abs(vy5) < combinedHalfHeights5) {
+				
+				if (BEN.mouseDown && BEN.currentPage === -1 && BEN.pages[0].x === 0) {
+		
+					context.drawImage(spanishPressedImage,spanishPressed.x,spanishPressed.y,spanishPressed.width,spanishPressed.height);
+				}
+				if (BEN.mouseUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {
+					BEN.spanishChosen = true;
+					BEN.spanishOn = true;
+					BEN.englishOn = false;
+				}
+			}
+		}
 	  
+		//COLLISION DETECTION FOR CARDS WITH MOUSE
 	  
-	  var vx1 = BEN.mouseX - hotSpot1.centerX();				//COLLISION DETECTION FOR CARDS WITH MOUSE
-	  var vy1 = BEN.mouseY - hotSpot1.centerY();
+		var vx1 = BEN.mouseX - hotSpot1.centerX();				
+		var vy1 = BEN.mouseY - hotSpot1.centerY();
 	  
-	  var combinedHalfWidths1 = 1 + hotSpot1.halfWidth();
-	  var combinedHalfHeights1 = 1 + hotSpot1.halfHeight();
+		var combinedHalfWidths1 = 1 + hotSpot1.halfWidth();
+		var combinedHalfHeights1 = 1 + hotSpot1.halfHeight();
 
-	  if(Math.abs(vx1) < combinedHalfWidths1)
-	  {
-		if(Math.abs(vy1) < combinedHalfHeights1)
-		{
-			if(BEN.currentPage >= 0)
-			{
+		if (Math.abs(vx1) < combinedHalfWidths1) {
+		
+			if (Math.abs(vy1) < combinedHalfHeights1) {
+			
+				if (BEN.currentPage >= 0) {
 			   
-				if(BEN.mouseUp === true && BEN.unfolding === false && BEN.folding === false && BEN.moveLeft === false && BEN.moveRight === false)
-				{
-					if(BEN.currentSide === 0)
-					{
-					BEN.canProceed = true;
-					BEN.folding = true;
-					BEN.mouseUp = false;
+					if (BEN.mouseUp && !BEN.unfolding && !BEN.folding && !BEN.moveLeft && !BEN.moveRight) {
+					
+						if (BEN.currentSide === 0) {
+							BEN.canProceed = true;
+							BEN.folding = true;
+							BEN.mouseUp = false;
+						}
 					}
-				}
 				
-				if(BEN.mouseUp === true && BEN.unfolding === false && BEN.folding === false && BEN.moveLeft === false && BEN.moveRight === false)
-				{
-					if(BEN.currentSide === 1)
-					{
-					BEN.canProceed = true;
-					BEN.folding = true;
-					BEN.mouseUp = false;
+					if (BEN.mouseUp && !BEN.unfolding && !BEN.folding && !BEN.moveLeft && !BEN.moveRight) {
+					
+						if (BEN.currentSide === 1) {
+							BEN.canProceed = true;
+							BEN.folding = true;
+							BEN.mouseUp = false;
+						}
 					}
-				}
+				}		
 			}
-			
 		}
-	 }
-	 
-	   
-	  var vx = BEN.tapX - hotSpot1.centerX();				//COLLISION DETECTION FOR CARDS WITH TOUCH
-	  var vy = BEN.tapY - hotSpot1.centerY();
 	  
-	  var combinedHalfWidths = 30 + hotSpot1.halfWidth();
-	  var combinedHalfHeights = 30 + hotSpot1.halfHeight();
-
-	  if(Math.abs(vx) < combinedHalfWidths)
-	  {
-		if(Math.abs(vy) < combinedHalfHeights)
-		{
+	    //COLLISION DETECTION FOR CARDS WITH TOUCH
 		
-			if(BEN.currentPage >= 0)
-			{
+		var vx = BEN.tapX - hotSpot1.centerX();				
+		var vy = BEN.tapY - hotSpot1.centerY();
+	  
+		var combinedHalfWidths = 30 + hotSpot1.halfWidth();
+		var combinedHalfHeights = 30 + hotSpot1.halfHeight();
+
+		if (Math.abs(vx) < combinedHalfWidths) {
+		
+			if (Math.abs(vy) < combinedHalfHeights) {
+		
+				if (BEN.currentPage >= 0) {
 				
-				if(BEN.touchUp === true)
-				{
-					if(BEN.currentSide === 0 && BEN.moveLeft === false && BEN.unfolding === false && BEN.folding === false && BEN.moveRight === false)
-					{
-					BEN.canProceed = true;
-					BEN.folding = true;
-					BEN.touchUp = false;
+					if (BEN.touchUp) {
+						
+						if (BEN.currentSide === 0 && !BEN.moveLeft && !BEN.unfolding && !BEN.folding && !BEN.moveRight) {
+							BEN.canProceed = true;
+							BEN.folding = true;
+							BEN.touchUp = false;
+						}
+					} 
+					if (BEN.touchUp) {
+					
+						if (BEN.currentSide === 1 && !BEN.moveLeft && !BEN.unfolding && !BEN.folding && !BEN.moveRight) {
+							BEN.canProceed = true;
+							BEN.folding = true;
+							BEN.touchUp = false;
+						}
 					}
 				}
-			 
-				if(BEN.touchUp === true)
-				{
-					if(BEN.currentSide === 1 && BEN.moveLeft === false && BEN.unfolding === false && BEN.folding === false && BEN.moveRight === false)
-					{
-					BEN.canProceed = true;
-					BEN.folding = true;
-					BEN.touchUp = false;
-					}
-				}
-			 
-			}
-		 }
-	  }
-	  
-	  
-	  
-	  var vx2 = BEN.mouseX - hotSpot4.centerX();				//COLLISION DETECTION FOR X BUTTON WITH MOUSE
-	  var vy2 = BEN.mouseY - hotSpot4.centerY();
-	  
-	  var combinedHalfWidths2 = 1 + hotSpot4.halfWidth();
-	  var combinedHalfHeights2 = 1 + hotSpot4.halfHeight();
-
-	  if(Math.abs(vx2) < combinedHalfWidths2)
-	  {
-		if(Math.abs(vy2) < combinedHalfHeights2)
-		{
-			if(BEN.mouseDown === true)
-			{
-			window.history.back();
 			}
 		}
-	  }
 	  
-	 
-	 //COLLISION DETECTION FOR X BUTTON WITH TOUCH
+		//COLLISION DETECTION FOR X BUTTON WITH MOUSE
 
-		  if(BEN.tapY < 200 && BEN.tapX > 500)
-		  {
-			if(BEN.touchDown === true)
-			{
-			window.history.back();
+		var vx2 = BEN.mouseX - hotSpot4.centerX();				
+		var vy2 = BEN.mouseY - hotSpot4.centerY();
+	  
+		var combinedHalfWidths2 = 1 + hotSpot4.halfWidth();
+		var combinedHalfHeights2 = 1 + hotSpot4.halfHeight();
+
+		if (Math.abs(vx2) < combinedHalfWidths2) {
+		
+			if (Math.abs(vy2) < combinedHalfHeights2) {
+			
+				if (BEN.mouseDown) {
+					window.history.back();
+				}
+			}
+		}
+	  
+		//COLLISION DETECTION FOR X BUTTON WITH TOUCH
+
+		if (BEN.tapY < 200 && BEN.tapX > 500) {
+			
+			if (BEN.touchDown) {
+				window.history.back();
 			}
 		 }
 	  
+		//COLLISION DETECTION FOR LEFT BUTTON WITH MOUSE
 	  
-	  var vx2 = BEN.mouseX - hotSpot5.centerX();				//COLLISION DETECTION FOR LEFT BUTTON WITH MOUSE
-	  var vy2 = BEN.mouseY - hotSpot5.centerY();
+		var vx2 = BEN.mouseX - hotSpot5.centerX();				
+		var vy2 = BEN.mouseY - hotSpot5.centerY();
 	  
-	  var combinedHalfWidths2 = 1 + hotSpot5.halfWidth();
-	  var combinedHalfHeights2 = 1 + hotSpot5.halfHeight();
+		var combinedHalfWidths2 = 1 + hotSpot5.halfWidth();
+		var combinedHalfHeights2 = 1 + hotSpot5.halfHeight();
 
-	  if(Math.abs(vx2) < combinedHalfWidths2)
-	  {
-		if(Math.abs(vy2) < combinedHalfHeights2)
-		{
-			if(BEN.mouseDown === true && BEN.currentPage >= 0 && BEN.moveLeft === false && BEN.moveRight === false && BEN.canProceed === true)
-			{
-			BEN.folding = false;
-			BEN.unfolding = false;
-			BEN.moveRight = true;
-			context.drawImage(leftButtonPressedImage,leftButtonPressed.x,leftButtonPressed.y,leftButtonPressed.width,leftButtonPressed.height);
-			}
-
-		}
-	  }
-	  
-	  var vx3 = BEN.tapX - hotSpot5.centerX();				//COLLISION DETECTION FOR LEFT BUTTON WITH TOUCH
-	  var vy3 = BEN.tapY - hotSpot5.centerY();
-	  
-	  var combinedHalfWidths3 = 1 + hotSpot5.halfWidth();
-	  var combinedHalfHeights3 = 1 + hotSpot5.halfHeight();
-
-	  if(Math.abs(vx3) < combinedHalfWidths3)
-	  {
-		if(Math.abs(vy3) < combinedHalfHeights3)
-		{
-			if(BEN.touchDown === true && BEN.currentPage >= 0 && BEN.moveLeft === false && BEN.moveRight === false)
-			{
-			BEN.folding = false;
-			BEN.unfolding = false;
-			BEN.moveRight = true;
-			context.drawImage(leftButtonPressedImage,leftButtonPressed.x,leftButtonPressed.y,leftButtonPressed.width,leftButtonPressed.height);
+		if (Math.abs(vx2) < combinedHalfWidths2) {
+		
+			if (Math.abs(vy2) < combinedHalfHeights2) {
+			
+				if (BEN.mouseDown && BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight && BEN.canProceed) {
+					BEN.folding = false;
+					BEN.unfolding = false;
+					BEN.moveRight = true;
+					context.drawImage(leftButtonPressedImage,leftButtonPressed.x,leftButtonPressed.y,leftButtonPressed.width,leftButtonPressed.height);
+				}
 			}
 		}
-	  }
 	  
+		//COLLISION DETECTION FOR LEFT BUTTON WITH TOUCH
+		
+		var vx3 = BEN.tapX - hotSpot5.centerX();				
+		var vy3 = BEN.tapY - hotSpot5.centerY();
 	  
-	   var vx2 = BEN.mouseX - hotSpot6.centerX();				//COLLISION DETECTION FOR RIGHT BUTTON WITH MOUSE
-	  var vy2 = BEN.mouseY - hotSpot6.centerY();
-	  
-	  var combinedHalfWidths2 = 1 + hotSpot6.halfWidth();
-	  var combinedHalfHeights2 = 1 + hotSpot6.halfHeight();
+		var combinedHalfWidths3 = 1 + hotSpot5.halfWidth();
+		var combinedHalfHeights3 = 1 + hotSpot5.halfHeight();
 
-	  if(Math.abs(vx2) < combinedHalfWidths2)
-	  {
-		if(Math.abs(vy2) < combinedHalfHeights2)
-		{
-			if(BEN.mouseDown === true && BEN.currentPage < 14 && BEN.currentPage >= 0 && BEN.moveLeft === false && BEN.moveRight === false && BEN.canProceed === true)
-			{
-			BEN.canProceed = true;
-			BEN.folding = false;
-			BEN.unfolding = false;
-			BEN.moveLeft = true;
-			context.drawImage(rightButtonPressedImage,rightButtonPressed.x,rightButtonPressed.y,rightButtonPressed.width,rightButtonPressed.height);
+		if (Math.abs(vx3) < combinedHalfWidths3) {
+		
+			if (Math.abs(vy3) < combinedHalfHeights3) {
+			
+				if (BEN.touchDown && BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight) {
+					BEN.folding = false;
+					BEN.unfolding = false;
+					BEN.moveRight = true;
+					context.drawImage(leftButtonPressedImage,leftButtonPressed.x,leftButtonPressed.y,leftButtonPressed.width,leftButtonPressed.height);
+				}
 			}
 		}
-	  }
 	  
-	  var vx3 = BEN.tapX - hotSpot6.centerX();				//COLLISION DETECTION FOR RIGHT BUTTON WITH TOUCH
-	  var vy3 = BEN.tapY - hotSpot6.centerY();
+		//COLLISION DETECTION FOR RIGHT BUTTON WITH MOUSE
+		
+		var vx2 = BEN.mouseX - hotSpot6.centerX();				
+		var vy2 = BEN.mouseY - hotSpot6.centerY();
 	  
-	  var combinedHalfWidths3 = 1 + hotSpot6.halfWidth();
-	  var combinedHalfHeights3 = 1 + hotSpot6.halfHeight();
+		var combinedHalfWidths2 = 1 + hotSpot6.halfWidth();
+		var combinedHalfHeights2 = 1 + hotSpot6.halfHeight();
 
-	  if(Math.abs(vx3) < combinedHalfWidths3)
-	  {
-		if(Math.abs(vy3) < combinedHalfHeights3)
-		{
-			if(BEN.touchDown === true && BEN.currentPage < 14 && BEN.currentPage >= 0 && BEN.moveLeft === false && BEN.moveRight === false && BEN.canProceed === true)
-			{
-			BEN.folding = false;
-			BEN.unfolding = false;
-			BEN.moveLeft = true;
-			context.drawImage(rightButtonPressedImage,rightButtonPressed.x,rightButtonPressed.y,rightButtonPressed.width,rightButtonPressed.height);
+		if (Math.abs(vx2) < combinedHalfWidths2) {
+		
+			if (Math.abs(vy2) < combinedHalfHeights2) {
+			
+				if (BEN.mouseDown && BEN.currentPage < 14 && BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight && BEN.canProceed) {
+					BEN.canProceed = true;
+					BEN.folding = false;
+					BEN.unfolding = false;
+					BEN.moveLeft = true;
+					context.drawImage(rightButtonPressedImage,rightButtonPressed.x,rightButtonPressed.y,rightButtonPressed.width,rightButtonPressed.height);
+				}
 			}
 		}
-	  }
 	  
+		//COLLISION DETECTION FOR RIGHT BUTTON WITH TOUCH
+		
+		var vx3 = BEN.tapX - hotSpot6.centerX();				
+		var vy3 = BEN.tapY - hotSpot6.centerY();
 	  
-	  
+		var combinedHalfWidths3 = 1 + hotSpot6.halfWidth();
+		var combinedHalfHeights3 = 1 + hotSpot6.halfHeight();
+
+		if (Math.abs(vx3) < combinedHalfWidths3) {
+		
+			if (Math.abs(vy3) < combinedHalfHeights3) {
+			
+				if (BEN.touchDown && BEN.currentPage < 14 && BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight && BEN.canProceed) {
+					BEN.folding = false;
+					BEN.unfolding = false;
+					BEN.moveLeft = true;
+					context.drawImage(rightButtonPressedImage,rightButtonPressed.x,rightButtonPressed.y,rightButtonPressed.width,rightButtonPressed.height);
+				}
+			}
+		}
 	}
 
-	function checkCurrentState() 
-	{
+	function checkCurrentState() {
 
-		if(BEN.mainCalled === false)
-		{
-		window.setTimeout(checkCurrentState,24);
-		context.clearRect(0,0,canvas.width,canvas.height);
+		if (!BEN.mainCalled) {
+			window.setTimeout(checkCurrentState,24);
+			context.clearRect(0,0,canvas.width,canvas.height);
 		
-		switch(BEN.currentState)
-		{
+			switch (BEN.currentState) {
 
-		
-		case "loading":		//DRAW THE LOADING ICON
-		
-		if(BEN.android === true || BEN.ios === true)
-		{
-		BEN.resizeScreen();
-		BEN.increment = BEN.assetsToLoad.length / 100;	
-		BEN.percentage = BEN.checkingLoads / 100;
+				case "loading":		//DRAW THE LOADING ICON
 			
-		context.drawImage(loadingWhiteImage,loadingWhite.x,loadingWhite.y,loadingWhite.width,loadingWhite.height);
-
-		
-		if (navigator.appName.indexOf("Microsoft")!=-1)
-		{
-		console.log("it's IE!");
+				if (BEN.android || BEN.ios) {
+					BEN.resizeScreen();
+					BEN.increment = BEN.assetsToLoad.length / 100;	
+					BEN.percentage = BEN.checkingLoads / 100;
+				
+					context.drawImage(loadingWhiteImage,loadingWhite.x,loadingWhite.y,loadingWhite.width,loadingWhite.height);
+			
+					context.drawImage(loadingColorImage,0,loadingColor.height - (loadingColor.height * BEN.percentage),
+						loadingColor.width, loadingColor.height * BEN.percentage,50, 449 - (loadingColor.height * BEN.percentage),
+						loadingColor.width,	loadingColor.height * BEN.percentage);
+				
+					if (BEN.percentage > .9) {
+						BEN.currentState = "play";
+					}
+				}
+			
+				if (!BEN.android && !BEN.ios) {
+					BEN.currentState = "play";
+				}
+				break;
+			
+				case "play":       //DRAW THE GREEN ARROW
+				main();
+				BEN.mainCalled = true;
+				break;
+			}
 		}
-		console.log(navigator.appName);
-		console.log(navigator.appName);
-		
-		context.drawImage(loadingColorImage,
-		0,
-		loadingColor.height - (loadingColor.height * BEN.percentage),
-		loadingColor.width,
-		loadingColor.height * BEN.percentage,
-		50,
-		449 - (loadingColor.height * BEN.percentage),
-		loadingColor.width,
-		loadingColor.height * BEN.percentage);
-		
-		
-		if(BEN.percentage > .9)
-		{
-		 BEN.currentState = "play";
-		}
-		}
-		
-		if(BEN.android === false && BEN.ios === false)
-		{
-		 BEN.currentState = "play";
-		}
-		break;
-		
-		case "play":       //DRAW THE GREEN ARROW
-		main();
-		BEN.mainCalled = true;
-		break;
-		}
-		
-		}
-		
-
 	}
 })();
