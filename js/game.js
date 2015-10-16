@@ -1,204 +1,175 @@
 
+(function() {
 
+	var canvas = document.getElementById("canvas"),
+		context = canvas.getContext("2d");
 
-
-var canvas = document.getElementById("canvas");
-var context = canvas.getContext("2d");
-
-//MOUSE EVENT LISTENERS
-
-window.addEventListener("mousemove",onMouseMove,false);
-window.addEventListener("mousedown",onMouseDown,false);
-window.addEventListener("mouseup",onMouseUp,false);
-
-//TOUCH EVENT LISTNERS
-
-canvas.addEventListener("touchmove", onTouchMove, false);
-canvas.addEventListener("touchstart", onTouchStart, false);
-canvas.addEventListener("touchend", onTouchEnd, false);
-
-//MOUSE EVENT HANDLERS
-
-function onMouseDown(event)
-{
-BEN.mouseDown = true;
-BEN.mouseUp = false;
-event.preventDefault(); 
-}
-
-function onMouseUp(event)
-{
-BEN.mouseDown = false;
-BEN.mouseUp = true;
-event.preventDefault(); 
-}
-
-function onMouseMove(event)			//TRACKING THE MOUSE X AND Y VALUES
-{ 
- BEN.mouseX = (event.pageX - canvas.offsetLeft) / BEN.scale; 
- BEN.mouseY = (event.pageY - canvas.offsetTop) / BEN.scale;
- event.preventDefault(); 
-}
-
-
-//TOUCH EVENT HANDLERS
-
-function onTouchMove(event)			//TRACKING THE TOUCH X AND Y VALUES
-{ 
-  BEN.tapX = (event.targetTouches[0].pageX - canvas.offsetLeft) / BEN.scale;
-  BEN.tapY = (event.targetTouches[0].pageY - canvas.offsetTop) / BEN.scale ;
-  event.preventDefault(); 
-}
-
-function onTouchStart(event)	    //TRACKING THE TOUCH X AND Y VALUES
-{ 
-  BEN.tapX = event.targetTouches[0].pageX - canvas.offsetLeft;
-  BEN.tapY = event.targetTouches[0].pageY - canvas.offsetTop;
-  BEN.touchDown = true;
-  BEN.touchUp = false;
-  event.preventDefault(); 
-}
-
-function onTouchEnd(event)			//TRACKING THE TOUCH X AND Y VALUES
-{ 
-  BEN.touchDown = false;
-  BEN.touchUp = true;
-  event.preventDefault();
-}
-
-
-// GLOBAL BEN OBJECT FOR HOLDING ALL THE VARIABLES
-
-var BEN = {
-
-    
-    //ASSET VARIABLES
-
-	assetsToLoad: [],
-	assetsToLoad2: [],
-	assetsToLoad3: [],
-	assetsToLoad4: [],
-	assetsLoaded: 0,
-	assetsLoaded2: 0,
-	assetsLoaded3: 0,
-	assetsLoaded4: 0,
+	initializeGame();
 	
-	//MOUSE AND TOUCH DETECTION VARIABLES
-	
-	mouseY: 0,		
-    mouseY: 0,
+	function initializeGame() {
+		
+		window.addEventListener("mousemove",onMouseMove,false);
+		window.addEventListener("mousedown",onMouseDown,false);
+		window.addEventListener("mouseup",onMouseUp,false);
 
-    tapX: undefined,		
-    tapY: undefined,
-	
-    //EASING CONSTANT
+		canvas.addEventListener("touchmove", onTouchMove, false);
+		canvas.addEventListener("touchstart", onTouchStart, false);
+		canvas.addEventListener("touchend", onTouchEnd, false);
+	}
 
-    EASING: 0.18,
-	
-	//MOUSE AND TOUCH DOWN AND UP VARIABLES
+	function onMouseDown(event) {
+		
+		BEN.mouseDown = true;
+		BEN.mouseUp = false;
+		event.preventDefault(); 
+	}
 
-   
+	function onMouseUp(event) {
+		
+		BEN.mouseDown = false;
+		BEN.mouseUp = true;
+		event.preventDefault(); 
+	}
 
-	//VARIABLES FOR DETERMINING CURRENT PAGE, CURRENT SIDE AND CURRENT HOT SPOT VALUE
-	 
-    currentPage: -1,
+	function onMouseMove(event) {
+		
+		BEN.mouseX = (event.pageX - canvas.offsetLeft) / BEN.scale; 
+		BEN.mouseY = (event.pageY - canvas.offsetTop) / BEN.scale;
+		event.preventDefault(); 
+	}
 
-    currentSide: 0,
+	function onTouchMove(event)	{ 
 	
-	currentState: "loading",    
+		BEN.tapX = (event.targetTouches[0].pageX - canvas.offsetLeft) / BEN.scale;
+		BEN.tapY = (event.targetTouches[0].pageY - canvas.offsetTop) / BEN.scale ;
+		event.preventDefault(); 
+	}
 
-    //ARRAYS FOR HOLDING FONT AND RETRO CARDS 	
-	
-    pages: [],
-    rears: [],
-	
-	//BOOLEANS FOR ENABLING SWIPING TO LEFT OR RIGHT
+	function onTouchStart(event) {
+		
+		BEN.tapX = event.targetTouches[0].pageX - canvas.offsetLeft;
+		BEN.tapY = event.targetTouches[0].pageY - canvas.offsetTop;
+		BEN.touchDown = true;
+		BEN.touchUp = false;
+		event.preventDefault(); 
+	}
 
-    moveLeft: false,
-    moveRight: false,
+	function onTouchEnd(event) { 
 	
-	//GETTING PAST THE INSTRUX PAGE FOLLOWING TAPPING OR CLICKING THE FIRST CARD
-	
-	canProceed: false,
+		BEN.touchDown = false;
+		BEN.touchUp = true;
+		event.preventDefault();
+	}
 
-	//BOOLEANS FOR LANGUAGE CHOICE
-	
-    englishChosen: false,
-    spanishChosen: false,
-	
-	englishOn: false,
-	spanishOn: false,
+	var BEN = {
 
-    folding: false,
-    unfolding: false,
-	
-	percentage: 0.01,
-    increment: .039,
+		assetsToLoad: [],
+		assetsToLoad2: [],
+		assetsToLoad3: [],
+		assetsToLoad4: [],
+		assetsLoaded: 0,
+		assetsLoaded2: 0,
+		assetsLoaded3: 0,
+		assetsLoaded4: 0,
+		
+		mouseY: 0,		
+		mouseY: 0,
 
-    mainCalled: false,
-	checkingLoads: 0,
-	
+		tapX: undefined,		
+		tapY: undefined,
+
+		EASING: 0.18,
+		 
+		currentPage: -1,
+		currentSide: 0,
+		currentState: "loading",    
+		
+		pages: [],
+		rears: [],
+		
+		moveLeft: false,
+		moveRight: false,
+		
+		canProceed: false,
+
+		//BOOLEANS FOR LANGUAGE CHOICE
+		
+		englishChosen: false,
+		spanishChosen: false,
+		
+		englishOn: false,
+		spanishOn: false,
+
+		folding: false,
+		unfolding: false,
+		
+		percentage: 0.01,
+		increment: .039,
+
+		mainCalled: false,
+		checkingLoads: 0,
+		
 
 
-    //RESIZE VARIABLES
-	
-    WIDTH: 640, 
-    HEIGHT:  960, 
-    RATIO:  0,
-	scale: 1,
-	offset: {top: 0, left: 0},
-    currentWidth:  0,
-    currentHeight:  0,
-    canvas: null,
-	
-	//SWIPING VARIABLES
-	
-	fingerCount: 0,
-	startX: 0,
-	startY: 0,
-	curX: 0,
-	curY: 0,
-	deltaX: 0,
-	deltaY: 0,
-	horzDiff: 0,
-	vertDiff: 0,
-	minLength: 20, 
-	swipeLength: 0,
-	swipeAngle: null,
-	swipeDirection: null,
-	
-	//SPRITE VARIABLES
-	
-	sourceX: 0,
-    sourceY: 0,
-    sourceWidth: 64,
-    sourceHeight: 64,
-    width: 64,
-    height: 64,
-    x: 0,
-    y: 0,
-    vx: 0,
-    vy: 0,
+		//RESIZE VARIABLES
+		
+		WIDTH: 640, 
+		HEIGHT:  960, 
+		RATIO:  0,
+		scale: 1,
+		offset: {top: 0, left: 0},
+		currentWidth:  0,
+		currentHeight:  0,
+		canvas: null,
+		
+		//SWIPING VARIABLES
+		
+		fingerCount: 0,
+		startX: 0,
+		startY: 0,
+		curX: 0,
+		curY: 0,
+		deltaX: 0,
+		deltaY: 0,
+		horzDiff: 0,
+		vertDiff: 0,
+		minLength: 20, 
+		swipeLength: 0,
+		swipeAngle: null,
+		swipeDirection: null,
+		
+		//SPRITE VARIABLES
+		
+		sourceX: 0,
+		sourceY: 0,
+		sourceWidth: 64,
+		sourceHeight: 64,
+		width: 64,
+		height: 64,
+		x: 0,
+		y: 0,
+		vx: 0,
+		vy: 0,
+		  
+	  //GETTERS FOR DETERMINING COLLISION DETECTION LATER
 	  
-  //GETTERS FOR DETERMINING COLLISION DETECTION LATER
-  
-  centerX: function()
-  {
-    return this.x + (this.width / 2);
-  },
-  centerY: function()
-  {
-    return this.y + (this.height / 2);
-  },
-  halfWidth: function()
-  {
-    return this.width / 2;
-  },
-  halfHeight: function()
-  {
-    return this.height / 2;
-  },
-	
+	  centerX: function()
+	  {
+		return this.x + (this.width / 2);
+	  },
+	  centerY: function()
+	  {
+		return this.y + (this.height / 2);
+	  },
+	  halfWidth: function()
+	  {
+		return this.width / 2;
+	  },
+	  halfHeight: function()
+	  {
+		return this.height / 2;
+	  },
+		
   //INITIALIZING THE SCREEN
 
   init: function() {
@@ -1818,4 +1789,4 @@ function checkCurrentState()
 	
 
 }
-
+})();
