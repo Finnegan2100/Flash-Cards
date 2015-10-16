@@ -23,25 +23,18 @@
                 "assets/":"assets/";
 
                 var element = document.createElement("script");
-                element.async = false;
-                element.src = assets + "game.js";
-                console.log(element.src);
-                document.head.appendChild(element);
-	
-                var element = document.createElement("script");
                     element.async = false;
                     element.src = assets + "requestAnimationFramePolyfill.js";
                     console.log(element.src);
                     document.head.appendChild(element);
 	
 
-            </script>
-
+            </script>    
             <canvas id="canvas" width="640" height="960" style="border: 0px solid #333"
             ontouchstart="touchStart(event,'swipeBox');" ontouchend="touchEnd(event);"
             ontouchmove="touchMove(event);" ontouchcancel="touchCancel(event);");>
             </canvas>
-        
+            <script src="js/game.js"></script> 
         </body>
     </html>
 
