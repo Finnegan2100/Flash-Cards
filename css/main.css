@@ -1,0 +1,17 @@
+
+    html,body { margin: 0px; padding: 0; background: #000;}
+    canvas { display:block; border: 0px #333; margin-right: auto; margin-left: auto; padding: 0px;
+        background: #000; }
+
+    @font-face { 
+        font-family: 'Sesame'; 
+        src: url('/sesamestreet-theme/css/fonts/sesamewkshp-regular-webfont.eot'); 
+        src: url('/sesamestreet-theme/css/fonts/sesamewkshp-regular-webfont.eot?#iefix')
+            format('embedded-opentype'), 
+            url('/sesamestreet-theme/css/fonts/sesamewkshp-regular-webfont.woff') format('woff'),  
+            url('/sesamestreet-theme/css/fonts/sesamewkshp-regular-webfont.ttf') format('truetype'),
+            url('/sesamestreet-theme/css/fonts/sesamewkshp-regular-webfont.svg#SesameWkshpRegular')    
+            format('svg');
+        font-weight: normal;    
+        font-style: normal; 
+    } 

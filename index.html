@@ -1,65 +1,52 @@
 <!doctype html>
+    <html>
+        <head>
+            <meta charset="ISO-8859-1">
+            <meta name="viewport" content="width=device-width, 
+            user-scalable=no, initial-scale=1, maximum-scale=1, user-scalable=0" />
+            <meta content='True' name='HandheldFriendly' />
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+            <meta name="apple-mobile-web-app-capable" content="yes">
+            <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-<script>
-//UNIVERSAL MEDIA PLAYER CODE ----|
-(function(){function _constructor(){_ump.init();_timeStart=(new Date).getTime()*.001;setInterval(_heartbeat,_ump.params.hostConfig.heatbeatPeriod*1e3);return _ump}function _decodeHash(){var a=document.location.hash.replace(/#/,"").split("/");var b={};for(var c=1;c<a.length;c+=2){try{var d=a[c-1].toLowerCase();var e=c;b[d]=unescape(decodeURIComponent(a[e]))}catch(f){_ump.trace("UMP API","Error decoding URI component '"+a[c-1],a[c],"Check that the parameter is correctly encoded in the URL hash.")}}return b}function _insertParameter(a,b,c){var d=String(a||"").toLowerCase();var e=b!=null&&c!=null&&d in b&&b[d].length>0;if(e)c[a]=b[d];return c[a]}function _insertParameterJSON(a,b,c){var d=String(a||"").toLowerCase();var e=b!=null&&c!=null&&d in b&&b[d].length>0;if(e){var f=c[a];try{c[a]=JSON.parse(b[d])}catch(g){c[a]=f;_ump.trace("UMP API","Error parsing '"+a+"' parameter as JSON",b[a],"Check that the parameter value is valid JSON",g.message)}}return c[a]}function _heartbeat(){_notify({type:"heartbeat"})}function _notify(a){var b=_ump.params.hostConfig;if(b.jsapiHandler&&b.jsapiContext){try{b.jsapiHandler.apply(b.jsapiContext,[a])}catch(c){_ump.trace("UMP API","Error calling jsapi",c.message)}}}var _SETTINGS={hostConfig:{isTrace:true,isCloseOnOrphan:false,heatbeatPeriod:.5,jsapi:null,jsapiContext:null,jsapiHandler:null},assetPath:"",gameState:{}};var _timeStart=NaN;var _ump={};_ump.params=null;_ump.init=function(assetPath,gameState){var isInit=_ump.params!=null;if(isInit){if(arguments.length==0){_ump.trace("UMP API","init : DEGENERATE");return _ump.params}else{_ump.trace("UMP API","init",assetPath,gameState)}}_ump.params={hostConfig:isInit?_ump.params.hostConfig:_SETTINGS.hostConfig,gameState:gameState||_SETTINGS.gameState,assetPath:assetPath||_SETTINGS.assetPath};var hashVars=_decodeHash();_insertParameter("assetPath",hashVars,_ump.params);_insertParameterJSON("gameState",hashVars,_ump.params);if(isInit)return _ump.params;var config=_insertParameterJSON("hostConfig",hashVars,_ump.params);if(!window.opener){_ump.trace("UMP API","No reference to 'owner', window is orphaned from the UMP");config.jsapiContext=config.jsapiHandler=config=null}else if(config.jsapi){var absolute="window.opener."+config.jsapi;var context=absolute.replace(/\.?[^\.]+$/,"");try{config.jsapiContext=context.length?eval(context):window.opener;config.jsapiHandler=eval(absolute)}catch(error){_ump.trace("UMP API","Error evaluating event handler/context '"+config.jsapi+"'",absolute,context,error.message);config.jsapiContext=config.jsapiHandler=config=null}}_ump.trace("UMP API","ump.params",_ump.params);if(config!=null){return _ump.params}else{var isClose=_ump.params.hostConfig.isCloseOnOrphan;if(isClose)window.close();return null}};_ump.ready=function(){_ump.trace("UMP API","ready");_notify({type:"start"})};_ump.pause=function(){_ump.trace("UMP API","pause");_notify({type:"pause"})};_ump.unpause=function(){_ump.trace("UMP API","unpause");_notify({type:"unpause"})};_ump.complete=function(){_ump.trace("UMP API","complete");_notify({type:"finish"});window.close()};_ump.notify=function(a){_ump.trace("UMP API","notify",a);_notify({type:"custom",data:a})};_ump.trace=function(){if("console"in window&&_ump.params.hostConfig.isTrace){var a=Array.prototype.slice.call(arguments);var b=[];for(var c=0;c<a.length;c++){if(b.length)b.push("\n");b.push(a[c])}try{console.log.apply(console,b)}catch(d){console.log(b.join(""))}}};window.ump=_constructor()})()
+            <title>Flash Cards</title>
+            <link rel="stylesheet" href="css/main.css">
+        </head>
+        <body>
+        
+            <script>
+    //UNIVERSAL MEDIA PLAYER CODE ----|
+    (function(){function _constructor(){_ump.init();_timeStart=(new Date).getTime()*.001;setInterval(_heartbeat,_ump.params.hostConfig.heatbeatPeriod*1e3);return _ump}function _decodeHash(){var a=document.location.hash.replace(/#/,"").split("/");var b={};for(var c=1;c<a.length;c+=2){try{var d=a[c-1].toLowerCase();var e=c;b[d]=unescape(decodeURIComponent(a[e]))}catch(f){_ump.trace("UMP API","Error decoding URI component '"+a[c-1],a[c],"Check that the parameter is correctly encoded in the URL hash.")}}return b}function _insertParameter(a,b,c){var d=String(a||"").toLowerCase();var e=b!=null&&c!=null&&d in b&&b[d].length>0;if(e)c[a]=b[d];return c[a]}function _insertParameterJSON(a,b,c){var d=String(a||"").toLowerCase();var e=b!=null&&c!=null&&d in b&&b[d].length>0;if(e){var f=c[a];try{c[a]=JSON.parse(b[d])}catch(g){c[a]=f;_ump.trace("UMP API","Error parsing '"+a+"' parameter as JSON",b[a],"Check that the parameter value is valid JSON",g.message)}}return c[a]}function _heartbeat(){_notify({type:"heartbeat"})}function _notify(a){var b=_ump.params.hostConfig;if(b.jsapiHandler&&b.jsapiContext){try{b.jsapiHandler.apply(b.jsapiContext,[a])}catch(c){_ump.trace("UMP API","Error calling jsapi",c.message)}}}var _SETTINGS={hostConfig:{isTrace:true,isCloseOnOrphan:false,heatbeatPeriod:.5,jsapi:null,jsapiContext:null,jsapiHandler:null},assetPath:"",gameState:{}};var _timeStart=NaN;var _ump={};_ump.params=null;_ump.init=function(assetPath,gameState){var isInit=_ump.params!=null;if(isInit){if(arguments.length==0){_ump.trace("UMP API","init : DEGENERATE");return _ump.params}else{_ump.trace("UMP API","init",assetPath,gameState)}}_ump.params={hostConfig:isInit?_ump.params.hostConfig:_SETTINGS.hostConfig,gameState:gameState||_SETTINGS.gameState,assetPath:assetPath||_SETTINGS.assetPath};var hashVars=_decodeHash();_insertParameter("assetPath",hashVars,_ump.params);_insertParameterJSON("gameState",hashVars,_ump.params);if(isInit)return _ump.params;var config=_insertParameterJSON("hostConfig",hashVars,_ump.params);if(!window.opener){_ump.trace("UMP API","No reference to 'owner', window is orphaned from the UMP");config.jsapiContext=config.jsapiHandler=config=null}else if(config.jsapi){var absolute="window.opener."+config.jsapi;var context=absolute.replace(/\.?[^\.]+$/,"");try{config.jsapiContext=context.length?eval(context):window.opener;config.jsapiHandler=eval(absolute)}catch(error){_ump.trace("UMP API","Error evaluating event handler/context '"+config.jsapi+"'",absolute,context,error.message);config.jsapiContext=config.jsapiHandler=config=null}}_ump.trace("UMP API","ump.params",_ump.params);if(config!=null){return _ump.params}else{var isClose=_ump.params.hostConfig.isCloseOnOrphan;if(isClose)window.close();return null}};_ump.ready=function(){_ump.trace("UMP API","ready");_notify({type:"start"})};_ump.pause=function(){_ump.trace("UMP API","pause");_notify({type:"pause"})};_ump.unpause=function(){_ump.trace("UMP API","unpause");_notify({type:"unpause"})};_ump.complete=function(){_ump.trace("UMP API","complete");_notify({type:"finish"});window.close()};_ump.notify=function(a){_ump.trace("UMP API","notify",a);_notify({type:"custom",data:a})};_ump.trace=function(){if("console"in window&&_ump.params.hostConfig.isTrace){var a=Array.prototype.slice.call(arguments);var b=[];for(var c=0;c<a.length;c++){if(b.length)b.push("\n");b.push(a[c])}try{console.log.apply(console,b)}catch(d){console.log(b.join(""))}}};window.ump=_constructor()})()
 
-var assets = (window.ump.params.assetPath) ? window.ump.params.assetPath + "assets/":"assets/";
+                var assets = (window.ump.params.assetPath) ? window.ump.params.assetPath +
+                "assets/":"assets/";
 
-var element = document.createElement("script");
-	element.async = false;
-	element.src = assets + "game.js";
-	console.log(element.src);
-	document.head.appendChild(element);
+                var element = document.createElement("script");
+                element.async = false;
+                element.src = assets + "game.js";
+                console.log(element.src);
+                document.head.appendChild(element);
 	
-var element = document.createElement("script");
-	element.async = false;
-	element.src = assets + "requestAnimationFramePolyfill.js";
-	console.log(element.src);
-	document.head.appendChild(element);
+                var element = document.createElement("script");
+                    element.async = false;
+                    element.src = assets + "requestAnimationFramePolyfill.js";
+                    console.log(element.src);
+                    document.head.appendChild(element);
 	
 
-</script>
+            </script>
 
-<meta charset="ISO-8859-1">
-
-<meta name="viewport" content="width=device-width, 
-user-scalable=no, initial-scale=1, maximum-scale=1, user-scalable=0" />
-
-<meta content='True' name='HandheldFriendly' />
-
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
-  <!-- Set standalone mode so the URL bar and Button bar are hidden when run from Home Screen. -->
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <!-- Set the iOS status bar to black. -->
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-<title>Sesame Flash Cards</title>
-<canvas id="canvas" width="640" height="960" style="border: 0px solid #333" ontouchstart="touchStart(event,'swipeBox');" ontouchend="touchEnd(event);" ontouchmove="touchMove(event);" ontouchcancel="touchCancel(event);");> Your browser does not support canvas. </canvas>
+            <canvas id="canvas" width="640" height="960" style="border: 0px solid #333"
+            ontouchstart="touchStart(event,'swipeBox');" ontouchend="touchEnd(event);"
+            ontouchmove="touchMove(event);" ontouchcancel="touchCancel(event);");>
+            </canvas>
+        
+        </body>
+    </html>
 
 
 
-<style>
-html,body { margin: 0px; padding: 0; background: #000;}
-canvas { display:block; border: 0px #333; margin-right: auto; margin-left: auto; padding: 0px; background: #000; }
 
-<!--
-@font-face
-{
-font-family: sesame;
-src: url(assets/SesameWkshp-Regular.otf), url(assets/SesameWkshp-Regular.eot), url(assets/SesameWkshp-Regular.ttf), url(assets/SesameWkshp-Regular.svg);
-}
 
--->
-
-@font-face { font-family: 'Sesame'; 
-src: url('/sesamestreet-theme/css/fonts/sesamewkshp-regular-webfont.eot'); 
-src: url('/sesamestreet-theme/css/fonts/sesamewkshp-regular-webfont.eot?#iefix') format('embedded-opentype'), url('/sesamestreet-theme/css/fonts/sesamewkshp-regular-webfont.woff') format('woff'), url('/sesamestreet-theme/css/fonts/sesamewkshp-regular-webfont.ttf') format('truetype'), url('/sesamestreet-theme/css/fonts/sesamewkshp-regular-webfont.svg#SesameWkshpRegular') format('svg');
-font-weight: normal; 
-font-style: normal; 
-} 
-
-</style>
 
