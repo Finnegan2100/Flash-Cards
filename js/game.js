@@ -1094,10 +1094,9 @@
 		}
 	}
 	
-
 	checkCurrentState();
 
-	for(var j = 1; j < 23; j++) {
+	for (var j = 1; j < 23; j++) {
 
 		BEN.pages[j].x = BEN.pages[j - 1].x + 1470;
 	}	
@@ -1110,11 +1109,11 @@
 		requestAnimationFrame(main,canvas);
 		context.clearRect(0,0,canvas.width,canvas.height); //CANVAS IS CLEARED EACH ITERATION
 
-				//COLLISION DETECTION FOR ENGLISH WITH TOUCH
+		//COLLISION DETECTION FOR ENGLISH WITH TOUCH
 
-		if(BEN.tapY > 500 && BEN.tapX <= 320 && BEN.currentPage === -1 && BEN.swipeLength === 0) {
+		if (BEN.tapY > 500 && BEN.tapX <= 320 && BEN.currentPage === -1 && BEN.swipeLength === 0) {
 			
-			if (BEN.touchDown === true && BEN.pages[0].x === 0) {
+			if (BEN.touchDown && BEN.pages[0].x === 0) {
 				context.drawImage(englishPressedImage,englishPressed.x,englishPressed.y,englishPressed.width,englishPressed.height);
 			}
 			
@@ -1126,8 +1125,7 @@
 			}	 
 		}
 	  
-	 
-				//COLLISION DETECTION FOR SPANISH WITH TOUCH
+	 	//COLLISION DETECTION FOR SPANISH WITH TOUCH
 
 		if (BEN.tapY > 800 && BEN.tapX > 320 && BEN.currentPage === -1 && BEN.swipeLength === 0) {
 	 
@@ -1142,231 +1140,155 @@
 			}
 		}
 
+		//MOVING PAGES LEFT
 
-	//MOVING PAGES LEFT
-
-	for(var i = 0; i < BEN.pages.length; i++)
-	{ 
+		for (var i = 0; i < BEN.pages.length; i++) { 
 		
-		if(BEN.moveLeft === true && BEN.currentPage >= 0 && BEN.currentPage < 14 || BEN.englishChosen === true ||BEN.spanishChosen === true)
-		{
+			if (BEN.moveLeft && BEN.currentPage >= 0 && BEN.currentPage < 14 || BEN.englishChosen || BEN.spanishChosen) {
 			
-			if(BEN.pages[i].x < -600 && BEN.pages[i].x > -980)
-			{
-			BEN.currentSide = 0;
-			}   
+				if (BEN.pages[i].x < -600 && BEN.pages[i].x > -980) {
+					BEN.currentSide = 0;
+				}   	
+				if (BEN.pages[i].x < 0 && BEN.pages[i].x >= -600) {
+					BEN.mouseUp = false;
+					BEN.touchUp = false;
+				}	
+				if (BEN.pages[BEN.currentPage + 2].x < 0) {
+					BEN.moveLeft = false;
 			
-			if(BEN.pages[i].x < 0 && BEN.pages[i].x >= -600)
-			{
-			BEN.mouseUp = false;
-			BEN.touchUp = false;
-			}
-			
-			if(BEN.pages[BEN.currentPage + 2].x < 0)
-			{
-				BEN.moveLeft = false;
-			
-				if(BEN.currentPage < 14)
-				{
-				BEN.currentPage++;
-				BEN.englishChosen = false;
-				BEN.spanishChosen = false;
+					if (BEN.currentPage < 14) {
+						BEN.currentPage++;
+						BEN.englishChosen = false;
+						BEN.spanishChosen = false;
+					}
 				}
-			}
 			
 			var vx = -165;
 			BEN.pages[i].x += vx * BEN.EASING;
 		}
 
-
-		
-	//MOVING PAGES RIGHT
+		//MOVING PAGES RIGHT
 	 
-		if(BEN.moveRight === true && BEN.currentPage >= 0 && BEN.currentPage <= 14 && BEN.englishChosen === false && BEN.spanishChosen === false)
-		{
-		  
-			if(BEN.pages[BEN.currentPage + 1].x > 700 && BEN.pages[BEN.currentPage + 1].x < 900)
-			{
-			BEN.currentSide = 0;
-			}
-				if(BEN.pages[BEN.currentPage + 1].x > 0 && BEN.pages[BEN.currentPage + 1].x <= 700)
-				{
-				BEN.mouseUp = false;
-				BEN.touchUp = false;
+			if (BEN.moveRight && BEN.currentPage >= 0 && BEN.currentPage <= 14 && !BEN.englishChosen && !BEN.spanishChosen) {
+			  
+				if (BEN.pages[BEN.currentPage + 1].x > 700 && BEN.pages[BEN.currentPage + 1].x < 900) {
+					BEN.currentSide = 0;
+				}
+				if (BEN.pages[BEN.currentPage + 1].x > 0 && BEN.pages[BEN.currentPage + 1].x <= 700) {
+					BEN.mouseUp = false;
+					BEN.touchUp = false;
+				}	
+				if (BEN.pages[BEN.currentPage + 1].x > 1470) {
+					BEN.moveRight = false;
+					BEN.currentPage--;
 				}
 				
-				if(BEN.pages[BEN.currentPage + 1].x > 1470)
-				{
-				BEN.moveRight = false;
-				BEN.currentPage--;
-				}
+				var vx = 165;
+				BEN.pages[i].x += vx * BEN.EASING; 
+			}
 			
-			var vx = 165;
-			BEN.pages[i].x += vx * BEN.EASING; 
-		}
-		
-		if(BEN.moveLeft === false && BEN.moveRight === false && BEN.currentPage >= 0 && BEN.folding === false && BEN.unfolding === false)
-			{
-			 BEN.pages[BEN.currentPage + 1].x = 0;
-			 BEN.pages[BEN.currentPage + 2].x = 1470;
+			if (!BEN.moveLeft && !BEN.moveRight && BEN.currentPage >= 0 && !BEN.folding && !BEN.unfolding) {
+				 
+				 BEN.pages[BEN.currentPage + 1].x = 0;
+				 BEN.pages[BEN.currentPage + 2].x = 1470;
 			} 
 		}
 		
-		if(page1.x > 0)
-		{
-		page1.x = 0;
+		if (page1.x > 0) {
+			page1.x = 0;
 		}
-		if(page16.x < 0)
-		{
-		page16.x = 0;
+		if (page16.x < 0) {
+			page16.x = 0;
 		}
 		
+		//DRAWING THE IMAGES ONTO THE PAGE
+
+		for (var k = 0; k < 23; k++) {
+
+			if (BEN.currentSide === 0) {
 		
-		
-	//DRAWING THE IMAGES ONTO THE PAGE
+				if (!BEN.englishOn && !BEN.spanishOn) {
+					context.drawImage(page1Image,page1.x,page1.y,page1.width,page1.height);
+				}
+				if (BEN.englishOn) {
+					context.drawImage(BEN.assetsToLoad[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+				}
+				if (BEN.spanishOn) {
+					context.drawImage(BEN.assetsToLoad3[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+				}
+				if (BEN.folding && BEN.pages[k].width > 0) {
+					BEN.pages[k].x += 35.5;
+					BEN.pages[k].width -= 71.1;
+				}
+				if (BEN.unfolding && BEN.pages[k].width < 640) {
+					BEN.pages[k].x -= 35.5;
+					BEN.pages[k].width += 71.1;
+				}
+			}
 
+			if (BEN.currentSide === 1) {
 
-	for(var k = 0; k < 23; k++)
-	{
+				if (BEN.englishOn) {
+					context.drawImage(BEN.assetsToLoad2[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+				}
+				if (BEN.spanishOn) {
+					context.drawImage(BEN.assetsToLoad4[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+				}	
+				if (BEN.folding && BEN.pages[k].width > 0 && !BEN.moveLeft && !BEN.moveRight) {
+					BEN.pages[k].x += 35.5;
+					BEN.pages[k].width -= 71.1;
+				}
+				if (BEN.unfolding && BEN.pages[k].width < 640) {
+					BEN.pages[k].x -= 35.5;
+					BEN.pages[k].width += 71.1;
+				}
+			}
 
-
-	if(BEN.currentSide === 0)
-	{
-		if(BEN.englishOn === false && BEN.spanishOn === false)
-		{
-		context.drawImage(page1Image,page1.x,page1.y,page1.width,page1.height);
+			if (BEN.folding && BEN.pages[k].width < 0 && BEN.currentSide === 0 && !BEN.moveLeft && !BEN.moveRight) {
+				BEN.pages[k].width = 0;
+				BEN.folding = false;
+				BEN.unfolding = true;
+				BEN.currentSide = 1;
+			}
+			if (BEN.folding && BEN.pages[k].width < 0 && BEN.currentSide === 1) {
+				BEN.pages[k].width = 0;
+				BEN.folding = false;
+				BEN.unfolding = true;
+				BEN.currentSide = 0;
+			}
+			if (BEN.unfolding && BEN.pages[k].width > 640) {
+				BEN.pages[k].width = 640;
+				BEN.unfolding = false;
+				BEN.folding = false;
+			}
 		}
-		if(BEN.englishOn === true)
-		{
-		context.drawImage(BEN.assetsToLoad[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
-		}
-		if(BEN.spanishOn === true)
-		{
-		context.drawImage(BEN.assetsToLoad3[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
-		}
-		
-	if(BEN.folding === true && BEN.pages[k].width > 0)
-	{
-	BEN.pages[k].x += 35.5;
-	BEN.pages[k].width -= 71.1;
-	}
 
-	if(BEN.unfolding === true && BEN.pages[k].width < 640)
-	{
-	BEN.pages[k].x -= 35.5;
-	BEN.pages[k].width += 71.1;
-	}
-	}
-
-
-	if(BEN.currentSide === 1)
-	{
-
-		if(BEN.englishOn === true)
-		{
-		context.drawImage(BEN.assetsToLoad2[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
-		}
-		if(BEN.spanishOn === true)
-		{
-		context.drawImage(BEN.assetsToLoad4[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
-		}
-		
-		
-	if(BEN.folding === true && BEN.pages[k].width > 0 && BEN.moveLeft === false && BEN.moveRight === false)
-	{
-	BEN.pages[k].x += 35.5;
-	BEN.pages[k].width -= 71.1;
-	}
-
-	if(BEN.unfolding === true && BEN.pages[k].width < 640)
-	{
-	BEN.pages[k].x -= 35.5;
-	BEN.pages[k].width += 71.1;
-	}
-
-	}
-
-	if(BEN.folding === true && BEN.pages[k].width < 0 && BEN.currentSide === 0 && BEN.moveLeft === false && BEN.moveRight === false)
-	{
-	BEN.pages[k].width = 0;
-	BEN.folding = false;
-	BEN.unfolding = true;
-	BEN.currentSide = 1;
-	}
-
-	if(BEN.folding === true && BEN.pages[k].width < 0 && BEN.currentSide === 1)
-	{
-	BEN.pages[k].width = 0;
-	BEN.folding = false;
-	BEN.unfolding = true;
-	BEN.currentSide = 0;
-	}
-
-	if(BEN.unfolding === true && BEN.pages[k].width > 640)
-	{
-	BEN.pages[k].width = 640;
-	BEN.unfolding = false;
-	BEN.folding = false;
-	}
-
-	}
-
-
-
-
-	if(BEN.currentPage >= 1 && BEN.moveLeft === false && BEN.moveRight === false)
-	{
-	context.font =  "bold 24pt sesame";
-	context.fillStyle = "#fff";
-	context.fillText(BEN.currentPage + " / 14",20,40);
-	//context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
-
-		if(BEN.android === false && BEN.ios === false)
-		{
-		context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
-		}
-		
-		if(BEN.currentPage < 14 && BEN.android === false && BEN.ios === false)
-		{
-		context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
-		}
-	}
+		if (BEN.currentPage >= 1 && !BEN.moveLeft && !BEN.moveRight) {
+			context.font =  "bold 24pt sesame";
+			context.fillStyle = "#fff";
+			context.fillText(BEN.currentPage + " / 14",20,40);
 			
-			if(BEN.currentPage === 0 && BEN.currentSide === 1 && BEN.android === false && BEN.ios === false)
-			{
+			if (!BEN.android && !BEN.ios) {
+				context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
+			}
+			if (BEN.currentPage < 14 && !BEN.android && !BEN.ios) {
+				context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
+			}
+		}	
+		if (BEN.currentPage === 0 && BEN.currentSide === 1 && !BEN.android && !BEN.ios) {
 			context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
 			context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
-			}
-	   
-	   if(BEN.currentPage >= 0 && BEN.moveLeft === false && BEN.moveRight === false)
-	   {
-	   context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
-	   }
-	   if(BEN.currentPage === -1 && BEN.pages[0].x === 0)
-	   {
-	   context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
-	   }
-		
+		}
+		if (BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight) {
+			context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
+		}
+		if (BEN.currentPage === -1 && BEN.pages[0].x === 0) {
+			context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
+		}
 
-
-	//context.font =  "bold 26pt sesame";
-	//context.fillText(canvas.style.width,100,100)
-	//context.fillText(canvas.style.height,100,200);
-
-
-	//context.fillRect(hotSpot5.x,hotSpot5.y,hotSpot5.width,hotSpot5.height);
-	//context.fillRect(hotSpot6.x,hotSpot6.y,hotSpot6.width,hotSpot6.height);
-
-
-	if(page2.x === 0)
-	{
-	page1.x = -1470;
-	}
-
-
-	//______________________________________COLLISION DETECTION___________________________________________________________________________________________
-	//____________________________________________________________________________________________________________________________________________________
-	  
+		if (page2.x === 0) {
+			page1.x = -1470;
+		}
 	  
 		
 				//COLLISION DETECTION FOR ENGLISH WITH TOUCH
