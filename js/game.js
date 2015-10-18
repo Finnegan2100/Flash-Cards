@@ -616,36 +616,37 @@
 		}
 
 		//MOVING PAGES LEFT
-
-		for (var i = 0; i < BEN.pages.length; i++) { 
 		
-			if (BEN.moveLeft && BEN.currentPage >= 0 && BEN.currentPage < 14 || BEN.englishChosen || BEN.spanishChosen) {
+		function movePagesLeft() {
 			
-				if (BEN.pages[i].x < -600 && BEN.pages[i].x > -980) {
-					BEN.currentSide = 0;
-				}   	
-				if (BEN.pages[i].x < 0 && BEN.pages[i].x >= -600) {
-					BEN.mouseUp = false;
-					BEN.touchUp = false;
-				}	
-				if (BEN.pages[BEN.currentPage + 2].x < 0) {
-					BEN.moveLeft = false;
-			
-					if (BEN.currentPage < 14) {
-						BEN.currentPage++;
-						BEN.englishChosen = false;
-						BEN.spanishChosen = false;
+				if (BEN.moveLeft && BEN.currentPage >= 0 && BEN.currentPage < 14 || BEN.englishChosen || BEN.spanishChosen) {
+				
+					if (BEN.pages[i].x < -600 && BEN.pages[i].x > -980) {
+						BEN.currentSide = 0;
+					}   	
+					if (BEN.pages[i].x < 0 && BEN.pages[i].x >= -600) {
+						BEN.mouseUp = false;
+						BEN.touchUp = false;
+					}	
+					if (BEN.pages[BEN.currentPage + 2].x < 0) {
+						BEN.moveLeft = false;
+				
+						if (BEN.currentPage < 14) {
+							BEN.currentPage++;
+							BEN.englishChosen = false;
+							BEN.spanishChosen = false;
+						}
 					}
-				}
-			
-			var vx = -165;
-			BEN.pages[i].x += vx * BEN.EASING;
-		}
+				
+				var vx = -165;
+				BEN.pages[i].x += vx * BEN.EASING;
+			}
+		}	
 
-		//MOVING PAGES RIGHT
-	 
+		function movePagesRight() {
+			
 			if (BEN.moveRight && BEN.currentPage >= 0 && BEN.currentPage <= 14 && !BEN.englishChosen && !BEN.spanishChosen) {
-			  
+				  
 				if (BEN.pages[BEN.currentPage + 1].x > 700 && BEN.pages[BEN.currentPage + 1].x < 900) {
 					BEN.currentSide = 0;
 				}
@@ -657,16 +658,26 @@
 					BEN.moveRight = false;
 					BEN.currentPage--;
 				}
-				
+					
 				var vx = 165;
 				BEN.pages[i].x += vx * BEN.EASING; 
 			}
-			
+		}	
+		
+		function keepPagesAligned() {
+				
 			if (!BEN.moveLeft && !BEN.moveRight && BEN.currentPage >= 0 && !BEN.folding && !BEN.unfolding) {
 				 
-				 BEN.pages[BEN.currentPage + 1].x = 0;
-				 BEN.pages[BEN.currentPage + 2].x = 1470;
+				BEN.pages[BEN.currentPage + 1].x = 0;
+				BEN.pages[BEN.currentPage + 2].x = 1470;
 			} 
+		}
+		
+		for (var i = 0; i < BEN.pages.length; i++) { 
+		
+				movePagesLeft();
+				movePagesRight();
+				keepPagesAligned();	
 		}
 		
 		if (BEN.pages[0].x > 0) {
@@ -797,26 +808,46 @@
 			}
 		}
 	  
-	  /*
-        function checkCollision(obj1, isMouse, ) {
+		//BUILDING THIS GUY RIGHT NOW
+	    /*
+        function checkCollisionMouse(obj1,) {
 			
-			for (var i = 0; i < hotSpots.length; i++) {
+			for (var i = 0; i < BEN.hotSpots.length; i++) {
+								
+				var vx = obj1.mouseX - BEN.hotSpots[i].centerX();
+				var vy = obj1.mouseY - BEN.hotSpots[i].centerY();
 				
-				var vx = obj1.mouseX - obj2.centerX();
-				var vy = obj1.mouseY - obj2.centerY();
-				
-				var combinedWidths = obj1.halfWidth() + obj2.halfWidth();
-				var combinesHeights = obj1.halfHeight() + obj2.halfHeight();
+				var combinedWidths = obj1.halfWidth() + BEN.hotSpots[i].halfWidth();
+				var combinesHeights = obj1.halfHeight() + BEN.hotSpots[i].halfHeight();
 				
 				if (Math.abs(vx) < combinedHalfWidths) {
 					
 					if (Math.abs(vy) < combinedHalfHeights) {
 						
+						if (BEN.currentPage >= 0) {
+							
+							if (BEN.mouseUp && !BEN.unfolding && !BEN.folding && !BEN.moveLeft && !BEN.moveRight) {
+					
+								if (BEN.currentSide === 0) {
+									BEN.canProceed = true;
+									BEN.folding = true;
+									BEN.mouseUp = false;
+								}
+							}
 						
+							if (BEN.mouseUp && !BEN.unfolding && !BEN.folding && !BEN.moveLeft && !BEN.moveRight) {
+							
+								if (BEN.currentSide === 1) {
+									BEN.canProceed = true;
+									BEN.folding = true;
+									BEN.mouseUp = false;
+								}
+							}
+						}
 					}
 				}
 			}
-        */
+         */
         
 		//COLLISION DETECTION FOR ENGLISH WITH MOUSE
 		
