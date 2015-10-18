@@ -3,64 +3,8 @@
 
 	var canvas = document.getElementById("canvas"),
 		context = canvas.getContext("2d");
-
-	initializeGame();
+		
 	
-	function initializeGame() {
-		
-		window.addEventListener("mousemove",onMouseMove,false);
-		window.addEventListener("mousedown",onMouseDown,false);
-		window.addEventListener("mouseup",onMouseUp,false);
-
-		canvas.addEventListener("touchmove", onTouchMove, false);
-		canvas.addEventListener("touchstart", onTouchStart, false);
-		canvas.addEventListener("touchend", onTouchEnd, false);
-	}
-
-	function onMouseDown(event) {
-		
-		BEN.mouseDown = true;
-		BEN.mouseUp = false;
-		event.preventDefault(); 
-	}
-
-	function onMouseUp(event) {
-		
-		BEN.mouseDown = false;
-		BEN.mouseUp = true;
-		event.preventDefault(); 
-	}
-
-	function onMouseMove(event) {
-		
-		BEN.mouseX = (event.pageX - canvas.offsetLeft) / BEN.scale; 
-		BEN.mouseY = (event.pageY - canvas.offsetTop) / BEN.scale;
-		event.preventDefault(); 
-	}
-
-	function onTouchMove(event)	{ 
-	
-		BEN.tapX = (event.targetTouches[0].pageX - canvas.offsetLeft) / BEN.scale;
-		BEN.tapY = (event.targetTouches[0].pageY - canvas.offsetTop) / BEN.scale ;
-		event.preventDefault(); 
-	}
-
-	function onTouchStart(event) {
-		
-		BEN.tapX = event.targetTouches[0].pageX - canvas.offsetLeft;
-		BEN.tapY = event.targetTouches[0].pageY - canvas.offsetTop;
-		BEN.touchDown = true;
-		BEN.touchUp = false;
-		event.preventDefault(); 
-	}
-
-	function onTouchEnd(event) { 
-	
-		BEN.touchDown = false;
-		BEN.touchUp = true;
-		event.preventDefault();
-	}
-
 	var BEN = {
 
 		assetsToLoad: [],
@@ -195,7 +139,55 @@
 			window.setTimeout(function() {
 					window.scrollTo(0,1);
 			}, 1);
-		}
+		},
+		prepareListeners: function() {
+
+			window.addEventListener("mousemove",BEN.onMouseMove,false);
+			window.addEventListener("mousedown",BEN.onMouseDown,false);
+			window.addEventListener("mouseup",BEN.onMouseUp,false);
+
+			canvas.addEventListener("touchmove", BEN.onTouchMove, false);
+			canvas.addEventListener("touchstart", BEN.onTouchStart, false);
+			canvas.addEventListener("touchend", BEN.onTouchEnd, false);
+		},
+		onMouseDown: function (event) {
+		
+			BEN.mouseDown = true;
+			BEN.mouseUp = false;
+			event.preventDefault(); 
+		},
+		onMouseUp: function (event) {
+		
+			BEN.mouseDown = false;
+			BEN.mouseUp = true;
+			event.preventDefault(); 
+		},
+		onMouseMove: function (event) {
+		
+			BEN.mouseX = (event.pageX - canvas.offsetLeft) / BEN.scale; 
+			BEN.mouseY = (event.pageY - canvas.offsetTop) / BEN.scale;
+			event.preventDefault(); 
+		},
+		onTouchMove: function (event) { 
+	
+			BEN.tapX = (event.targetTouches[0].pageX - canvas.offsetLeft) / BEN.scale;
+			BEN.tapY = (event.targetTouches[0].pageY - canvas.offsetTop) / BEN.scale ;
+			event.preventDefault(); 
+		},
+		onTouchStart: function (event) {
+		
+			BEN.tapX = event.targetTouches[0].pageX - canvas.offsetLeft;
+			BEN.tapY = event.targetTouches[0].pageY - canvas.offsetTop;
+			BEN.touchDown = true;
+			BEN.touchUp = false;
+			event.preventDefault(); 
+		},
+		onTouchEnd: function(event) {
+			
+			BEN.touchDown = false;
+			BEN.touchUp = true;
+			event.preventDefault();
+		}		
 	};
 
 
@@ -989,7 +981,7 @@
 
 
 	function onLoad() { 
-		
+	
 		BEN.checkingLoads++;
 	}
 
@@ -1018,6 +1010,7 @@
 	}
 	
 	function touchEnd(event) {
+		
 		event.preventDefault();
 		if (BEN.fingerCount == 1 && BEN.curX != 0) {
 			BEN.swipeLength = Math.round(Math.sqrt(Math.pow(BEN.curX - BEN.startX,2) + Math.pow(BEN.curY - BEN.startY,2)));
@@ -1106,7 +1099,8 @@
 
 		BEN.init();
 		BEN.resizeScreen();
-
+		BEN.prepareListeners();
+	
 		requestAnimationFrame(main,canvas);
 		context.clearRect(0,0,canvas.width,canvas.height); //CANVAS IS CLEARED EACH ITERATION
 
@@ -1323,6 +1317,24 @@
 			}
 		}
 	  
+	  /*
+        function checkCollision(obj1, obj2, variant) {
+			
+			var vx = obj1.mouseX - obj2.centerX();
+			var vy = obj1.mouseY - obj2.centerY();
+			
+			var combinedWidths = obj1.halfWidth() + obj2.halfWidth();
+			var combinesHeights = obj1.halfHeight() + obj2.halfHeight();
+			
+			if (Math.abs(vx) < combinedHalfWidths) {
+				
+				if (Math.abs(vy) < combinedHalfHeights) {
+					
+					
+				}
+			}
+        */
+        
 		//COLLISION DETECTION FOR ENGLISH WITH MOUSE
 		
 		var vx4 = BEN.mouseX - hotSpot2.centerX();				
