@@ -17,9 +17,13 @@
 		
 		mouseY: 0,		
 		mouseY: 0,
+		mouseW: 1,
+		mouseH: 1,
 
 		tapX: undefined,		
 		tapY: undefined,
+		tapW: 30,
+		tapH: 30,
 
 		EASING: 0.18,
 		 
@@ -575,10 +579,8 @@
 
 	function main() {
 
-		
 		BEN.resizeScreen();
-		
-	
+			
 		requestAnimationFrame(main,canvas);
 		context.clearRect(0,0,canvas.width,canvas.height);
 
@@ -796,19 +798,22 @@
 		}
 	  
 	  /*
-        function checkCollision(obj1, obj2, variant) {
+        function checkCollision(obj1, isMouse, ) {
 			
-			var vx = obj1.mouseX - obj2.centerX();
-			var vy = obj1.mouseY - obj2.centerY();
-			
-			var combinedWidths = obj1.halfWidth() + obj2.halfWidth();
-			var combinesHeights = obj1.halfHeight() + obj2.halfHeight();
-			
-			if (Math.abs(vx) < combinedHalfWidths) {
+			for (var i = 0; i < hotSpots.length; i++) {
 				
-				if (Math.abs(vy) < combinedHalfHeights) {
+				var vx = obj1.mouseX - obj2.centerX();
+				var vy = obj1.mouseY - obj2.centerY();
+				
+				var combinedWidths = obj1.halfWidth() + obj2.halfWidth();
+				var combinesHeights = obj1.halfHeight() + obj2.halfHeight();
+				
+				if (Math.abs(vx) < combinedHalfWidths) {
 					
-					
+					if (Math.abs(vy) < combinedHalfHeights) {
+						
+						
+					}
 				}
 			}
         */
@@ -818,8 +823,8 @@
 		var vx4 = BEN.mouseX - BEN.hotSpots[1].centerX();				
 	    var vy4 = BEN.mouseY - BEN.hotSpots[1].centerY();
 	  
-		var combinedHalfWidths4 = 1 + BEN.hotSpots[1].halfWidth();
-		var combinedHalfHeights4 = 1 + BEN.hotSpots[1].halfHeight();
+		var combinedHalfWidths4 = BEN.mouseW + BEN.hotSpots[1].halfWidth();
+		var combinedHalfHeights4 = BEN.mouseH + BEN.hotSpots[1].halfHeight();
 
 		if (Math.abs(vx4) < combinedHalfWidths4) {
 		
@@ -841,8 +846,8 @@
 		var vx5 = BEN.mouseX - BEN.hotSpots[2].centerX();				
 		var vy5 = BEN.mouseY - BEN.hotSpots[2].centerY();
 	  
-		var combinedHalfWidths5 = 1 + BEN.hotSpots[2].halfWidth();
-		var combinedHalfHeights5 = 1 + BEN.hotSpots[2].halfHeight();
+		var combinedHalfWidths5 = BEN.mouseW + BEN.hotSpots[2].halfWidth();
+		var combinedHalfHeights5 = BEN.mouseH + BEN.hotSpots[2].halfHeight();
 
 		if (Math.abs(vx5) < combinedHalfWidths5) {
 		
@@ -865,8 +870,8 @@
 		var vx1 = BEN.mouseX - BEN.hotSpots[0].centerX();				
 		var vy1 = BEN.mouseY - BEN.hotSpots[0].centerY();
 	  
-		var combinedHalfWidths1 = 1 + BEN.hotSpots[0].halfWidth();
-		var combinedHalfHeights1 = 1 + BEN.hotSpots[0].halfHeight();
+		var combinedHalfWidths1 = BEN.mouseW + BEN.hotSpots[0].halfWidth();
+		var combinedHalfHeights1 = BEN.mouseH + BEN.hotSpots[0].halfHeight();
 
 		if (Math.abs(vx1) < combinedHalfWidths1) {
 		
@@ -900,8 +905,8 @@
 		var vx = BEN.tapX - BEN.hotSpots[0].centerX();				
 		var vy = BEN.tapY - BEN.hotSpots[0].centerY();
 	  
-		var combinedHalfWidths = 30 + BEN.hotSpots[0].halfWidth();
-		var combinedHalfHeights = 30 + BEN.hotSpots[0].halfHeight();
+		var combinedHalfWidths = BEN.tapW + BEN.hotSpots[0].halfWidth();
+		var combinedHalfHeights = BEN.tapH + BEN.hotSpots[0].halfHeight();
 
 		if (Math.abs(vx) < combinedHalfWidths) {
 		
@@ -934,8 +939,8 @@
 		var vx2 = BEN.mouseX - BEN.hotSpots[3].centerX();				
 		var vy2 = BEN.mouseY - BEN.hotSpots[3].centerY();
 	  
-		var combinedHalfWidths2 = 1 + BEN.hotSpots[3].halfWidth();
-		var combinedHalfHeights2 = 1 + BEN.hotSpots[3].halfHeight();
+		var combinedHalfWidths2 = BEN.mouseW + BEN.hotSpots[3].halfWidth();
+		var combinedHalfHeights2 = BEN.mouseH + BEN.hotSpots[3].halfHeight();
 
 		if (Math.abs(vx2) < combinedHalfWidths2) {
 		
@@ -961,8 +966,8 @@
 		var vx2 = BEN.mouseX - BEN.hotSpots[4].centerX();				
 		var vy2 = BEN.mouseY - BEN.hotSpots[4].centerY();
 	  
-		var combinedHalfWidths2 = 1 + BEN.hotSpots[4].halfWidth();
-		var combinedHalfHeights2 = 1 + BEN.hotSpots[4].halfHeight();
+		var combinedHalfWidths2 = BEN.mouseW + BEN.hotSpots[4].halfWidth();
+		var combinedHalfHeights2 = BEN.mouseH + BEN.hotSpots[4].halfHeight();
 
 		if (Math.abs(vx2) < combinedHalfWidths2) {
 		
@@ -982,8 +987,8 @@
 		var vx3 = BEN.tapX - BEN.hotSpots[4].centerX();				
 		var vy3 = BEN.tapY - BEN.hotSpots[4].centerY();
 	  
-		var combinedHalfWidths3 = 1 + BEN.hotSpots[4].halfWidth();
-		var combinedHalfHeights3 = 1 + BEN.hotSpots[4].halfHeight();
+		var combinedHalfWidths3 = BEN.mouseW + BEN.hotSpots[4].halfWidth();
+		var combinedHalfHeights3 = BEN.mouseH + BEN.hotSpots[4].halfHeight();
 
 		if (Math.abs(vx3) < combinedHalfWidths3) {
 		
@@ -1003,8 +1008,8 @@
 		var vx2 = BEN.mouseX - BEN.hotSpots[5].centerX();				
 		var vy2 = BEN.mouseY - BEN.hotSpots[5].centerY();
 	  
-		var combinedHalfWidths2 = 1 + BEN.hotSpots[5].halfWidth();
-		var combinedHalfHeights2 = 1 + BEN.hotSpots[5].halfHeight();
+		var combinedHalfWidths2 = BEN.mouseW + BEN.hotSpots[5].halfWidth();
+		var combinedHalfHeights2 = BEN.mouseH + BEN.hotSpots[5].halfHeight();
 
 		if (Math.abs(vx2) < combinedHalfWidths2) {
 		
@@ -1025,8 +1030,8 @@
 		var vx3 = BEN.tapX - BEN.hotSpots[5].centerX();				
 		var vy3 = BEN.tapY - BEN.hotSpots[5].centerY();
 	  
-		var combinedHalfWidths3 = 1 + BEN.hotSpots[5].halfWidth();
-		var combinedHalfHeights3 = 1 + BEN.hotSpots[5].halfHeight();
+		var combinedHalfWidths3 = BEN.mouseW + BEN.hotSpots[5].halfWidth();
+		var combinedHalfHeights3 = BEN.mouseH + BEN.hotSpots[5].halfHeight();
 
 		if (Math.abs(vx3) < combinedHalfWidths3) {
 		
@@ -1041,6 +1046,5 @@
 			}
 		}
 	}
-
 
 })();
