@@ -1,6 +1,6 @@
 
     html,body { margin: 0px; padding: 0; background: #000;}
-    canvas { display:block; border: 0px #333; margin-right: auto; margin-left: auto; padding: 0px;
+    canvas { display:block; border: 0px solid #333; margin-right: auto; margin-left: auto; padding: 0px;
         background: #000; }
 
     @font-face { 

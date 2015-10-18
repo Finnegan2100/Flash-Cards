@@ -149,6 +149,11 @@
 			canvas.addEventListener("touchmove", BEN.onTouchMove, false);
 			canvas.addEventListener("touchstart", BEN.onTouchStart, false);
 			canvas.addEventListener("touchend", BEN.onTouchEnd, false);
+			
+			canvas.addEventListener("ontouchstart", BEN.touchStart);
+			canvas.addEventListener("ontouchend", BEN.touchEnd);
+			canvas.addEventListener("ontouchmove", BEN.touchMove);
+			canvas.addEventListener("ontouchcancel", BEN.touchCancel);
 		},
 		onMouseDown: function (event) {
 		
@@ -187,7 +192,103 @@
 			BEN.touchDown = false;
 			BEN.touchUp = true;
 			event.preventDefault();
-		}		
+		},
+		touchStart: function(event,passedName) {
+		
+			event.preventDefault();
+			BEN.fingerCount = event.touches.length;
+		
+			if (BEN.fingerCount === 1) {
+				BEN.startX = event.touches[0].pageX;
+				BEN.startY = event.touches[0].pageY;
+			} else {
+				touchCancel(event);
+			}
+		},
+		touchMove: function(event) {
+		
+			event.preventDefault();
+			if (event.touches.length === 1) {
+				BEN.curX = event.touches[0].pageX;
+				BEN.curY = event.touches[0].pageY;
+			} else {
+				touchCancel(event);
+			}
+		},
+		touchEnd: function(event) {
+		
+			event.preventDefault();
+			if (BEN.fingerCount == 1 && BEN.curX != 0) {
+				BEN.swipeLength = Math.round(Math.sqrt(Math.pow(BEN.curX - BEN.startX,2) + Math.pow(BEN.curY - BEN.startY,2)));
+				if (BEN.swipeLength >= BEN.minLength && BEN.touchUp === false) {
+					caluculateAngle();
+					determineSwipeDirection();
+					processingRoutine();
+					touchCancel(event); 
+				} else {
+					touchCancel(event);
+				}	
+			} else {
+				touchCancel(event);
+			}
+		},
+		touchCancel: function(event) {
+	
+			BEN.fingerCount = 0;
+			BEN.startX = 0;
+			BEN.startY = 0;
+			BEN.curX = 0;
+			BEN.curY = 0;
+			BEN.deltaX = 0;
+			BEN.deltaY = 0;
+			BEN.horzDiff = 0;
+			BEN.vertDiff = 0;
+			BEN.swipeLength = 0;
+			BEN.swipeAngle = null;
+			BEN.swipeDirection = null;
+		},
+		caluculateAngle: function() {
+		
+			var X = BEN.startX-BEN.curX;
+			var Y = BEN.curY-BEN.startY;
+			var Z = Math.round(Math.sqrt(Math.pow(X,2)+Math.pow(Y,2))); 
+			var r = Math.atan2(Y,X); 
+			BEN.swipeAngle = Math.round(r*180/Math.PI); 
+			if (BEN.swipeAngle < 0 ) { BEN.swipeAngle =  360 - Math.abs(BEN.swipeAngle); }
+		},
+		determineSwipeDirection: function() {
+			
+			if ((BEN.swipeAngle <= 45) && (BEN.swipeAngle >= 0)) {
+				BEN.swipeDirection = 'left';
+
+			} else if ((BEN.swipeAngle <= 360) && (BEN.swipeAngle >= 315)) {
+				BEN.swipeDirection = 'left';
+			} else if ((BEN.swipeAngle >= 135) && (BEN.swipeAngle <= 225)) {
+				BEN.swipeDirection = 'right';
+			}
+		},
+		processingRoutine: function() {
+	
+			if (BEN.swipeDirection == 'left' && BEN.currentPage >= 1 && BEN.currentPage < 14 && BEN.canProceed) {
+				BEN.moveLeft = true;
+				BEN.moveRight = false;
+			}
+				
+			if (BEN.swipeDirection == 'left' && BEN.currentPage === 0 && BEN.currentSide === 1) {
+				BEN.moveLeft = true;
+				BEN.moveRight = false;
+			}
+		
+			if (BEN.swipeDirection == 'right' && BEN.currentPage >= 1 && BEN.currentPage <= 14) {
+				BEN.moveRight = true;
+				BEN.moveLeft = false;
+			}
+				
+			if (BEN.swipeDirection == 'right' && BEN.currentPage === 0 && BEN.currentSide === 1) {
+				BEN.moveRight = true;
+				BEN.moveLeft = false;
+			}
+		}	
 	};
 
 
@@ -985,108 +1086,7 @@
 		BEN.checkingLoads++;
 	}
 
-	function touchStart(event,passedName) {
-		
-		event.preventDefault();
-		BEN.fingerCount = event.touches.length;
-		
-		if (BEN.fingerCount === 1) {
-			BEN.startX = event.touches[0].pageX;
-			BEN.startY = event.touches[0].pageY;
-		} else {
-			touchCancel(event);
-		}
-	}
-
-	function touchMove(event) {
-		
-		event.preventDefault();
-		if (event.touches.length === 1) {
-			BEN.curX = event.touches[0].pageX;
-			BEN.curY = event.touches[0].pageY;
-		} else {
-			touchCancel(event);
-		}
-	}
 	
-	function touchEnd(event) {
-		
-		event.preventDefault();
-		if (BEN.fingerCount == 1 && BEN.curX != 0) {
-			BEN.swipeLength = Math.round(Math.sqrt(Math.pow(BEN.curX - BEN.startX,2) + Math.pow(BEN.curY - BEN.startY,2)));
-			if (BEN.swipeLength >= BEN.minLength && BEN.touchUp === false) {
-				caluculateAngle();
-				determineSwipeDirection();
-				processingRoutine();
-				touchCancel(event); 
-			} else {
-				touchCancel(event);
-			}	
-		} else {
-			touchCancel(event);
-		}
-	}
-
-	function touchCancel(event) {
-	
-		BEN.fingerCount = 0;
-		BEN.startX = 0;
-		BEN.startY = 0;
-		BEN.curX = 0;
-		BEN.curY = 0;
-		BEN.deltaX = 0;
-		BEN.deltaY = 0;
-		BEN.horzDiff = 0;
-		BEN.vertDiff = 0;
-		BEN.swipeLength = 0;
-		BEN.swipeAngle = null;
-		BEN.swipeDirection = null;
-	}
-	
-	function caluculateAngle() {
-		
-		var X = BEN.startX-BEN.curX;
-		var Y = BEN.curY-BEN.startY;
-		var Z = Math.round(Math.sqrt(Math.pow(X,2)+Math.pow(Y,2))); 
-		var r = Math.atan2(Y,X); 
-		BEN.swipeAngle = Math.round(r*180/Math.PI); 
-		if (BEN.swipeAngle < 0 ) { BEN.swipeAngle =  360 - Math.abs(BEN.swipeAngle); }
-	}
-	
-	function determineSwipeDirection() {
-		
-		if ((BEN.swipeAngle <= 45) && (BEN.swipeAngle >= 0)) {
-			BEN.swipeDirection = 'left';
-
-		} else if ((BEN.swipeAngle <= 360) && (BEN.swipeAngle >= 315)) {
-			BEN.swipeDirection = 'left';
-		} else if ((BEN.swipeAngle >= 135) && (BEN.swipeAngle <= 225)) {
-			BEN.swipeDirection = 'right';
-		}
-	}
-	
-	function processingRoutine() {
-	
-	     if (BEN.swipeDirection == 'left' && BEN.currentPage >= 1 && BEN.currentPage < 14 && BEN.canProceed) {
-			BEN.moveLeft = true;
-			BEN.moveRight = false;
-		}
-			
-		if (BEN.swipeDirection == 'left' && BEN.currentPage === 0 && BEN.currentSide === 1) {
-			BEN.moveLeft = true;
-			BEN.moveRight = false;
-		}
-	
-        if (BEN.swipeDirection == 'right' && BEN.currentPage >= 1 && BEN.currentPage <= 14) {
-			BEN.moveRight = true;
-			BEN.moveLeft = false;
-        }
-			
-		if (BEN.swipeDirection == 'right' && BEN.currentPage === 0 && BEN.currentSide === 1) {
-			BEN.moveRight = true;
-			BEN.moveLeft = false;
-		}
-	}
 	
 	checkCurrentState();
 
@@ -1102,7 +1102,7 @@
 		BEN.prepareListeners();
 	
 		requestAnimationFrame(main,canvas);
-		context.clearRect(0,0,canvas.width,canvas.height); //CANVAS IS CLEARED EACH ITERATION
+		context.clearRect(0,0,canvas.width,canvas.height);
 
 		//COLLISION DETECTION FOR ENGLISH WITH TOUCH
 
