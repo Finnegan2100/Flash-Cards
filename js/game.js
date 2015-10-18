@@ -30,6 +30,7 @@
 		
 		pages: [],
 		rears: [],
+		hotSpots: [],
 		
 		moveLeft: false,
 		moveRight: false,
@@ -299,6 +300,15 @@
 				card.height = h;
 				destArr.push(card);
 			}
+		},
+		createHotSpotObjects: function(targetArr,x,y,w,h) {
+		
+			var hotSpot = Object.create(BEN);
+				hotSpot.x = x;
+				hotSpot.y = y;
+				hotSpot.width = w;
+				hotSpot.height = h;
+				targetArr.push(hotSpot);
 		}	
 	};
 
@@ -310,45 +320,15 @@
 
 	window.addEventListener('load', BEN.init, false);
 	window.addEventListener('BEN', BEN.resizeScreen, false);
-
-
-	var hotSpot1 = Object.create(BEN);  //PLAY BUTTON HOTSPOT
-	hotSpot1.x = 0;
-	hotSpot1.y = 50;
-	hotSpot1.width = 640;
-	hotSpot1.height = 960;
-
-	var hotSpot2 = Object.create(BEN);  //ENGLISH BUTTON HOTSPOT
-	hotSpot2.x = 30;
-	hotSpot2.y = 738;
-	hotSpot2.width = 280;
-	hotSpot2.height = 200;
-
-	var hotSpot3 = Object.create(BEN);  //SPANISH BUTTON HOTSPOT
-	hotSpot3.x = 328;
-	hotSpot3.y = 738;
-	hotSpot3.width = 280;
-	hotSpot3.height = 200;
-
-	var hotSpot4 = Object.create(BEN);  //X BUTTON HOTSPOT
-	hotSpot4.x = 450;
-	hotSpot4.y = 10;
-	hotSpot4.width = 180;
-	hotSpot4.height = 140;
-
-	var hotSpot5 = Object.create(BEN);  //PLAY BUTTON HOTSPOT
-	hotSpot5.x = 0;
-	hotSpot5.y = 813;
-	hotSpot5.width = 150;
-	hotSpot5.height = 184;
-
-	var hotSpot6 = Object.create(BEN);  //X BUTTON HOTSPOT
-	hotSpot6.x = 490;
-	hotSpot6.y = 813;
-	hotSpot6.width = 150;
-	hotSpot6.height = 184;
-
-
+	
+  
+	BEN.createHotSpotObjects(BEN.hotSpots,0,50,640,960);
+	BEN.createHotSpotObjects(BEN.hotSpots,30,738,280,200);
+	BEN.createHotSpotObjects(BEN.hotSpots,328,738,280,200);
+	BEN.createHotSpotObjects(BEN.hotSpots,450,10,180,140);
+	BEN.createHotSpotObjects(BEN.hotSpots,0,813,150,184);
+	BEN.createHotSpotObjects(BEN.hotSpots,490,813,150,184);
+	
 	//LOADING THR IMAGES AND CALLING LOAD EVENT
 
 	var loading = Object.create(BEN);
@@ -1192,11 +1172,11 @@
         
 		//COLLISION DETECTION FOR ENGLISH WITH MOUSE
 		
-		var vx4 = BEN.mouseX - hotSpot2.centerX();				
-	    var vy4 = BEN.mouseY - hotSpot2.centerY();
+		var vx4 = BEN.mouseX - BEN.hotSpots[1].centerX();				
+	    var vy4 = BEN.mouseY - BEN.hotSpots[1].centerY();
 	  
-		var combinedHalfWidths4 = 1 + hotSpot2.halfWidth();
-		var combinedHalfHeights4 = 1 + hotSpot2.halfHeight();
+		var combinedHalfWidths4 = 1 + BEN.hotSpots[1].halfWidth();
+		var combinedHalfHeights4 = 1 + BEN.hotSpots[1].halfHeight();
 
 		if (Math.abs(vx4) < combinedHalfWidths4) {
 		
@@ -1215,11 +1195,11 @@
 	  
 		//COLLISION DETECTION FOR SPANISH WITH MOUSE
 	  
-		var vx5 = BEN.mouseX - hotSpot3.centerX();				
-		var vy5 = BEN.mouseY - hotSpot3.centerY();
+		var vx5 = BEN.mouseX - BEN.hotSpots[2].centerX();				
+		var vy5 = BEN.mouseY - BEN.hotSpots[2].centerY();
 	  
-		var combinedHalfWidths5 = 1 + hotSpot3.halfWidth();
-		var combinedHalfHeights5 = 1 + hotSpot3.halfHeight();
+		var combinedHalfWidths5 = 1 + BEN.hotSpots[2].halfWidth();
+		var combinedHalfHeights5 = 1 + BEN.hotSpots[2].halfHeight();
 
 		if (Math.abs(vx5) < combinedHalfWidths5) {
 		
@@ -1239,11 +1219,11 @@
 	  
 		//COLLISION DETECTION FOR CARDS WITH MOUSE
 	  
-		var vx1 = BEN.mouseX - hotSpot1.centerX();				
-		var vy1 = BEN.mouseY - hotSpot1.centerY();
+		var vx1 = BEN.mouseX - BEN.hotSpots[0].centerX();				
+		var vy1 = BEN.mouseY - BEN.hotSpots[0].centerY();
 	  
-		var combinedHalfWidths1 = 1 + hotSpot1.halfWidth();
-		var combinedHalfHeights1 = 1 + hotSpot1.halfHeight();
+		var combinedHalfWidths1 = 1 + BEN.hotSpots[0].halfWidth();
+		var combinedHalfHeights1 = 1 + BEN.hotSpots[0].halfHeight();
 
 		if (Math.abs(vx1) < combinedHalfWidths1) {
 		
@@ -1274,11 +1254,11 @@
 	  
 	    //COLLISION DETECTION FOR CARDS WITH TOUCH
 		
-		var vx = BEN.tapX - hotSpot1.centerX();				
-		var vy = BEN.tapY - hotSpot1.centerY();
+		var vx = BEN.tapX - BEN.hotSpots[0].centerX();				
+		var vy = BEN.tapY - BEN.hotSpots[0].centerY();
 	  
-		var combinedHalfWidths = 30 + hotSpot1.halfWidth();
-		var combinedHalfHeights = 30 + hotSpot1.halfHeight();
+		var combinedHalfWidths = 30 + BEN.hotSpots[0].halfWidth();
+		var combinedHalfHeights = 30 + BEN.hotSpots[0].halfHeight();
 
 		if (Math.abs(vx) < combinedHalfWidths) {
 		
@@ -1308,11 +1288,11 @@
 	  
 		//COLLISION DETECTION FOR X BUTTON WITH MOUSE
 
-		var vx2 = BEN.mouseX - hotSpot4.centerX();				
-		var vy2 = BEN.mouseY - hotSpot4.centerY();
+		var vx2 = BEN.mouseX - BEN.hotSpots[3].centerX();				
+		var vy2 = BEN.mouseY - BEN.hotSpots[3].centerY();
 	  
-		var combinedHalfWidths2 = 1 + hotSpot4.halfWidth();
-		var combinedHalfHeights2 = 1 + hotSpot4.halfHeight();
+		var combinedHalfWidths2 = 1 + BEN.hotSpots[3].halfWidth();
+		var combinedHalfHeights2 = 1 + BEN.hotSpots[3].halfHeight();
 
 		if (Math.abs(vx2) < combinedHalfWidths2) {
 		
@@ -1335,11 +1315,11 @@
 	  
 		//COLLISION DETECTION FOR LEFT BUTTON WITH MOUSE
 	  
-		var vx2 = BEN.mouseX - hotSpot5.centerX();				
-		var vy2 = BEN.mouseY - hotSpot5.centerY();
+		var vx2 = BEN.mouseX - BEN.hotSpots[4].centerX();				
+		var vy2 = BEN.mouseY - BEN.hotSpots[4].centerY();
 	  
-		var combinedHalfWidths2 = 1 + hotSpot5.halfWidth();
-		var combinedHalfHeights2 = 1 + hotSpot5.halfHeight();
+		var combinedHalfWidths2 = 1 + BEN.hotSpots[4].halfWidth();
+		var combinedHalfHeights2 = 1 + BEN.hotSpots[4].halfHeight();
 
 		if (Math.abs(vx2) < combinedHalfWidths2) {
 		
@@ -1356,11 +1336,11 @@
 	  
 		//COLLISION DETECTION FOR LEFT BUTTON WITH TOUCH
 		
-		var vx3 = BEN.tapX - hotSpot5.centerX();				
-		var vy3 = BEN.tapY - hotSpot5.centerY();
+		var vx3 = BEN.tapX - BEN.hotSpots[4].centerX();				
+		var vy3 = BEN.tapY - BEN.hotSpots[4].centerY();
 	  
-		var combinedHalfWidths3 = 1 + hotSpot5.halfWidth();
-		var combinedHalfHeights3 = 1 + hotSpot5.halfHeight();
+		var combinedHalfWidths3 = 1 + BEN.hotSpots[4].halfWidth();
+		var combinedHalfHeights3 = 1 + BEN.hotSpots[4].halfHeight();
 
 		if (Math.abs(vx3) < combinedHalfWidths3) {
 		
@@ -1377,11 +1357,11 @@
 	  
 		//COLLISION DETECTION FOR RIGHT BUTTON WITH MOUSE
 		
-		var vx2 = BEN.mouseX - hotSpot6.centerX();				
-		var vy2 = BEN.mouseY - hotSpot6.centerY();
+		var vx2 = BEN.mouseX - BEN.hotSpots[5].centerX();				
+		var vy2 = BEN.mouseY - BEN.hotSpots[5].centerY();
 	  
-		var combinedHalfWidths2 = 1 + hotSpot6.halfWidth();
-		var combinedHalfHeights2 = 1 + hotSpot6.halfHeight();
+		var combinedHalfWidths2 = 1 + BEN.hotSpots[5].halfWidth();
+		var combinedHalfHeights2 = 1 + BEN.hotSpots[5].halfHeight();
 
 		if (Math.abs(vx2) < combinedHalfWidths2) {
 		
@@ -1399,11 +1379,11 @@
 	  
 		//COLLISION DETECTION FOR RIGHT BUTTON WITH TOUCH
 		
-		var vx3 = BEN.tapX - hotSpot6.centerX();				
-		var vy3 = BEN.tapY - hotSpot6.centerY();
+		var vx3 = BEN.tapX - BEN.hotSpots[5].centerX();				
+		var vy3 = BEN.tapY - BEN.hotSpots[5].centerY();
 	  
-		var combinedHalfWidths3 = 1 + hotSpot6.halfWidth();
-		var combinedHalfHeights3 = 1 + hotSpot6.halfHeight();
+		var combinedHalfWidths3 = 1 + BEN.hotSpots[5].halfWidth();
+		var combinedHalfHeights3 = 1 + BEN.hotSpots[5].halfHeight();
 
 		if (Math.abs(vx3) < combinedHalfWidths3) {
 		
