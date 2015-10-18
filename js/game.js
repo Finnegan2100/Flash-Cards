@@ -47,6 +47,26 @@
 			"PNC_mathcards_esp_1_front.png","PNC_mathcards_esp_1_front.png","PNC_mathcards_esp_1_front.png",
 			"PNC_mathcards_esp_1_front.png","PNC_mathcards_esp_1_front.png"
 		],
+		imageArrayRearEnglish: [
+			"PNC_mathcards_instrux_front.png","PNC_mathcards_INSTRUX_back.png", "PNC_mathcards_1_back.png",
+			"PNC_mathcards_2_back.png","PNC_mathcards_3_back.png","PNC_mathcards_4_back.png",
+			"PNC_mathcards_5_back.png","PNC_mathcards_6_back.png","PNC_mathcards_7_back.png",
+			"PNC_mathcards_8_back.png","PNC_mathcards_9_back.png","PNC_mathcards_10_back.png",
+			"PNC_mathcards_11_back.png","PNC_mathcards_12_back.png","PNC_mathcards_13_back.png",
+			"PNC_mathcards_14_back.png","PNC_mathcards_1_back.png","PNC_mathcards_1_back.png",
+			"PNC_mathcards_1_back.png","PNC_mathcards_1_back.png","PNC_mathcards_1_back.png",
+			"PNC_mathcards_1_back.png","PNC_mathcards_1_back.png"
+		],
+		imageArrayRearSpanish: [
+			"PNC_mathcards_esp_instrux_front.png", "PNC_mathcards_esp_instrux_back.png", "PNC_mathcards_esp_1_back.png",
+			"PNC_mathcards_esp_2_back.png","PNC_mathcards_esp_3_back.png","PNC_mathcards_esp_4_back.png",
+			"PNC_mathcards_esp_5_back.png","PNC_mathcards_esp_6_back.png","PNC_mathcards_esp_7_back.png",
+			"PNC_mathcards_esp_8_back.png","PNC_mathcards_esp_9_back.png","PNC_mathcards_esp_10_back.png",
+			"PNC_mathcards_esp_11_back.png","PNC_mathcards_esp_12_back.png","PNC_mathcards_esp_13_back.png",
+			"PNC_mathcards_esp_14_back.png","PNC_mathcards_esp_1_back.png","PNC_mathcards_esp_1_back.png",
+			"PNC_mathcards_esp_1_back.png","PNC_mathcards_esp_1_back.png","PNC_mathcards_esp_1_back.png",
+			"PNC_mathcards_esp_1_back.png","PNC_mathcards_esp_1_back.png"
+		],
 			
 		pages: [],
 		rears: [],
@@ -150,7 +170,6 @@
 			if (window.innerHeight > 400 && BEN.android) {
 				canvas.style.width = (window.innerWidth / 1) + 'px';
 				canvas.style.height = (window.innerHeight / 1)+ 'px';
-				//canvas.style.marginBottom = 50 + "px";
 			}
 			if (canvas.style.width === 962 + "px" && BEN.android) {
 				canvas.style.width = (window.innerWidth / 2.522) + 'px';
@@ -176,6 +195,13 @@
 			canvas.addEventListener("ontouchend", BEN.touchEnd);
 			canvas.addEventListener("ontouchmove", BEN.touchMove);
 			canvas.addEventListener("ontouchcancel", BEN.touchCancel);
+			
+			window.addEventListener('load', BEN.init, false);
+			window.addEventListener('BEN', BEN.resizeScreen, false);
+		},
+		initializeCards: function() {
+			
+			BEN.defineCardSpacing();
 		},
 		onMouseDown: function (event) {
 		
@@ -335,7 +361,7 @@
 			
 			for (var i = 0; i < arr.length; i++) {
 				var image = new Image();
-				image.addEventListener("load", onLoad, false);
+				image.addEventListener("load", BEN.onLoad, false);
 				image.src = assets + arr[i];
 				BEN.assetsToLoad.push(image);
 			}
@@ -344,10 +370,77 @@
 			
 			for (var i = 0; i < arr.length; i++) {
 				var image = new Image();
-				image.addEventListener("load", onLoad, false);
+				image.addEventListener("load", BEN.onLoad, false);
 				image.src = assets + arr[i];
 				BEN.assetsToLoad3.push(image);
 			}
+		},
+		createENRearPageImages: function(arr) {
+			
+			for (var i = 0; i < arr.length; i++) {
+				var image = new Image();
+				image.addEventListener("load", BEN.onLoad, false);
+				image.src = assets + arr[i];
+				BEN.assetsToLoad2.push(image);
+			}
+		},
+		createESRearPageImages: function(arr) {
+			
+			for (var i = 0; i < arr.length; i++) {
+				var image = new Image();
+				image.addEventListener("load", BEN.onLoad, false);
+				image.src = assets + arr[i];
+				BEN.assetsToLoad4.push(image);
+			}
+		},
+		checkCurrentState: function() {
+
+			if (!BEN.mainCalled) {
+				window.setTimeout(this.checkCurrentState,24);
+				context.clearRect(0,0,canvas.width,canvas.height);
+			
+				switch (BEN.currentState) {
+
+					case "loading":		//DRAW THE LOADING ICON
+				
+					if (BEN.android || BEN.ios) {
+						BEN.resizeScreen();
+						BEN.increment = BEN.assetsToLoad.length / 100;	
+						BEN.percentage = BEN.checkingLoads / 100;
+					
+						context.drawImage(loadingWhiteImage,loadingWhite.x,loadingWhite.y,loadingWhite.width,loadingWhite.height);
+				
+						context.drawImage(loadingColorImage,0,loadingColor.height - (loadingColor.height * BEN.percentage),
+							loadingColor.width, loadingColor.height * BEN.percentage,50, 449 - (loadingColor.height * BEN.percentage),
+							loadingColor.width,	loadingColor.height * BEN.percentage);
+					
+						if (BEN.percentage > .9) {
+							BEN.currentState = "play";
+						}
+					}
+				
+					if (!BEN.android && !BEN.ios) {
+						BEN.currentState = "play";
+					}
+					break;
+				
+					case "play":       //DRAW THE GREEN ARROW
+					main();
+					BEN.mainCalled = true;
+					break;
+				}
+			}
+		},
+		defineCardSpacing: function() {
+			
+			for (var j = 1; j < 23; j++) {
+
+				BEN.pages[j].x = BEN.pages[j - 1].x + 1470;
+			}	
+		},
+		onLoad: function() { 
+	
+			BEN.checkingLoads++;
 		}
 	};
 
@@ -356,11 +449,7 @@
 	BEN.android = BEN.ua.indexOf('android') > -1 ? true : false;
 	BEN.ios = ( BEN.ua.indexOf('iphone') > -1 || BEN.ua.indexOf('ipad') > -1  ) ? 
 		true : false;
-
-	window.addEventListener('load', BEN.init, false);
-	window.addEventListener('BEN', BEN.resizeScreen, false);
 	
-  
 	BEN.createHotSpotObjects(BEN.hotSpots,0,50,640,960);
 	BEN.createHotSpotObjects(BEN.hotSpots,30,738,280,200);
 	BEN.createHotSpotObjects(BEN.hotSpots,328,738,280,200);
@@ -430,7 +519,6 @@
 	var rightButtonImage = new Image();
 	rightButtonImage.src = assets + "MOTG_arrowright_default.png";
 
-
 	var leftButtonPressed = Object.create(BEN);
 	leftButtonPressed.x = 0;
 	leftButtonPressed.y = 853;
@@ -466,280 +554,30 @@
 
 	var loadingWhiteImage = new Image();
 	loadingWhiteImage.src = assets + "loading-white.png";
+	
+	var loadingImage = new Image();
+	loadingImage.src = assets + "loadingImage.png";
 
 	BEN.addCardsToArray(1,BEN.pages,0,0,640,960);
 	BEN.addCardsToArray(22,BEN.pages,1000,0,640,960);
 	BEN.addCardsToArray(1,BEN.rears,0,0,640,960);
 	BEN.addCardsToArray(22,BEN.rears,1000,0,640,960);
 	
-	var openingPageImage = new Image();
-	openingPageImage.src = assets + "PNC_mathcards_TITLE_front.png";
-	
-	var loadingImage = new Image();
-	loadingImage.src = assets + "loadingImage.png";
-
-	
 	BEN.createENPageImages(BEN.imageArrayFrontEnglish);
 	BEN.createESPageImages(BEN.imageArrayFrontSpanish);
+	BEN.createENRearPageImages(BEN.imageArrayRearEnglish);
+	BEN.createESRearPageImages(BEN.imageArrayRearSpanish);
 	
-
-	//
-	//RETRO OF CARDS (ENGLISH)
-	//
-
-	var rear1Image = new Image();
-	rear1Image.addEventListener("load", onLoad, false);
-	rear1Image.src = assets + "PNC_mathcards_instrux_front.png";
-	BEN.assetsToLoad2.push(rear1Image);
-
-	var rear2Image = new Image();
-	rear2Image.addEventListener("load", onLoad, false);
-	rear2Image.src =  assets +"PNC_mathcards_INSTRUX_back.png";
-	BEN.assetsToLoad2.push(rear2Image);
-
-	var rear3Image = new Image();
-	rear3Image.addEventListener("load", onLoad, false);
-	rear3Image.src = assets + "PNC_mathcards_1_back.png";
-	BEN.assetsToLoad2.push(rear3Image);
-
-	var rear4Image = new Image();
-	rear4Image.addEventListener("load", onLoad, false);
-	rear4Image.src = assets + "PNC_mathcards_2_back.png";
-	BEN.assetsToLoad2.push(rear4Image);
-
-	var rear5Image = new Image();
-	rear5Image.addEventListener("load", onLoad, false);
-	rear5Image.src = assets + "PNC_mathcards_3_back.png";
-	BEN.assetsToLoad2.push(rear5Image);
-
-	var rear6Image = new Image();
-	rear6Image.addEventListener("load", onLoad, false);
-	rear6Image.src = assets + "PNC_mathcards_4_back.png";
-	BEN.assetsToLoad2.push(rear6Image);
-
-	var rear7Image = new Image();
-	rear7Image.addEventListener("load", onLoad, false);
-	rear7Image.src = assets + "PNC_mathcards_5_back.png";
-	BEN.assetsToLoad2.push(rear7Image);
-
-	var rear8Image = new Image();
-	rear8Image.addEventListener("load", onLoad, false);
-	rear8Image.src = assets + "PNC_mathcards_6_back.png";
-	BEN.assetsToLoad2.push(rear8Image);
-
-	var rear9Image = new Image();
-	rear9Image.addEventListener("load", onLoad, false);
-	rear9Image.src = assets + "PNC_mathcards_7_back.png";
-	BEN.assetsToLoad2.push(rear9Image);
-
-	var rear10Image = new Image();
-	rear10Image.addEventListener("load", onLoad, false);
-	rear10Image.src = assets + "PNC_mathcards_8_back.png";
-	BEN.assetsToLoad2.push(rear10Image);
-
-	var rear11Image = new Image();
-	rear11Image.addEventListener("load", onLoad, false);
-	rear11Image.src = assets + "PNC_mathcards_9_back.png";
-	BEN.assetsToLoad2.push(rear11Image);
-
-	var rear12Image = new Image();
-	rear12Image.addEventListener("load", onLoad, false);
-	rear12Image.src = assets + "PNC_mathcards_10_back.png";
-	BEN.assetsToLoad2.push(rear12Image);
-
-	var rear13Image = new Image();
-	rear13Image.addEventListener("load", onLoad, false);
-	rear13Image.src = assets + "PNC_mathcards_11_back.png";
-	BEN.assetsToLoad2.push(rear13Image);
-
-	var rear14Image = new Image();
-	rear14Image.addEventListener("load", onLoad, false);
-	rear14Image.src = assets + "PNC_mathcards_12_back.png";
-	BEN.assetsToLoad2.push(rear14Image);
-
-	var rear15Image = new Image();
-	rear15Image.addEventListener("load", onLoad, false);
-	rear15Image.src = assets + "PNC_mathcards_13_back.png";
-	BEN.assetsToLoad2.push(rear15Image);
-
-	var rear16Image = new Image();
-	rear16Image.addEventListener("load", onLoad, false);
-	rear16Image.src = assets + "PNC_mathcards_14_back.png";
-	BEN.assetsToLoad2.push(rear16Image);
-
-	var rear17Image = new Image();
-	rear17Image.addEventListener("load", onLoad, false);
-	rear17Image.src = assets + "PNC_mathcards_1_back.png";
-	BEN.assetsToLoad2.push(rear17Image);
-
-	var rear18Image = new Image();
-	rear18Image.addEventListener("load", onLoad, false);
-	rear18Image.src = assets + "PNC_mathcards_1_back.png";
-	BEN.assetsToLoad2.push(rear18Image);
-
-	var rear19Image = new Image();
-	rear19Image.addEventListener("load", onLoad, false);
-	rear19Image.src = assets + "PNC_mathcards_1_back.png";
-	BEN.assetsToLoad2.push(rear19Image);
-
-	var rear20Image = new Image();
-	rear20Image.addEventListener("load", onLoad, false);
-	rear20Image.src = assets + "PNC_mathcards_1_back.png";
-	BEN.assetsToLoad2.push(rear20Image);
-
-	var rear21Image = new Image();
-	rear21Image.addEventListener("load", onLoad, false);
-	rear21Image.src = assets + "PNC_mathcards_1_back.png";
-	BEN.assetsToLoad2.push(rear21Image);
-
-	var rear22Image = new Image();
-	rear22Image.addEventListener("load", onLoad, false);
-	rear22Image.src = assets + "PNC_mathcards_1_back.png";
-	BEN.assetsToLoad2.push(rear22Image);
-
-	var rear23Image = new Image();
-	rear23Image.addEventListener("load", onLoad, false);
-	rear23Image.src = assets + "PNC_mathcards_1_back.png";
-	BEN.assetsToLoad2.push(rear23Image);
-
-	//
-	//RETRO OF CARDS (SPANISH)
-	//
-
-	var rear1Image = new Image();
-	rear1Image.addEventListener("load", onLoad, false);
-	rear1Image.src = assets + "PNC_mathcards_esp_instrux_front.png";
-	BEN.assetsToLoad4.push(rear1Image);
-
-	var rear2Image = new Image();
-	rear2Image.addEventListener("load", onLoad, false);
-	rear2Image.src = assets + "PNC_mathcards_esp_instrux_back.png";
-	BEN.assetsToLoad4.push(rear2Image);
-
-	var rear3Image = new Image();
-	rear3Image.addEventListener("load", onLoad, false);
-	rear3Image.src = assets + "PNC_mathcards_esp_1_back.png";
-	BEN.assetsToLoad4.push(rear3Image);
-
-	var rear4Image = new Image();
-	rear4Image.addEventListener("load", onLoad, false);
-	rear4Image.src = assets + "PNC_mathcards_esp_2_back.png";
-	BEN.assetsToLoad4.push(rear4Image);
-
-	var rear5Image = new Image();
-	rear5Image.addEventListener("load", onLoad, false);
-	rear5Image.src = assets + "PNC_mathcards_esp_3_back.png";
-	BEN.assetsToLoad4.push(rear5Image);
-
-	var rear6Image = new Image();
-	rear6Image.addEventListener("load", onLoad, false);
-	rear6Image.src = assets + "PNC_mathcards_esp_4_back.png";
-	BEN.assetsToLoad4.push(rear6Image);
-
-	var rear7Image = new Image();
-	rear7Image.addEventListener("load", onLoad, false);
-	rear7Image.src = assets + "PNC_mathcards_esp_5_back.png";
-	BEN.assetsToLoad4.push(rear7Image);
-
-	var rear8Image = new Image();
-	rear8Image.addEventListener("load", onLoad, false);
-	rear8Image.src = assets + "PNC_mathcards_esp_6_back.png";
-	BEN.assetsToLoad4.push(rear8Image);
-
-	var rear9Image = new Image();
-	rear9Image.addEventListener("load", onLoad, false);
-	rear9Image.src = assets + "PNC_mathcards_esp_7_back.png";
-	BEN.assetsToLoad4.push(rear9Image);
-
-	var rear10Image = new Image();
-	rear10Image.addEventListener("load", onLoad, false);
-	rear10Image.src = assets + "PNC_mathcards_esp_8_back.png";
-	BEN.assetsToLoad4.push(rear10Image);
-
-	var rear11Image = new Image();
-	rear11Image.addEventListener("load", onLoad, false);
-	rear11Image.src = assets + "PNC_mathcards_esp_9_back.png";
-	BEN.assetsToLoad4.push(rear11Image);
-
-	var rear12Image = new Image();
-	rear12Image.addEventListener("load", onLoad, false);
-	rear12Image.src = assets + "PNC_mathcards_esp_10_back.png";
-	BEN.assetsToLoad4.push(rear12Image);
-
-	var rear13Image = new Image();
-	rear13Image.addEventListener("load", onLoad, false);
-	rear13Image.src = assets + "PNC_mathcards_esp_11_back.png";
-	BEN.assetsToLoad4.push(rear13Image);
-
-	var rear14Image = new Image();
-	rear14Image.addEventListener("load", onLoad, false);
-	rear14Image.src = assets + "PNC_mathcards_esp_12_back.png";
-	BEN.assetsToLoad4.push(rear14Image);
-
-	var rear15Image = new Image();
-	rear15Image.addEventListener("load", onLoad, false);
-	rear15Image.src = assets + "PNC_mathcards_esp_13_back.png";
-	BEN.assetsToLoad4.push(rear15Image);
-
-	var rear16Image = new Image();
-	rear16Image.addEventListener("load", onLoad, false);
-	rear16Image.src = assets + "PNC_mathcards_esp_14_back.png";
-	BEN.assetsToLoad4.push(rear16Image);
-
-	var rear17Image = new Image();
-	rear17Image.addEventListener("load", onLoad, false);
-	rear17Image.src = assets + "PNC_mathcards_esp_1_back.png";
-	BEN.assetsToLoad4.push(rear17Image);
-
-	var rear18Image = new Image();
-	rear18Image.addEventListener("load", onLoad, false);
-	rear18Image.src = assets + "PNC_mathcards_esp_1_back.png";
-	BEN.assetsToLoad4.push(rear18Image);
-
-	var rear19Image = new Image();
-	rear19Image.addEventListener("load", onLoad, false);
-	rear19Image.src = assets + "PNC_mathcards_esp_1_back.png";
-	BEN.assetsToLoad4.push(rear19Image);
-
-	var rear20Image = new Image();
-	rear20Image.addEventListener("load", onLoad, false);
-	rear20Image.src = assets + "PNC_mathcards_esp_1_back.png";
-	BEN.assetsToLoad4.push(rear20Image);
-
-	var rear21Image = new Image();
-	rear21Image.addEventListener("load", onLoad, false);
-	rear21Image.src = assets + "PNC_mathcards_esp_1_back.png";
-	BEN.assetsToLoad4.push(rear21Image);
-
-	var rear22Image = new Image();
-	rear22Image.addEventListener("load", onLoad, false);
-	rear22Image.src = assets + "PNC_mathcards_esp_1_back.png";
-	BEN.assetsToLoad4.push(rear22Image);
-
-	var rear23Image = new Image();
-	rear23Image.addEventListener("load", onLoad, false);
-	rear23Image.src = assets + "PNC_mathcards_esp_1_back.png";
-	BEN.assetsToLoad4.push(rear23Image);
-
-
-	function onLoad() { 
-	
-		BEN.checkingLoads++;
-	}
-
-	
-	checkCurrentState();
-
-	for (var j = 1; j < 23; j++) {
-
-		BEN.pages[j].x = BEN.pages[j - 1].x + 1470;
-	}	
+	BEN.checkCurrentState();
+	BEN.initializeCards();
+	BEN.init();
+	BEN.prepareListeners();
 
 	function main() {
 
-		BEN.init();
+		
 		BEN.resizeScreen();
-		BEN.prepareListeners();
+		
 	
 		requestAnimationFrame(main,canvas);
 		context.clearRect(0,0,canvas.width,canvas.height);
@@ -1204,42 +1042,5 @@
 		}
 	}
 
-	function checkCurrentState() {
 
-		if (!BEN.mainCalled) {
-			window.setTimeout(checkCurrentState,24);
-			context.clearRect(0,0,canvas.width,canvas.height);
-		
-			switch (BEN.currentState) {
-
-				case "loading":		//DRAW THE LOADING ICON
-			
-				if (BEN.android || BEN.ios) {
-					BEN.resizeScreen();
-					BEN.increment = BEN.assetsToLoad.length / 100;	
-					BEN.percentage = BEN.checkingLoads / 100;
-				
-					context.drawImage(loadingWhiteImage,loadingWhite.x,loadingWhite.y,loadingWhite.width,loadingWhite.height);
-			
-					context.drawImage(loadingColorImage,0,loadingColor.height - (loadingColor.height * BEN.percentage),
-						loadingColor.width, loadingColor.height * BEN.percentage,50, 449 - (loadingColor.height * BEN.percentage),
-						loadingColor.width,	loadingColor.height * BEN.percentage);
-				
-					if (BEN.percentage > .9) {
-						BEN.currentState = "play";
-					}
-				}
-			
-				if (!BEN.android && !BEN.ios) {
-					BEN.currentState = "play";
-				}
-				break;
-			
-				case "play":       //DRAW THE GREEN ARROW
-				main();
-				BEN.mainCalled = true;
-				break;
-			}
-		}
-	}
 })();
