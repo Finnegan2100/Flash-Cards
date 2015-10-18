@@ -288,6 +288,17 @@
 				BEN.moveRight = true;
 				BEN.moveLeft = false;
 			}
+		},
+		addCardsToArray: function (num, destArr, x , y, w, h) {
+		
+			for (var i = 0; i < num; i++) {
+				var card = Object.create(BEN);
+				card.x = x;
+				card.y = y;
+				card.width = w;
+				card.height = h;
+				destArr.push(card);
+			}
 		}	
 	};
 
@@ -437,169 +448,14 @@
 	var loadingWhiteImage = new Image();
 	loadingWhiteImage.src = assets + "loading-white.png";
 
-
-	var page1 = Object.create(BEN);
-	page1.x = 0;
-	page1.y = 0;
-	page1.width = 640;
-	page1.height = 960;
-	BEN.pages.push(page1);
-
+	BEN.addCardsToArray(1,BEN.pages,0,0,640,960);
+	BEN.addCardsToArray(22,BEN.pages,1000,0,640,960);
+	BEN.addCardsToArray(1,BEN.rears,0,0,640,960);
+	BEN.addCardsToArray(22,BEN.rears,1000,0,640,960);
+	
 	var openingPageImage = new Image();
 	openingPageImage.src = assets + "PNC_mathcards_TITLE_front.png";
-
-
-
-	var page2 = Object.create(page1);
-	page2.x = 1000;
-	page2.y = 0;
-	page2.width = 640;
-	page2.height = 960;
-	BEN.pages.push(page2);
-
-	var page3 = Object.create(page2);
-	BEN.pages.push(page3);
-
-	var page4 = Object.create(page2);
-	BEN.pages.push(page4);
-
-	var page5 = Object.create(page2);
-	BEN.pages.push(page5);
-
-	var page6 = Object.create(page2);
-	BEN.pages.push(page6);
-
-	var page7 = Object.create(page2);
-	BEN.pages.push(page7);
-
-	var page8 = Object.create(page2);
-	BEN.pages.push(page8);
-
-	var page9 = Object.create(page2);
-	BEN.pages.push(page9);
-
-	var page10 = Object.create(page2);
-	BEN.pages.push(page10);
-
-	var page11 = Object.create(page2);
-	BEN.pages.push(page11);
-
-	var page12 = Object.create(page2);
-	BEN.pages.push(page12);
-
-	var page13 = Object.create(page2);
-	BEN.pages.push(page13);
-
-	var page14 = Object.create(page2);
-	BEN.pages.push(page14);
-
-	var page15 = Object.create(page2);
-	BEN.pages.push(page15);
-
-	var page16 = Object.create(page2);
-	BEN.pages.push(page16);
-
-	var page17 = Object.create(page2);
-	BEN.pages.push(page17);
-
-	var page18 = Object.create(page2);
-	BEN.pages.push(page18);
-
-	var page19 = Object.create(page2);
-	BEN.pages.push(page19);
-
-	var page20 = Object.create(page2);
-	BEN.pages.push(page20);
-
-	var page21 = Object.create(page2);
-	BEN.pages.push(page21);
-
-	var page22 = Object.create(page2);
-	BEN.pages.push(page22);
-
-	var page23 = Object.create(page2);
-	BEN.pages.push(page23);
-
-
-	//THE RETRO SIDES OF EACH CARD
-
-	var rear1 = Object.create(BEN);
-	rear1.x = 0;
-	rear1.y = 5;
-	rear1.width = 320;
-	rear1.height = 480;
-	BEN.rears.push(rear1);
-
-	var rear2 = Object.create(page1);
-	rear2.x = 1000;
-	rear2.y = 5;
-	rear2.width = 320;
-	rear2.height = 480;
-	BEN.rears.push(rear2);
-
-	var rear3 = Object.create(rear2);
-	BEN.rears.push(rear3);
-
-	var rear4 = Object.create(rear2);
-	BEN.rears.push(rear4);
-
-	var rear5 = Object.create(rear2);
-	BEN.rears.push(rear5);
-
-	var rear6 = Object.create(rear2);
-	BEN.rears.push(rear6);
-
-	var rear7 = Object.create(rear2);
-	BEN.rears.push(rear7);
-
-	var rear8 = Object.create(rear2);
-	BEN.rears.push(rear8);
-
-	var rear9 = Object.create(rear2);
-	BEN.rears.push(rear9);
-
-	var rear10 = Object.create(rear2);
-	BEN.rears.push(rear10);
-
-	var rear11 = Object.create(rear2);
-	BEN.rears.push(rear11);
-
-	var rear12 = Object.create(rear2);
-	BEN.rears.push(rear12);
-
-	var rear13 = Object.create(rear2);
-	BEN.rears.push(rear13);
-
-	var rear14 = Object.create(rear2);
-	BEN.rears.push(rear14);
-
-	var rear15 = Object.create(rear2);
-	BEN.rears.push(rear15);
-
-	var rear16 = Object.create(rear2);
-	BEN.rears.push(rear16);
-
-	var rear17 = Object.create(rear2);
-	BEN.rears.push(rear17);
-
-	var rear18 = Object.create(rear2);
-	BEN.rears.push(rear18);
-
-	var rear19 = Object.create(rear2);
-	BEN.rears.push(rear19);
-
-	var rear20 = Object.create(rear2);
-	BEN.rears.push(rear20);
-
-	var rear21 = Object.create(rear2);
-	BEN.rears.push(rear21);
-
-	var rear22 = Object.create(rear2);
-	BEN.rears.push(rear22);
-
-	var rear23 = Object.create(rear2);
-	BEN.rears.push(rear23);
-
+	
 	var loadingImage = new Image();
 	loadingImage.src = assets + "loadingImage.png";
 
@@ -1087,7 +943,6 @@
 	}
 
 	
-	
 	checkCurrentState();
 
 	for (var j = 1; j < 23; j++) {
@@ -1189,11 +1044,11 @@
 			} 
 		}
 		
-		if (page1.x > 0) {
-			page1.x = 0;
+		if (BEN.pages[0].x > 0) {
+			BEN.pages[0].x = 0;
 		}
-		if (page16.x < 0) {
-			page16.x = 0;
+		if (BEN.pages[15].x < 0) {
+			BEN.pages[15].x = 0;
 		}
 		
 		//DRAWING THE IMAGES ONTO THE PAGE
@@ -1203,7 +1058,7 @@
 			if (BEN.currentSide === 0) {
 		
 				if (!BEN.englishOn && !BEN.spanishOn) {
-					context.drawImage(page1Image,page1.x,page1.y,page1.width,page1.height);
+					context.drawImage(page1Image,BEN.pages[0].x,BEN.pages[0].y,BEN.pages[0].width,BEN.pages[0].height);
 				}
 				if (BEN.englishOn) {
 					context.drawImage(BEN.assetsToLoad[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
@@ -1281,8 +1136,8 @@
 			context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
 		}
 
-		if (page2.x === 0) {
-			page1.x = -1470;
+		if (BEN.pages[1].x === 0) {
+			BEN.pages[0].x = -1470;
 		}
 	  
 		
