@@ -4,7 +4,6 @@
 	var canvas = document.getElementById("canvas"),
 		context = canvas.getContext("2d");
 		
-	
 	var BEN = {
 
 		assetsToLoad: [],
@@ -26,11 +25,33 @@
 		 
 		currentPage: -1,
 		currentSide: 0,
-		currentState: "loading",    
+		currentState: "loading", 
 		
+		imageArrayFrontEnglish: [
+			"PNC_mathcards_TITLE_front.png","PNC_mathcards_instrux_front.png", "PNC_mathcards_1_front.png",
+			"PNC_mathcards_2_front.png","PNC_mathcards_3_front.png","PNC_mathcards_4_front.png",
+			"PNC_mathcards_5_front.png","PNC_mathcards_6_front.png","PNC_mathcards_7_front.png",
+			"PNC_mathcards_8_front.png","PNC_mathcards_9_front.png","PNC_mathcards_10_front.png",
+			"PNC_mathcards_11_front.png","PNC_mathcards_12_front.png","PNC_mathcards_13_front.png",
+			"PNC_mathcards_14_front.png","PNC_mathcards_1_front.png","PNC_mathcards_1_front.png",
+			"PNC_mathcards_1_front.png","PNC_mathcards_1_front.png","PNC_mathcards_1_front.png",
+			"PNC_mathcards_1_front.png","PNC_mathcards_1_front.png"
+		],
+		imageArrayFrontSpanish: [
+			"PNC_mathcards_esp_title.png","PNC_mathcards_esp_instrux_front.png", "PNC_mathcards_esp_1_front.png",
+			"PNC_mathcards_esp_2_front.png","PNC_mathcards_esp_3_front.png","PNC_mathcards_esp_4_front.png",
+			"PNC_mathcards_esp_5_front.png","PNC_mathcards_esp_6_front.png","PNC_mathcards_esp_7_front.png",
+			"PNC_mathcards_esp_8_front.png","PNC_mathcards_esp_9_front.png","PNC_mathcards_esp_10_front.png",
+			"PNC_mathcards_esp_11_front.png","PNC_mathcards_esp_12_front.png","PNC_mathcards_esp_13_front.png",
+			"PNC_mathcards_esp_14_front.png","PNC_mathcards_esp_1_front.png","PNC_mathcards_esp_1_front.png",
+			"PNC_mathcards_esp_1_front.png","PNC_mathcards_esp_1_front.png","PNC_mathcards_esp_1_front.png",
+			"PNC_mathcards_esp_1_front.png","PNC_mathcards_esp_1_front.png"
+		],
+			
 		pages: [],
 		rears: [],
 		hotSpots: [],
+		pageImages: [],
 		
 		moveLeft: false,
 		moveRight: false,
@@ -127,12 +148,12 @@
 			canvas.style.height = BEN.currentHeight + 'px';
 			
 			if (window.innerHeight > 400 && BEN.android) {
-			canvas.style.width = (window.innerWidth / 1) + 'px';
-			canvas.style.height = (window.innerHeight / 1)+ 'px';
-			//canvas.style.marginBottom = 50 + "px";
+				canvas.style.width = (window.innerWidth / 1) + 'px';
+				canvas.style.height = (window.innerHeight / 1)+ 'px';
+				//canvas.style.marginBottom = 50 + "px";
 			}
 			if (canvas.style.width === 962 + "px" && BEN.android) {
-			canvas.style.width = (window.innerWidth / 2.522) + 'px';
+				canvas.style.width = (window.innerWidth / 2.522) + 'px';
 			}
 			
 			BEN.scale = BEN.currentWidth / BEN.WIDTH;
@@ -309,7 +330,25 @@
 				hotSpot.width = w;
 				hotSpot.height = h;
 				targetArr.push(hotSpot);
-		}	
+		},
+		createENPageImages: function(arr) {
+			
+			for (var i = 0; i < arr.length; i++) {
+				var image = new Image();
+				image.addEventListener("load", onLoad, false);
+				image.src = assets + arr[i];
+				BEN.assetsToLoad.push(image);
+			}
+		},
+		createESPageImages: function(arr) {
+			
+			for (var i = 0; i < arr.length; i++) {
+				var image = new Image();
+				image.addEventListener("load", onLoad, false);
+				image.src = assets + arr[i];
+				BEN.assetsToLoad3.push(image);
+			}
+		}
 	};
 
 
@@ -439,244 +478,10 @@
 	var loadingImage = new Image();
 	loadingImage.src = assets + "loadingImage.png";
 
-	//
-	//ENGLISH CARDS (FRONT)
-	//
-
-	var page1Image = new Image();
-	page1Image.addEventListener("load", onLoad, false);
-	page1Image.src = assets + "PNC_mathcards_TITLE_front.png";
-	BEN.assetsToLoad.push(page1Image);
-
-	var page2Image = new Image();
-	page2Image.addEventListener("load", onLoad, false);
-	page2Image.src = assets + "PNC_mathcards_instrux_front.png";
-	BEN.assetsToLoad.push(page2Image);
-
-	var page3Image = new Image();
-	page3Image.addEventListener("load", onLoad, false);
-	page3Image.src = assets + "PNC_mathcards_1_front.png";
-	BEN.assetsToLoad.push(page3Image);
-
-	var page4Image = new Image();
-	page4Image.addEventListener("load", onLoad, false);
-	page4Image.src = assets + "PNC_mathcards_2_front.png";
-	BEN.assetsToLoad.push(page4Image);
-
-	var page5Image = new Image();
-	page5Image.addEventListener("load", onLoad, false);
-	page5Image.src = assets + "PNC_mathcards_3_front.png";
-	BEN.assetsToLoad.push(page5Image);
-
-	var page6Image = new Image();
-	page6Image.addEventListener("load", onLoad, false);
-	page6Image.src = assets + "PNC_mathcards_4_front.png";
-	BEN.assetsToLoad.push(page6Image);
-
-	var page7Image = new Image();
-	page7Image.addEventListener("load", onLoad, false);
-	page7Image.src = assets + "PNC_mathcards_5_front.png";
-	BEN.assetsToLoad.push(page7Image);
-
-	var page8Image = new Image();
-	page8Image.addEventListener("load", onLoad, false);
-	page8Image.src = assets + "PNC_mathcards_6_front.png";
-	BEN.assetsToLoad.push(page8Image);
-
-	var page9Image = new Image();
-	page9Image.addEventListener("load", onLoad, false);
-	page9Image.src = assets + "PNC_mathcards_7_front.png";
-	BEN.assetsToLoad.push(page9Image);
-
-	var page10Image = new Image();
-	page10Image.addEventListener("load", onLoad, false);
-	page10Image.src = assets + "PNC_mathcards_8_front.png";
-	BEN.assetsToLoad.push(page10Image);
-
-	var page11Image = new Image();
-	page11Image.addEventListener("load", onLoad, false);
-	page11Image.src = assets + "PNC_mathcards_9_front.png";
-	BEN.assetsToLoad.push(page11Image);
-
-	var page12Image = new Image();
-	page12Image.addEventListener("load", onLoad, false);
-	page12Image.src = assets + "PNC_mathcards_10_front.png";
-	BEN.assetsToLoad.push(page12Image);
-
-	var page13Image = new Image();
-	page13Image.addEventListener("load", onLoad, false);
-	page13Image.src = assets + "PNC_mathcards_11_front.png";
-	BEN.assetsToLoad.push(page13Image);
-
-	var page14Image = new Image();
-	page14Image.addEventListener("load", onLoad, false);
-	page14Image.src = assets + "PNC_mathcards_12_front.png";
-	BEN.assetsToLoad.push(page14Image);
-
-	var page15Image = new Image();
-	page15Image.addEventListener("load", onLoad, false);
-	page15Image.src = assets + "PNC_mathcards_13_front.png";
-	BEN.assetsToLoad.push(page15Image);
-
-	var page16Image = new Image();
-	page16Image.addEventListener("load", onLoad, false);
-	page16Image.src = assets + "PNC_mathcards_14_front.png";
-	BEN.assetsToLoad.push(page16Image);
-
-	var page17Image = new Image();
-	page17Image.addEventListener("load", onLoad, false);
-	page17Image.src = assets + "PNC_mathcards_1_front.png";
-	BEN.assetsToLoad.push(page17Image);
-
-	var page18Image = new Image();
-	page18Image.addEventListener("load", onLoad, false);
-	page18Image.src = assets + "PNC_mathcards_1_front.png";
-	BEN.assetsToLoad.push(page18Image);
-
-	var page19Image = new Image();
-	page19Image.addEventListener("load", onLoad, false);
-	page19Image.src = assets + "PNC_mathcards_1_front.png";
-	BEN.assetsToLoad.push(page19Image);
-
-	var page20Image = new Image();
-	page20Image.addEventListener("load", onLoad, false);
-	page20Image.src = assets + "PNC_mathcards_1_front.png";
-	BEN.assetsToLoad.push(page20Image);
-
-	var page21Image = new Image();
-	page21Image.addEventListener("load", onLoad, false);
-	page21Image.src = assets + "PNC_mathcards_1_front.png";
-	BEN.assetsToLoad.push(page21Image);
-
-	var page22Image = new Image();
-	page22Image.addEventListener("load", onLoad, false);
-	page22Image.src = assets + "PNC_mathcards_1_front.png";
-	BEN.assetsToLoad.push(page22Image);
-
-	var page23Image = new Image();
-	page23Image.addEventListener("load", onLoad, false);
-	page23Image.src = assets + "PNC_mathcards_1_front.png";
-	BEN.assetsToLoad.push(page23Image);
-
-	//
-	//SPANISH CARDS (FRONT)
-	//
-
-	var page1ImageES = new Image();
-	page1ImageES.addEventListener("load", onLoad, false);
-	page1ImageES.src = assets + "PNC_mathcards_esp_title.png";
-	BEN.assetsToLoad3.push(page1ImageES);
-
-	var page2ImageES = new Image();
-	page2ImageES.addEventListener("load", onLoad, false);
-	page2ImageES.src = assets + "PNC_mathcards_esp_instrux_front.png";
-	BEN.assetsToLoad3.push(page2ImageES);
-
-	var page3ImageES = new Image();
-	page3ImageES.addEventListener("load", onLoad, false);
-	page3ImageES.src = assets + "PNC_mathcards_esp_1_front.png";
-	BEN.assetsToLoad3.push(page3ImageES);
-
-	var page4ImageES = new Image();
-	page4ImageES.addEventListener("load", onLoad, false);
-	page4ImageES.src = assets + "PNC_mathcards_esp_2_front.png";
-	BEN.assetsToLoad3.push(page4ImageES);
-
-	var page5ImageES = new Image();
-	page5ImageES.addEventListener("load", onLoad, false);
-	page5ImageES.src = assets + "PNC_mathcards_esp_3_front.png";
-	BEN.assetsToLoad3.push(page5ImageES);
-
-	var page6ImageES = new Image();
-	page6ImageES.addEventListener("load", onLoad, false);
-	page6ImageES.src = assets + "PNC_mathcards_esp_4_front.png";
-	BEN.assetsToLoad3.push(page6ImageES);
-
-	var page7ImageES = new Image();
-	page7ImageES.addEventListener("load", onLoad, false);
-	page7ImageES.src = assets + "PNC_mathcards_esp_5_front.png";
-	BEN.assetsToLoad3.push(page7ImageES);
-
-	var page8ImageES = new Image();
-	page8ImageES.addEventListener("load", onLoad, false);
-	page8ImageES.src = assets + "PNC_mathcards_esp_6_front.png";
-	BEN.assetsToLoad3.push(page8ImageES);
-
-	var page9ImageES = new Image();
-	page9ImageES.addEventListener("load", onLoad, false);
-	page9ImageES.src = assets + "PNC_mathcards_esp_7_front.png";
-	BEN.assetsToLoad3.push(page9ImageES);
-
-	var page10ImageES = new Image();
-	page10ImageES.addEventListener("load", onLoad, false);
-	page10ImageES.src = assets + "PNC_mathcards_esp_8_front.png";
-	BEN.assetsToLoad3.push(page10ImageES);
-
-	var page11ImageES = new Image();
-	page11ImageES.addEventListener("load", onLoad, false);
-	page11ImageES.src = assets + "PNC_mathcards_esp_9_front.png";
-	BEN.assetsToLoad3.push(page11ImageES);
-
-	var page12ImageES = new Image();
-	page12ImageES.addEventListener("load", onLoad, false);
-	page12ImageES.src = assets + "PNC_mathcards_esp_10_front.png";
-	BEN.assetsToLoad3.push(page12ImageES);
-
-	var page13ImageES = new Image();
-	page13ImageES.addEventListener("load", onLoad, false);
-	page13ImageES.src = assets + "PNC_mathcards_esp_11_front.png";
-	BEN.assetsToLoad3.push(page13ImageES);
-
-	var page14ImageES = new Image();
-	page14ImageES.addEventListener("load", onLoad, false);
-	page14ImageES.src = assets + "PNC_mathcards_esp_12_front.png";
-	BEN.assetsToLoad3.push(page14ImageES);
-
-	var page15ImageES = new Image();
-	page15ImageES.addEventListener("load", onLoad, false);
-	page15ImageES.src = assets + "PNC_mathcards_esp_13_front.png";
-	BEN.assetsToLoad3.push(page15ImageES);
-
-	var page16ImageES = new Image();
-	page16ImageES.addEventListener("load", onLoad, false);
-	page16ImageES.src = assets + "PNC_mathcards_esp_14_front.png";
-	BEN.assetsToLoad3.push(page16ImageES);
-
-	var page17ImageES = new Image();
-	page17ImageES.addEventListener("load", onLoad, false);
-	page17ImageES.src = assets + "PNC_mathcards_esp_1_front.png";
-	BEN.assetsToLoad3.push(page17ImageES);
-
-	var page18ImageES = new Image();
-	page18ImageES.addEventListener("load", onLoad, false);
-	page18ImageES.src = assets + "PNC_mathcards_esp_1_front.png";
-	BEN.assetsToLoad3.push(page18ImageES);
-
-	var page19ImageES = new Image();
-	page19ImageES.addEventListener("load", onLoad, false);
-	page19ImageES.src = assets + "PNC_mathcards_esp_1_front.png";
-	BEN.assetsToLoad3.push(page19ImageES);
-
-	var page20ImageES = new Image();
-	page20ImageES.addEventListener("load", onLoad, false);
-	page20ImageES.src = assets + "PNC_mathcards_esp_1_front.png";
-	BEN.assetsToLoad3.push(page20ImageES);
-
-	var page21ImageES = new Image();
-	page21ImageES.addEventListener("load", onLoad, false);
-	page21ImageES.src = assets + "PNC_mathcards_esp_1_front.png";
-	BEN.assetsToLoad3.push(page21ImageES);
-
-	var page22ImageES = new Image();
-	page22ImageES.addEventListener("load", onLoad, false);
-	page22ImageES.src = assets + "PNC_mathcards_esp_1_front.png";
-	BEN.assetsToLoad3.push(page22ImageES);
-
-	var page23ImageES = new Image();
-	page23ImageES.addEventListener("load", onLoad, false);
-	page23ImageES.src = assets + "PNC_mathcards_esp_1_front.png";
-	BEN.assetsToLoad3.push(page23ImageES);
-
+	
+	BEN.createENPageImages(BEN.imageArrayFrontEnglish);
+	BEN.createESPageImages(BEN.imageArrayFrontSpanish);
+	
 
 	//
 	//RETRO OF CARDS (ENGLISH)
@@ -1038,7 +843,7 @@
 			if (BEN.currentSide === 0) {
 		
 				if (!BEN.englishOn && !BEN.spanishOn) {
-					context.drawImage(page1Image,BEN.pages[0].x,BEN.pages[0].y,BEN.pages[0].width,BEN.pages[0].height);
+					context.drawImage(BEN.assetsToLoad[0],BEN.pages[0].x,BEN.pages[0].y,BEN.pages[0].width,BEN.pages[0].height);
 				}
 				if (BEN.englishOn) {
 					context.drawImage(BEN.assetsToLoad[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
