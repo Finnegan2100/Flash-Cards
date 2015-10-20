@@ -67,7 +67,12 @@
             "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
             "placeholderRear.png", "placeholderRear.png" 
 		],
-			
+		imageArrayButtons: [
+			"PNC_mathcards_Xbtn.png", "MOTG_englishbtn_pressed.png", "MOTG_spanishbtn_pressed.png", 
+			"MOTG_spanishbtn_pressed1.png", "MOTG_arrowleft_default.png", "MOTG_arrowright_default.png", 
+			"MOTG_arrowleft_pressed.png", "MOTG_arrowright_pressed.png", "loading-color.png", "loading-white.png"
+		],
+		
 		pages: [],
 		rears: [],
 		hotSpots: [],
@@ -152,9 +157,6 @@
 			canvas.width = BEN.WIDTH;
 			canvas.height = BEN.HEIGHT;
 		},
-
-		//METHOD FOR DYNAMICALLY RESIZING THE SCREEN
-
 		resizeScreen: function() {
 
 			BEN.currentHeight = window.innerHeight;
@@ -470,7 +472,7 @@
 	xBtn.y = 10;
 	xBtn.width = 50;
 	xBtn.height = 50;
-
+	
 	var xBtnImage = new Image();
 	xBtnImage.src = assets + "PNC_mathcards_Xbtn.png";
 
@@ -579,39 +581,6 @@
 			
 		requestAnimationFrame(main,canvas);
 		context.clearRect(0,0,canvas.width,canvas.height);
-
-		//COLLISION DETECTION FOR ENGLISH WITH TOUCH
-
-		if (BEN.tapY > 500 && BEN.tapX <= 320 && BEN.currentPage === -1 && BEN.swipeLength === 0) {
-			
-			if (BEN.touchDown && BEN.pages[0].x === 0) {
-				context.drawImage(englishPressedImage,englishPressed.x,englishPressed.y,englishPressed.width,englishPressed.height);
-			}
-			
-			if (BEN.touchUp && !BEN.moveLeft && !BEN.moveRight) {
-				BEN.englishChosen = true;
-				BEN.englishOn = true;
-				BEN.spanishOn = false;
-				BEN.moveLeft = true;
-			}	 
-		}
-	  
-	 	//COLLISION DETECTION FOR SPANISH WITH TOUCH
-
-		if (BEN.tapY > 800 && BEN.tapX > 320 && BEN.currentPage === -1 && BEN.swipeLength === 0) {
-	 
-			if (BEN.touchDown && BEN.pages[0].x === 0) {
-				context.drawImage(spanishPressedImage,spanishPressed.x,spanishPressed.y,spanishPressed.width,spanishPressed.height);
-			}
-			if (BEN.touchUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {
-				BEN.spanishChosen = true;
-				BEN.spanishOn = true;
-				BEN.englishOn = false;
-				BEN.moveLeft = true;
-			}
-		}
-
-		//MOVING PAGES LEFT
 		
 		function movePagesLeft() {
 			
@@ -669,18 +638,24 @@
 			} 
 		}
 		
+		
+		
 		for (var i = 0; i < BEN.pages.length; i++) { 
 		
 				movePagesLeft();
 				movePagesRight();
 				keepPagesAligned();	
+				enforcePageBoundaries();
 		}
 		
-		if (BEN.pages[0].x > 0) {
-			BEN.pages[0].x = 0;
-		}
-		if (BEN.pages[15].x < 0) {
-			BEN.pages[15].x = 0;
+		function enforcePageBoundaries() {
+		
+			if (BEN.pages[0].x > 0) {
+				BEN.pages[0].x = 0;
+			}
+			if (BEN.pages[15].x < 0) {
+				BEN.pages[15].x = 0;
+			}
 		}
 		
 		//DRAWING THE IMAGES ONTO THE PAGE
@@ -803,7 +778,7 @@
 				BEN.moveLeft = true;
 			}
 		}
-	  
+
 		//BUILDING THIS GUY RIGHT NOW
 	    /*
         function checkCollisionMouse(obj1,) {
