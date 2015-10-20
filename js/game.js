@@ -6,14 +6,10 @@
 		
 	var BEN = {
 
-		assetsToLoad: [],
-		assetsToLoad2: [],
-		assetsToLoad3: [],
-		assetsToLoad4: [],
-		assetsLoaded: 0,
-		assetsLoaded2: 0,
-		assetsLoaded3: 0,
-		assetsLoaded4: 0,
+		pagesFrontEN: [],
+		pagesRearEN: [],
+		pagesFrontES: [],
+		pagesRearES: [],
 		
 		mouseY: 0,		
 		mouseY: 0,
@@ -367,7 +363,7 @@
 				var image = new Image();
 				image.addEventListener("load", BEN.onLoad, false);
 				image.src = assets + arr[i];
-				BEN.assetsToLoad.push(image);
+				BEN.pagesFrontEN.push(image);
 			}
 		},
 		createESPageImages: function(arr) {
@@ -376,7 +372,7 @@
 				var image = new Image();
 				image.addEventListener("load", BEN.onLoad, false);
 				image.src = assets + arr[i];
-				BEN.assetsToLoad3.push(image);
+				BEN.pagesFrontES.push(image);
 			}
 		},
 		createENRearPageImages: function(arr) {
@@ -385,7 +381,7 @@
 				var image = new Image();
 				image.addEventListener("load", BEN.onLoad, false);
 				image.src = assets + arr[i];
-				BEN.assetsToLoad2.push(image);
+				BEN.pagesRearEN.push(image);
 			}
 		},
 		createESRearPageImages: function(arr) {
@@ -394,7 +390,7 @@
 				var image = new Image();
 				image.addEventListener("load", BEN.onLoad, false);
 				image.src = assets + arr[i];
-				BEN.assetsToLoad4.push(image);
+				BEN.pagesRearES.push(image);
 			}
 		},
 		checkCurrentState: function() {
@@ -409,7 +405,7 @@
 				
 					if (BEN.android || BEN.ios) {
 						BEN.resizeScreen();
-						BEN.increment = BEN.assetsToLoad.length / 100;	
+						BEN.increment = BEN.pagesFrontEN.length / 100;	
 						BEN.percentage = BEN.checkingLoads / 100;
 					
 						context.drawImage(loadingWhiteImage,loadingWhite.x,loadingWhite.y,loadingWhite.width,loadingWhite.height);
@@ -694,13 +690,13 @@
 			if (BEN.currentSide === 0) {
 		
 				if (!BEN.englishOn && !BEN.spanishOn) {
-					context.drawImage(BEN.assetsToLoad[0],BEN.pages[0].x,BEN.pages[0].y,BEN.pages[0].width,BEN.pages[0].height);
+					context.drawImage(BEN.pagesFrontEN[0],BEN.pages[0].x,BEN.pages[0].y,BEN.pages[0].width,BEN.pages[0].height);
 				}
 				if (BEN.englishOn) {
-					context.drawImage(BEN.assetsToLoad[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+					context.drawImage(BEN.pagesFrontEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
 				}
 				if (BEN.spanishOn) {
-					context.drawImage(BEN.assetsToLoad3[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+					context.drawImage(BEN.pagesFrontES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
 				}
 				if (BEN.folding && BEN.pages[k].width > 0) {
 					BEN.pages[k].x += 35.5;
@@ -715,10 +711,10 @@
 			if (BEN.currentSide === 1) {
 
 				if (BEN.englishOn) {
-					context.drawImage(BEN.assetsToLoad2[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+					context.drawImage(BEN.pagesRearEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
 				}
 				if (BEN.spanishOn) {
-					context.drawImage(BEN.assetsToLoad4[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+					context.drawImage(BEN.pagesRearES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
 				}	
 				if (BEN.folding && BEN.pages[k].width > 0 && !BEN.moveLeft && !BEN.moveRight) {
 					BEN.pages[k].x += 35.5;
