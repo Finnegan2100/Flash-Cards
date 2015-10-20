@@ -584,27 +584,28 @@
 		
 		function movePagesLeft() {
 			
-				if (BEN.moveLeft && BEN.currentPage >= 0 && BEN.currentPage < 14 || BEN.englishChosen || BEN.spanishChosen) {
+			var pageVX = -165;
+			
+			if (BEN.moveLeft && BEN.currentPage >= 0 && BEN.currentPage < 14 || BEN.englishChosen || BEN.spanishChosen) {
 				
-					if (BEN.pages[i].x < -600 && BEN.pages[i].x > -980) {
-						BEN.currentSide = 0;
-					}   	
-					if (BEN.pages[i].x < 0 && BEN.pages[i].x >= -600) {
-						BEN.mouseUp = false;
-						BEN.touchUp = false;
-					}	
-					if (BEN.pages[BEN.currentPage + 2].x < 0) {
-						BEN.moveLeft = false;
+				if (BEN.pages[i].x < -600 && BEN.pages[i].x > -980) {
+					BEN.currentSide = 0;
+				}   	
+				if (BEN.pages[i].x < 0 && BEN.pages[i].x >= -600) {
+					BEN.mouseUp = false;
+					BEN.touchUp = false;
+				}	
+				if (BEN.pages[BEN.currentPage + 2].x < 0) {
+					BEN.moveLeft = false;
 				
-						if (BEN.currentPage < 14) {
-							BEN.currentPage++;
-							BEN.englishChosen = false;
-							BEN.spanishChosen = false;
-						}
+					if (BEN.currentPage < 14) {
+						BEN.currentPage++;
+						BEN.englishChosen = false;
+						BEN.spanishChosen = false;
 					}
+				}
 				
-				var vx = -165;
-				BEN.pages[i].x += vx * BEN.EASING;
+				BEN.pages[i].x += pageVX * BEN.EASING;
 			}
 		}	
 
@@ -636,18 +637,12 @@
 				BEN.pages[BEN.currentPage + 1].x = 0;
 				BEN.pages[BEN.currentPage + 2].x = 1470;
 			} 
+		
+			if (BEN.pages[1].x === 0) {
+				BEN.pages[0].x = -1470;
+			}
 		}
-		
-		
-		
-		for (var i = 0; i < BEN.pages.length; i++) { 
-		
-				movePagesLeft();
-				movePagesRight();
-				keepPagesAligned();	
-				enforcePageBoundaries();
-		}
-		
+			
 		function enforcePageBoundaries() {
 		
 			if (BEN.pages[0].x > 0) {
@@ -658,95 +653,105 @@
 			}
 		}
 		
-		//DRAWING THE IMAGES ONTO THE PAGE
+		function renderCards() { 
 
-		for (var k = 0; k < 23; k++) {
+			for (var k = 0; k < 23; k++) {
 
-			if (BEN.currentSide === 0) {
-		
-				if (!BEN.englishOn && !BEN.spanishOn) {
-					context.drawImage(BEN.pagesFrontEN[0],BEN.pages[0].x,BEN.pages[0].y,BEN.pages[0].width,BEN.pages[0].height);
-				}
-				if (BEN.englishOn) {
-					context.drawImage(BEN.pagesFrontEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
-				}
-				if (BEN.spanishOn) {
-					context.drawImage(BEN.pagesFrontES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
-				}
-				if (BEN.folding && BEN.pages[k].width > 0) {
-					BEN.pages[k].x += 35.5;
-					BEN.pages[k].width -= 71.1;
-				}
-				if (BEN.unfolding && BEN.pages[k].width < 640) {
-					BEN.pages[k].x -= 35.5;
-					BEN.pages[k].width += 71.1;
-				}
-			}
-
-			if (BEN.currentSide === 1) {
-
-				if (BEN.englishOn) {
-					context.drawImage(BEN.pagesRearEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
-				}
-				if (BEN.spanishOn) {
-					context.drawImage(BEN.pagesRearES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
-				}	
-				if (BEN.folding && BEN.pages[k].width > 0 && !BEN.moveLeft && !BEN.moveRight) {
-					BEN.pages[k].x += 35.5;
-					BEN.pages[k].width -= 71.1;
-				}
-				if (BEN.unfolding && BEN.pages[k].width < 640) {
-					BEN.pages[k].x -= 35.5;
-					BEN.pages[k].width += 71.1;
-				}
-			}
-
-			if (BEN.folding && BEN.pages[k].width < 0 && BEN.currentSide === 0 && !BEN.moveLeft && !BEN.moveRight) {
-				BEN.pages[k].width = 0;
-				BEN.folding = false;
-				BEN.unfolding = true;
-				BEN.currentSide = 1;
-			}
-			if (BEN.folding && BEN.pages[k].width < 0 && BEN.currentSide === 1) {
-				BEN.pages[k].width = 0;
-				BEN.folding = false;
-				BEN.unfolding = true;
-				BEN.currentSide = 0;
-			}
-			if (BEN.unfolding && BEN.pages[k].width > 640) {
-				BEN.pages[k].width = 640;
-				BEN.unfolding = false;
-				BEN.folding = false;
-			}
-		}
-
-		if (BEN.currentPage >= 1 && !BEN.moveLeft && !BEN.moveRight) {
-			context.font =  "bold 24pt sesame";
-			context.fillStyle = "#fff";
-			context.fillText(BEN.currentPage + " / 14",20,40);
+				if (BEN.currentSide === 0) {
 			
-			if (!BEN.android && !BEN.ios) {
-				context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
+					if (!BEN.englishOn && !BEN.spanishOn) {
+						context.drawImage(BEN.pagesFrontEN[0],BEN.pages[0].x,BEN.pages[0].y,BEN.pages[0].width,BEN.pages[0].height);
+					}
+					if (BEN.englishOn) {
+						context.drawImage(BEN.pagesFrontEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+					}
+					if (BEN.spanishOn) {
+						context.drawImage(BEN.pagesFrontES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+					}
+					if (BEN.folding && BEN.pages[k].width > 0) {
+						BEN.pages[k].x += 35.5;
+						BEN.pages[k].width -= 71.1;
+					}
+					if (BEN.unfolding && BEN.pages[k].width < 640) {
+						BEN.pages[k].x -= 35.5;
+						BEN.pages[k].width += 71.1;
+					}
+				}
+
+				if (BEN.currentSide === 1) {
+
+					if (BEN.englishOn) {
+						context.drawImage(BEN.pagesRearEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+					}
+					if (BEN.spanishOn) {
+						context.drawImage(BEN.pagesRearES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+					}	
+					if (BEN.folding && BEN.pages[k].width > 0 && !BEN.moveLeft && !BEN.moveRight) {
+						BEN.pages[k].x += 35.5;
+						BEN.pages[k].width -= 71.1;
+					}
+					if (BEN.unfolding && BEN.pages[k].width < 640) {
+						BEN.pages[k].x -= 35.5;
+						BEN.pages[k].width += 71.1;
+					}
+				}
+
+				if (BEN.folding && BEN.pages[k].width < 0 && BEN.currentSide === 0 && !BEN.moveLeft && !BEN.moveRight) {
+					BEN.pages[k].width = 0;
+					BEN.folding = false;
+					BEN.unfolding = true;
+					BEN.currentSide = 1;
+				}
+				if (BEN.folding && BEN.pages[k].width < 0 && BEN.currentSide === 1) {
+					BEN.pages[k].width = 0;
+					BEN.folding = false;
+					BEN.unfolding = true;
+					BEN.currentSide = 0;
+				}
+				if (BEN.unfolding && BEN.pages[k].width > 640) {
+					BEN.pages[k].width = 640;
+					BEN.unfolding = false;
+					BEN.folding = false;
+				}
 			}
-			if (BEN.currentPage < 14 && !BEN.android && !BEN.ios) {
-				context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
-			}
-		}	
-		if (BEN.currentPage === 0 && BEN.currentSide === 1 && !BEN.android && !BEN.ios) {
-			context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
-			context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
-		}
-		if (BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight) {
-			context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
-		}
-		if (BEN.currentPage === -1 && BEN.pages[0].x === 0) {
-			context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
 		}
 
-		if (BEN.pages[1].x === 0) {
-			BEN.pages[0].x = -1470;
+		function renderUI() {
+		
+			if (BEN.currentPage >= 1 && !BEN.moveLeft && !BEN.moveRight) {
+				context.font =  "bold 24pt sesame";
+				context.fillStyle = "#fff";
+				context.fillText(BEN.currentPage + " / 14",20,40);
+				
+				if (!BEN.android && !BEN.ios) {
+					context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
+				}
+				if (BEN.currentPage < 14 && !BEN.android && !BEN.ios) {
+					context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
+				}
+				if (BEN.currentPage === 0 && BEN.currentSide === 1 && !BEN.android && !BEN.ios) {
+					context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
+					context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
+				}
+				if (BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight) {
+					context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
+				}
+				if (BEN.currentPage === -1 && BEN.pages[0].x === 0) {
+					context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
+				}
+			}
 		}
-	  
+		
+	  	for (var i = 0; i < BEN.pages.length; i++) { 
+		
+				movePagesLeft();
+				movePagesRight();
+				keepPagesAligned();			
+		}	
+		
+		enforcePageBoundaries();	
+		renderCards();	
+		renderUI();
 		
 		//COLLISION DETECTION FOR ENGLISH WITH TOUCH
 
