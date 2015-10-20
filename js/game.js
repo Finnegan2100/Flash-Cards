@@ -68,15 +68,15 @@
             "placeholderRear.png", "placeholderRear.png" 
 		],
 		imageArrayUI: [
-			"PNC_mathcards_Xbtn.png", "MOTG_englishbtn_pressed.png", "MOTG_spanishbtn_pressed.png", 
-			"MOTG_spanishbtn_pressed1.png", "MOTG_arrowleft_default.png", "MOTG_arrowright_default.png", 
-			"MOTG_arrowleft_pressed.png", "MOTG_arrowright_pressed.png", "loading-color.png", "loading-white.png"
+			"PNC_mathcards_Xbtn.png","MOTG_arrowleft_default.png", "MOTG_arrowright_default.png", "loading-color.png", 
+			"loading-white.png"
 		],
 		
 		pages: [],
 		rears: [],
 		hotSpots: [],
 		UI: [],
+		UIImages: [],
 		pageImages: [],
 		
 		
@@ -236,6 +236,7 @@
 		},
 		setUpApplication: function() {
 			BEN.createPageImages();
+			BEN.createUIImages(BEN.imageArrayUI);
 			BEN.checkCurrentState();
 			BEN.initializeHotSpots();
 			BEN.initializeUI();
@@ -406,6 +407,15 @@
 				name.height = h;
 				targetArr.push(name);
 		},
+		createUIImages: function(arr) {
+			
+			for (var i = 0; i < arr.length; i++) {
+				var image = new Image();
+				image.addEventListener("load", BEN.onLoad, false);
+				image.src = assets + arr[i];
+				BEN.UIImages.push(image);
+			}
+		},
 		createENPageImages: function(arr) {
 			
 			for (var i = 0; i < arr.length; i++) {
@@ -457,9 +467,9 @@
 						BEN.increment = BEN.pagesFrontEN.length / 100;	
 						BEN.percentage = BEN.checkingLoads / 100;
 					
-						BEN.context.drawImage(loadingWhiteImage,BEN.UI[7].x,BEN.UI[7].y,BEN.UI[7].width,BEN.UI[7].height);
+						BEN.context.drawImage(BEN.UIImage[3],BEN.UI[7].x,BEN.UI[7].y,BEN.UI[7].width,BEN.UI[7].height);
 				
-						BEN.context.drawImage(loadingColorImage,0,BEN.UI[6].height - (BEN.UI[6].height * BEN.percentage),
+						BEN.context.drawImage(BEN.UIImage[4],0,BEN.UI[6].height - (BEN.UI[6].height * BEN.percentage),
 							BEN.UI[6].width, BEN.UI[6].height * BEN.percentage,50, 449 - (BEN.UI[6].height * BEN.percentage),
 							BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 					
@@ -640,20 +650,20 @@
 					BEN.context.fillText(BEN.currentPage + " / 14",20,40);
 					
 					if (!BEN.android && !BEN.ios) {
-						BEN.context.drawImage(leftButtonImage,BEN.UI[4].x,BEN.UI[4].y,BEN.UI[4].width,BEN.UI[4].height);
+						BEN.context.drawImage(BEN.UIImages[1],BEN.UI[4].x,BEN.UI[4].y,BEN.UI[4].width,BEN.UI[4].height);
 					}
 					if (BEN.currentPage < 14 && !BEN.android && !BEN.ios) {
-						BEN.context.drawImage(rightButtonImage,BEN.UI[5].x,BEN.UI[5].y,BEN.UI[5].width,BEN.UI[5].height);
+						BEN.context.drawImage(BEN.UIImages[2],BEN.UI[5].x,BEN.UI[5].y,BEN.UI[5].width,BEN.UI[5].height);
 					}
 					if (BEN.currentPage === 0 && BEN.currentSide === 1 && !BEN.android && !BEN.ios) {
-						BEN.context.drawImage(leftButtonImage,BEN.UI[4].x,BEN.UI[4].y,BEN.UI[4].width,BEN.UI[4].height);
-						BEN.context.drawImage(rightButtonImage,BEN.UI[5].x,BEN.UI[5].y,BEN.UI[5].width,BEN.UI[5].height);
+						BEN.context.drawImage(BEN.UIImages[1],BEN.UI[4].x,BEN.UI[4].y,BEN.UI[4].width,BEN.UI[4].height);
+						BEN.context.drawImage(BEN.UIImages[2],BEN.UI[5].x,BEN.UI[5].y,BEN.UI[5].width,BEN.UI[5].height);
 					}
 					if (BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight) {
-						BEN.context.drawImage(xBtnImage,BEN.UI[1].x,BEN.UI[1].y,BEN.UI[1].width,BEN.UI[1].height);
+						BEN.context.drawImage(BEN.UIImages[0],BEN.UI[1].x,BEN.UI[1].y,BEN.UI[1].width,BEN.UI[1].height);
 					}
 					if (BEN.currentPage === -1 && BEN.pages[0].x === 0) {
-						BEN.context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
+						BEN.context.drawImage(BEN.UIImages[0],BEN.UI[1].x,BEN.UI[1].y,BEN.UI[1].width,BEN.UI[1].height);
 					}
 				}
 			}
@@ -753,9 +763,6 @@
 			
 				if (Math.abs(vy4) < combinedHalfHeights4) {
 				
-					if (BEN.mouseDown && BEN.currentPage === -1 && BEN.pages[0].x === 0) {
-						BEN.context.drawImage(englishPressedImage,BEN.UI[2].x,BEN.UI[2].y,BEN.UI[2].width,BEN.UI[2].height);
-					}
 					if (BEN.mouseUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {	
 						BEN.englishChosen = true;
 						BEN.englishOn = true;
@@ -776,10 +783,6 @@
 			
 				if (Math.abs(vy5) < combinedHalfHeights5) {
 					
-					if (BEN.mouseDown && BEN.currentPage === -1 && BEN.pages[0].x === 0) {
-			
-						BEN.context.drawImage(spanishPressedImage,BEN.UI[3].x,BEN.UI[3].y,BEN.UI[3].width,BEN.UI[3].height);
-					}
 					if (BEN.mouseUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {
 						BEN.spanishChosen = true;
 						BEN.spanishOn = true;
@@ -972,37 +975,7 @@
 	BEN.android = BEN.ua.indexOf('android') > -1 ? true : false;
 	BEN.ios = ( BEN.ua.indexOf('iphone') > -1 || BEN.ua.indexOf('ipad') > -1  ) ? 
 		true : false;
-	
 
-	
-
-	
-		
-	
-	var xBtnImage = new Image();
-	xBtnImage.src = assets + "PNC_mathcards_Xbtn.png";
-
-	var englishPressedImage = new Image();
-	englishPressedImage.src = assets + "MOTG_englishbtn_pressed.png";
-
-	var spanishPressedImage = new Image();
-	spanishPressedImage.src = assets + "MOTG_spanishbtn_pressed.png";
-
-	var leftButtonImage = new Image();
-	leftButtonImage.src = assets + "MOTG_arrowleft_default.png";
-
-	var rightButtonImage = new Image();
-	rightButtonImage.src = assets + "MOTG_arrowright_default.png";
-
-	var loadingColorImage = new Image();
-	loadingColorImage.src = assets + "loading-color.png";
-
-	var loadingWhiteImage = new Image();
-	loadingWhiteImage.src = assets + "loading-white.png";
-	
-	var loadingImage = new Image();
-	loadingImage.src = assets + "loadingImage.png";
-	
 	BEN.setUpApplication();
 
 })();
