@@ -67,7 +67,7 @@
             "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
             "placeholderRear.png", "placeholderRear.png" 
 		],
-		imageArrayButtons: [
+		imageArrayUI: [
 			"PNC_mathcards_Xbtn.png", "MOTG_englishbtn_pressed.png", "MOTG_spanishbtn_pressed.png", 
 			"MOTG_spanishbtn_pressed1.png", "MOTG_arrowleft_default.png", "MOTG_arrowright_default.png", 
 			"MOTG_arrowleft_pressed.png", "MOTG_arrowright_pressed.png", "loading-color.png", "loading-white.png"
@@ -76,7 +76,9 @@
 		pages: [],
 		rears: [],
 		hotSpots: [],
+		UI: [],
 		pageImages: [],
+		
 		
 		moveLeft: false,
 		moveRight: false,
@@ -120,9 +122,7 @@
 		swipeLength: 0,
 		swipeAngle: null,
 		swipeDirection: null,
-		
-		//SPRITE VARIABLES
-		
+				
 		sourceX: 0,
 		sourceY: 0,
 		sourceWidth: 64,
@@ -134,8 +134,6 @@
 		vx: 0,
 		vy: 0,
 		  
-	  //GETTERS FOR DETERMINING COLLISION DETECTION LATER
-	  
 		centerX: function() {
 			return this.x + (this.width / 2);
 		},
@@ -201,9 +199,49 @@
 			window.addEventListener('load', BEN.init, false);
 			window.addEventListener('BEN', BEN.resizeScreen, false);
 		},
+		initializeHotSpots: function() {
+
+			BEN.createHotSpotObjects(BEN.hotSpots,0,50,640,960);
+			BEN.createHotSpotObjects(BEN.hotSpots,30,738,280,200);
+			BEN.createHotSpotObjects(BEN.hotSpots,328,738,280,200);
+			BEN.createHotSpotObjects(BEN.hotSpots,450,10,180,140);
+			BEN.createHotSpotObjects(BEN.hotSpots,0,813,150,184);
+			BEN.createHotSpotObjects(BEN.hotSpots,490,813,150,184);
+		},
+		initializeUI: function() {
+
+			BEN.createUIObjects(BEN.UI,"loading",30,30,640,960);
+			BEN.createUIObjects(BEN.UI,"xBtn",580,10,50,50);
+			BEN.createUIObjects(BEN.UI,"englishPressed",0,820,321,125);
+			BEN.createUIObjects(BEN.UI,"spanishPressed",320,820,321,125);
+			BEN.createUIObjects(BEN.UI,"leftButton",0,853,70,70);
+			BEN.createUIObjects(BEN.UI,"rightButton",565,853,70,70);
+			BEN.createUIObjects(BEN.UI,"loadingColor",300,200,530,200);
+			BEN.createUIObjects(BEN.UI,"loadingWhite",50,250,530,200);
+		},		
 		initializeCards: function() {
 			
+			BEN.addCardsToArray(1,BEN.pages,0,0,640,960);
+			BEN.addCardsToArray(22,BEN.pages,1000,0,640,960);
+			BEN.addCardsToArray(1,BEN.rears,0,0,640,960);
+			BEN.addCardsToArray(22,BEN.rears,1000,0,640,960);
+			
 			BEN.defineCardSpacing();
+		},
+		createPageImages: function() {
+			BEN.createENPageImages(BEN.imageArrayFrontEnglish);
+			BEN.createESPageImages(BEN.imageArrayFrontSpanish);
+			BEN.createENRearPageImages(BEN.imageArrayRearEnglish);
+			BEN.createESRearPageImages(BEN.imageArrayRearSpanish);
+		},
+		setUpApplication: function() {
+			BEN.createPageImages();
+			BEN.checkCurrentState();
+			BEN.initializeHotSpots();
+			BEN.initializeUI();
+			BEN.initializeCards();
+			BEN.init();
+			BEN.prepareListeners();
 		},
 		onMouseDown: function (event) {
 		
@@ -359,6 +397,15 @@
 				hotSpot.height = h;
 				targetArr.push(hotSpot);
 		},
+		createUIObjects: function(targetArr,name,x,y,w,h) {
+		
+			var name = Object.create(BEN);
+				name.x = x;
+				name.y = y;
+				name.width = w;
+				name.height = h;
+				targetArr.push(name);
+		},
 		createENPageImages: function(arr) {
 			
 			for (var i = 0; i < arr.length; i++) {
@@ -410,11 +457,11 @@
 						BEN.increment = BEN.pagesFrontEN.length / 100;	
 						BEN.percentage = BEN.checkingLoads / 100;
 					
-						BEN.context.drawImage(loadingWhiteImage,loadingWhite.x,loadingWhite.y,loadingWhite.width,loadingWhite.height);
+						BEN.context.drawImage(loadingWhiteImage,BEN.UI[7].x,BEN.UI[7].y,BEN.UI[7].width,BEN.UI[7].height);
 				
-						BEN.context.drawImage(loadingColorImage,0,loadingColor.height - (loadingColor.height * BEN.percentage),
-							loadingColor.width, loadingColor.height * BEN.percentage,50, 449 - (loadingColor.height * BEN.percentage),
-							loadingColor.width,	loadingColor.height * BEN.percentage);
+						BEN.context.drawImage(loadingColorImage,0,BEN.UI[6].height - (BEN.UI[6].height * BEN.percentage),
+							BEN.UI[6].width, BEN.UI[6].height * BEN.percentage,50, 449 - (BEN.UI[6].height * BEN.percentage),
+							BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 					
 						if (BEN.percentage > .9) {
 							BEN.currentState = "play";
@@ -593,17 +640,17 @@
 					BEN.context.fillText(BEN.currentPage + " / 14",20,40);
 					
 					if (!BEN.android && !BEN.ios) {
-						BEN.context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
+						BEN.context.drawImage(leftButtonImage,BEN.UI[4].x,BEN.UI[4].y,BEN.UI[4].width,BEN.UI[4].height);
 					}
 					if (BEN.currentPage < 14 && !BEN.android && !BEN.ios) {
-						BEN.context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
+						BEN.context.drawImage(rightButtonImage,BEN.UI[5].x,BEN.UI[5].y,BEN.UI[5].width,BEN.UI[5].height);
 					}
 					if (BEN.currentPage === 0 && BEN.currentSide === 1 && !BEN.android && !BEN.ios) {
-						BEN.context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
-						BEN.context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
+						BEN.context.drawImage(leftButtonImage,BEN.UI[4].x,BEN.UI[4].y,BEN.UI[4].width,BEN.UI[4].height);
+						BEN.context.drawImage(rightButtonImage,BEN.UI[5].x,BEN.UI[5].y,BEN.UI[5].width,BEN.UI[5].height);
 					}
 					if (BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight) {
-						BEN.context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
+						BEN.context.drawImage(xBtnImage,BEN.UI[1].x,BEN.UI[1].y,BEN.UI[1].width,BEN.UI[1].height);
 					}
 					if (BEN.currentPage === -1 && BEN.pages[0].x === 0) {
 						BEN.context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
@@ -627,7 +674,7 @@
 			if (BEN.tapY > 500 && BEN.tapX <= 320 && BEN.currentPage === -1 && BEN.swipeLength === 0) {
 		 
 				if (BEN.touchDown && BEN.pages[0].x === 0) {
-					BEN.context.drawImage(englishPressedImage,englishPressed.x,englishPressed.y,englishPressed.width,englishPressed.height);
+					BEN.context.drawImage(englishPressedImage,BEN.UI[2].x,BEN.UI[2].y,BEN.UI[2].width,BEN.UI[2].height);
 				}
 				
 				if (BEN.touchUp && !BEN.moveLeft && !BEN.moveRight) {
@@ -643,7 +690,7 @@
 			if (BEN.tapY > 800 && BEN.tapX > 320 && BEN.currentPage === -1 && BEN.swipeLength === 0) {
 		 
 				if (BEN.touchDown && BEN.pages[0].x === 0) {
-					BEN.context.drawImage(spanishPressedImage,spanishPressed.x,spanishPressed.y,spanishPressed.width,spanishPressed.height);
+					BEN.context.drawImage(spanishPressedImage,BEN.UI[3].x,BEN.UI[3].y,BEN.UI[3].width,BEN.UI[3].height);
 				}
 				if (BEN.touchUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {
 					BEN.spanishChosen = true;
@@ -707,7 +754,7 @@
 				if (Math.abs(vy4) < combinedHalfHeights4) {
 				
 					if (BEN.mouseDown && BEN.currentPage === -1 && BEN.pages[0].x === 0) {
-						BEN.context.drawImage(englishPressedImage,englishPressed.x,englishPressed.y,englishPressed.width,englishPressed.height);
+						BEN.context.drawImage(englishPressedImage,BEN.UI[2].x,BEN.UI[2].y,BEN.UI[2].width,BEN.UI[2].height);
 					}
 					if (BEN.mouseUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {	
 						BEN.englishChosen = true;
@@ -731,7 +778,7 @@
 					
 					if (BEN.mouseDown && BEN.currentPage === -1 && BEN.pages[0].x === 0) {
 			
-						BEN.context.drawImage(spanishPressedImage,spanishPressed.x,spanishPressed.y,spanishPressed.width,spanishPressed.height);
+						BEN.context.drawImage(spanishPressedImage,BEN.UI[3].x,BEN.UI[3].y,BEN.UI[3].width,BEN.UI[3].height);
 					}
 					if (BEN.mouseUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {
 						BEN.spanishChosen = true;
@@ -853,7 +900,6 @@
 						BEN.folding = false;
 						BEN.unfolding = false;
 						BEN.moveRight = true;
-						BEN.context.drawImage(leftButtonPressedImage,leftButtonPressed.x,leftButtonPressed.y,leftButtonPressed.width,leftButtonPressed.height);
 					}
 				}
 			}
@@ -874,7 +920,6 @@
 						BEN.folding = false;
 						BEN.unfolding = false;
 						BEN.moveRight = true;
-						BEN.context.drawImage(leftButtonPressedImage,leftButtonPressed.x,leftButtonPressed.y,leftButtonPressed.width,leftButtonPressed.height);
 					}
 				}
 			}
@@ -896,7 +941,6 @@
 						BEN.folding = false;
 						BEN.unfolding = false;
 						BEN.moveLeft = true;
-						BEN.context.drawImage(rightButtonPressedImage,rightButtonPressed.x,rightButtonPressed.y,rightButtonPressed.width,rightButtonPressed.height);
 					}
 				}
 			}
@@ -917,7 +961,6 @@
 						BEN.folding = false;
 						BEN.unfolding = false;
 						BEN.moveLeft = true;
-						BEN.context.drawImage(rightButtonPressedImage,rightButtonPressed.x,rightButtonPressed.y,rightButtonPressed.width,rightButtonPressed.height);
 					}
 				}
 			}
@@ -930,127 +973,36 @@
 	BEN.ios = ( BEN.ua.indexOf('iphone') > -1 || BEN.ua.indexOf('ipad') > -1  ) ? 
 		true : false;
 	
-	BEN.createHotSpotObjects(BEN.hotSpots,0,50,640,960);
-	BEN.createHotSpotObjects(BEN.hotSpots,30,738,280,200);
-	BEN.createHotSpotObjects(BEN.hotSpots,328,738,280,200);
-	BEN.createHotSpotObjects(BEN.hotSpots,450,10,180,140);
-	BEN.createHotSpotObjects(BEN.hotSpots,0,813,150,184);
-	BEN.createHotSpotObjects(BEN.hotSpots,490,813,150,184);
+
 	
-	//LOADING THR IMAGES AND CALLING LOAD EVENT
 
-	var loading = Object.create(BEN);
-	loading.x = 30;
-	loading.y = 30;
-	loading.width = 640;
-	loading.height = 960;
-
-	var xBtn = Object.create(BEN);
-	xBtn.x = 580;
-	xBtn.y = 10;
-	xBtn.width = 50;
-	xBtn.height = 50;
+	
+		
 	
 	var xBtnImage = new Image();
 	xBtnImage.src = assets + "PNC_mathcards_Xbtn.png";
 
-	var englishPressed = Object.create(BEN);
-	englishPressed.x = 0;
-	englishPressed.y = 820;
-	englishPressed.width = 321;
-	englishPressed.height = 125;
-
 	var englishPressedImage = new Image();
 	englishPressedImage.src = assets + "MOTG_englishbtn_pressed.png";
-
-	var spanishPressed = Object.create(BEN);
-	spanishPressed.x = 320;
-	spanishPressed.y = 820;
-	spanishPressed.width = 321;
-	spanishPressed.height = 125;
 
 	var spanishPressedImage = new Image();
 	spanishPressedImage.src = assets + "MOTG_spanishbtn_pressed.png";
 
-	var spanishPressed1 = Object.create(BEN);
-	spanishPressed1.x = 320;
-	spanishPressed1.y = 820;
-	spanishPressed1.width = 321;
-	spanishPressed1.height = 125;
-
-	var spanishPressed1Image = new Image();
-	spanishPressed1Image.src = assets + "MOTG_spanishbtn_pressed1.png";
-
-	var leftButton = Object.create(BEN);
-	leftButton.x = 0;
-	leftButton.y = 853;
-	leftButton.width = 70;
-	leftButton.height = 70;
-
 	var leftButtonImage = new Image();
 	leftButtonImage.src = assets + "MOTG_arrowleft_default.png";
-
-	var rightButton = Object.create(BEN);
-	rightButton.x = 565;
-	rightButton.y = 853;
-	rightButton.width = 70;
-	rightButton.height = 70;
 
 	var rightButtonImage = new Image();
 	rightButtonImage.src = assets + "MOTG_arrowright_default.png";
 
-	var leftButtonPressed = Object.create(BEN);
-	leftButtonPressed.x = 0;
-	leftButtonPressed.y = 853;
-	leftButtonPressed.width = 70;
-	leftButtonPressed.height = 70;
-
-	var leftButtonPressedImage = new Image();
-	leftButtonPressedImage.src = assets + "MOTG_arrowleft_pressed.png";
-
-	var rightButtonPressed = Object.create(BEN);
-	rightButtonPressed.x = 565;
-	rightButtonPressed.y = 853;
-	rightButtonPressed.width = 70;
-	rightButtonPressed.height = 70;
-
-	var rightButtonPressedImage = new Image();
-	rightButtonPressedImage.src = assets + "MOTG_arrowright_pressed.png";
-
-	var loadingColor = Object.create(BEN);
-	loadingColor.x = 300;
-	loadingColor.y = 200;
-	loadingColor.width = 530;
-	loadingColor.height = 200;
-
 	var loadingColorImage = new Image();
 	loadingColorImage.src = assets + "loading-color.png";
-
-	var loadingWhite = Object.create(BEN);
-	loadingWhite.x = 50;
-	loadingWhite.y = 250;
-	loadingWhite.width = 530;
-	loadingWhite.height = 200;
 
 	var loadingWhiteImage = new Image();
 	loadingWhiteImage.src = assets + "loading-white.png";
 	
 	var loadingImage = new Image();
 	loadingImage.src = assets + "loadingImage.png";
-
-	BEN.addCardsToArray(1,BEN.pages,0,0,640,960);
-	BEN.addCardsToArray(22,BEN.pages,1000,0,640,960);
-	BEN.addCardsToArray(1,BEN.rears,0,0,640,960);
-	BEN.addCardsToArray(22,BEN.rears,1000,0,640,960);
 	
-	BEN.createENPageImages(BEN.imageArrayFrontEnglish);
-	BEN.createESPageImages(BEN.imageArrayFrontSpanish);
-	BEN.createENRearPageImages(BEN.imageArrayRearEnglish);
-	BEN.createESRearPageImages(BEN.imageArrayRearSpanish);
-	
-	BEN.checkCurrentState();
-	BEN.initializeCards();
-	BEN.init();
-	BEN.prepareListeners();
+	BEN.setUpApplication();
 
 })();
