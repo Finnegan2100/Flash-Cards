@@ -32,44 +32,44 @@
 		currentState: "loading", 
 		
 		imageArrayFrontEnglish: [
-			"PNC_mathcards_TITLE_front.png","PNC_mathcards_instrux_front.png", "PNC_mathcards_1_front.png",
-			"PNC_mathcards_2_front.png","PNC_mathcards_3_front.png","PNC_mathcards_4_front.png",
-			"PNC_mathcards_5_front.png","PNC_mathcards_6_front.png","PNC_mathcards_7_front.png",
-			"PNC_mathcards_8_front.png","PNC_mathcards_9_front.png","PNC_mathcards_10_front.png",
-			"PNC_mathcards_11_front.png","PNC_mathcards_12_front.png","PNC_mathcards_13_front.png",
-			"PNC_mathcards_14_front.png","PNC_mathcards_1_front.png","PNC_mathcards_1_front.png",
-			"PNC_mathcards_1_front.png","PNC_mathcards_1_front.png","PNC_mathcards_1_front.png",
-			"PNC_mathcards_1_front.png","PNC_mathcards_1_front.png"
+            "placeholderTitle.png", "placeholderFront.png", "placeholderFront.png",
+            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
+            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png", 
+            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
+            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
+            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
+            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
+            "placeholderFront.png", "placeholderFront.png" 
 		],
 		imageArrayFrontSpanish: [
-			"PNC_mathcards_esp_title.png","PNC_mathcards_esp_instrux_front.png", "PNC_mathcards_esp_1_front.png",
-			"PNC_mathcards_esp_2_front.png","PNC_mathcards_esp_3_front.png","PNC_mathcards_esp_4_front.png",
-			"PNC_mathcards_esp_5_front.png","PNC_mathcards_esp_6_front.png","PNC_mathcards_esp_7_front.png",
-			"PNC_mathcards_esp_8_front.png","PNC_mathcards_esp_9_front.png","PNC_mathcards_esp_10_front.png",
-			"PNC_mathcards_esp_11_front.png","PNC_mathcards_esp_12_front.png","PNC_mathcards_esp_13_front.png",
-			"PNC_mathcards_esp_14_front.png","PNC_mathcards_esp_1_front.png","PNC_mathcards_esp_1_front.png",
-			"PNC_mathcards_esp_1_front.png","PNC_mathcards_esp_1_front.png","PNC_mathcards_esp_1_front.png",
-			"PNC_mathcards_esp_1_front.png","PNC_mathcards_esp_1_front.png"
+			"placeholderTitle.png", "placeholderFront.png", "placeholderFront.png",
+            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
+            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png", 
+            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
+            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
+            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
+            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
+            "placeholderFront.png", "placeholderFront.png" 
 		],
 		imageArrayRearEnglish: [
-			"PNC_mathcards_instrux_front.png","PNC_mathcards_INSTRUX_back.png", "PNC_mathcards_1_back.png",
-			"PNC_mathcards_2_back.png","PNC_mathcards_3_back.png","PNC_mathcards_4_back.png",
-			"PNC_mathcards_5_back.png","PNC_mathcards_6_back.png","PNC_mathcards_7_back.png",
-			"PNC_mathcards_8_back.png","PNC_mathcards_9_back.png","PNC_mathcards_10_back.png",
-			"PNC_mathcards_11_back.png","PNC_mathcards_12_back.png","PNC_mathcards_13_back.png",
-			"PNC_mathcards_14_back.png","PNC_mathcards_1_back.png","PNC_mathcards_1_back.png",
-			"PNC_mathcards_1_back.png","PNC_mathcards_1_back.png","PNC_mathcards_1_back.png",
-			"PNC_mathcards_1_back.png","PNC_mathcards_1_back.png"
+			"placeholderTitle.png", "placeholderRear.png", "placeholderRear.png",
+            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
+            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png", 
+            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
+            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
+            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
+            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
+            "placeholderRear.png", "placeholderRear.png" 
 		],
 		imageArrayRearSpanish: [
-			"PNC_mathcards_esp_instrux_front.png", "PNC_mathcards_esp_instrux_back.png", "PNC_mathcards_esp_1_back.png",
-			"PNC_mathcards_esp_2_back.png","PNC_mathcards_esp_3_back.png","PNC_mathcards_esp_4_back.png",
-			"PNC_mathcards_esp_5_back.png","PNC_mathcards_esp_6_back.png","PNC_mathcards_esp_7_back.png",
-			"PNC_mathcards_esp_8_back.png","PNC_mathcards_esp_9_back.png","PNC_mathcards_esp_10_back.png",
-			"PNC_mathcards_esp_11_back.png","PNC_mathcards_esp_12_back.png","PNC_mathcards_esp_13_back.png",
-			"PNC_mathcards_esp_14_back.png","PNC_mathcards_esp_1_back.png","PNC_mathcards_esp_1_back.png",
-			"PNC_mathcards_esp_1_back.png","PNC_mathcards_esp_1_back.png","PNC_mathcards_esp_1_back.png",
-			"PNC_mathcards_esp_1_back.png","PNC_mathcards_esp_1_back.png"
+			"placeholderTitle.png", "placeholderRear.png", "placeholderRear.png",
+            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
+            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png", 
+            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
+            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
+            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
+            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
+            "placeholderRear.png", "placeholderRear.png" 
 		],
 			
 		pages: [],
