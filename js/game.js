@@ -427,7 +427,7 @@
 					break;
 				
 					case "play":       //DRAW THE GREEN ARROW
-					main();
+					BEN.main();
 					BEN.mainCalled = true;
 					break;
 				}
@@ -443,6 +443,484 @@
 		onLoad: function() { 
 	
 			BEN.checkingLoads++;
+		},
+		main: function() {
+
+			BEN.resizeScreen();
+				
+			requestAnimationFrame(BEN.main,canvas);
+			context.clearRect(0,0,canvas.width,canvas.height);
+			
+			function movePagesLeft() {
+				
+				var pageVX = -165;
+				
+				if (BEN.moveLeft && BEN.currentPage >= 0 && BEN.currentPage < 14 || BEN.englishChosen || BEN.spanishChosen) {
+					
+					if (BEN.pages[i].x < -600 && BEN.pages[i].x > -980) {
+						BEN.currentSide = 0;
+					}   	
+					if (BEN.pages[i].x < 0 && BEN.pages[i].x >= -600) {
+						BEN.mouseUp = false;
+						BEN.touchUp = false;
+					}	
+					if (BEN.pages[BEN.currentPage + 2].x < 0) {
+						BEN.moveLeft = false;
+					
+						if (BEN.currentPage < 14) {
+							BEN.currentPage++;
+							BEN.englishChosen = false;
+							BEN.spanishChosen = false;
+						}
+					}
+					
+					BEN.pages[i].x += pageVX * BEN.EASING;
+				}
+			}	
+
+			function movePagesRight() {
+				
+				if (BEN.moveRight && BEN.currentPage >= 0 && BEN.currentPage <= 14 && !BEN.englishChosen && !BEN.spanishChosen) {
+					  
+					if (BEN.pages[BEN.currentPage + 1].x > 700 && BEN.pages[BEN.currentPage + 1].x < 900) {
+						BEN.currentSide = 0;
+					}
+					if (BEN.pages[BEN.currentPage + 1].x > 0 && BEN.pages[BEN.currentPage + 1].x <= 700) {
+						BEN.mouseUp = false;
+						BEN.touchUp = false;
+					}	
+					if (BEN.pages[BEN.currentPage + 1].x > 1470) {
+						BEN.moveRight = false;
+						BEN.currentPage--;
+					}
+						
+					var vx = 165;
+					BEN.pages[i].x += vx * BEN.EASING; 
+				}
+			}	
+			
+			function keepPagesAligned() {
+					
+				if (!BEN.moveLeft && !BEN.moveRight && BEN.currentPage >= 0 && !BEN.folding && !BEN.unfolding) {
+					 
+					BEN.pages[BEN.currentPage + 1].x = 0;
+					BEN.pages[BEN.currentPage + 2].x = 1470;
+				} 
+			
+				if (BEN.pages[1].x === 0) {
+					BEN.pages[0].x = -1470;
+				}
+			}
+				
+			function enforcePageBoundaries() {
+			
+				if (BEN.pages[0].x > 0) {
+					BEN.pages[0].x = 0;
+				}
+				if (BEN.pages[15].x < 0) {
+					BEN.pages[15].x = 0;
+				}
+			}
+			
+			function renderCards() { 
+
+				for (var k = 0; k < 23; k++) {
+
+					if (BEN.currentSide === 0) {
+				
+						if (!BEN.englishOn && !BEN.spanishOn) {
+							context.drawImage(BEN.pagesFrontEN[0],BEN.pages[0].x,BEN.pages[0].y,BEN.pages[0].width,BEN.pages[0].height);
+						}
+						if (BEN.englishOn) {
+							context.drawImage(BEN.pagesFrontEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+						}
+						if (BEN.spanishOn) {
+							context.drawImage(BEN.pagesFrontES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+						}
+						if (BEN.folding && BEN.pages[k].width > 0) {
+							BEN.pages[k].x += 35.5;
+							BEN.pages[k].width -= 71.1;
+						}
+						if (BEN.unfolding && BEN.pages[k].width < 640) {
+							BEN.pages[k].x -= 35.5;
+							BEN.pages[k].width += 71.1;
+						}
+					}
+
+					if (BEN.currentSide === 1) {
+
+						if (BEN.englishOn) {
+							context.drawImage(BEN.pagesRearEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+						}
+						if (BEN.spanishOn) {
+							context.drawImage(BEN.pagesRearES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+						}	
+						if (BEN.folding && BEN.pages[k].width > 0 && !BEN.moveLeft && !BEN.moveRight) {
+							BEN.pages[k].x += 35.5;
+							BEN.pages[k].width -= 71.1;
+						}
+						if (BEN.unfolding && BEN.pages[k].width < 640) {
+							BEN.pages[k].x -= 35.5;
+							BEN.pages[k].width += 71.1;
+						}
+					}
+
+					if (BEN.folding && BEN.pages[k].width < 0 && BEN.currentSide === 0 && !BEN.moveLeft && !BEN.moveRight) {
+						BEN.pages[k].width = 0;
+						BEN.folding = false;
+						BEN.unfolding = true;
+						BEN.currentSide = 1;
+					}
+					if (BEN.folding && BEN.pages[k].width < 0 && BEN.currentSide === 1) {
+						BEN.pages[k].width = 0;
+						BEN.folding = false;
+						BEN.unfolding = true;
+						BEN.currentSide = 0;
+					}
+					if (BEN.unfolding && BEN.pages[k].width > 640) {
+						BEN.pages[k].width = 640;
+						BEN.unfolding = false;
+						BEN.folding = false;
+					}
+				}
+			}
+
+			function renderUI() {
+			
+				if (BEN.currentPage >= 1 && !BEN.moveLeft && !BEN.moveRight) {
+					context.font =  "bold 24pt sesame";
+					context.fillStyle = "#fff";
+					context.fillText(BEN.currentPage + " / 14",20,40);
+					
+					if (!BEN.android && !BEN.ios) {
+						context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
+					}
+					if (BEN.currentPage < 14 && !BEN.android && !BEN.ios) {
+						context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
+					}
+					if (BEN.currentPage === 0 && BEN.currentSide === 1 && !BEN.android && !BEN.ios) {
+						context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
+						context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
+					}
+					if (BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight) {
+						context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
+					}
+					if (BEN.currentPage === -1 && BEN.pages[0].x === 0) {
+						context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
+					}
+				}
+			}
+			
+			for (var i = 0; i < BEN.pages.length; i++) { 
+			
+					movePagesLeft();
+					movePagesRight();
+					keepPagesAligned();			
+			}	
+			
+			enforcePageBoundaries();	
+			renderCards();	
+			renderUI();
+			
+			//COLLISION DETECTION FOR ENGLISH WITH TOUCH
+
+			if (BEN.tapY > 500 && BEN.tapX <= 320 && BEN.currentPage === -1 && BEN.swipeLength === 0) {
+		 
+				if (BEN.touchDown && BEN.pages[0].x === 0) {
+					context.drawImage(englishPressedImage,englishPressed.x,englishPressed.y,englishPressed.width,englishPressed.height);
+				}
+				
+				if (BEN.touchUp && !BEN.moveLeft && !BEN.moveRight) {
+					BEN.englishChosen = true;
+					BEN.englishOn = true;
+					BEN.spanishOn = false;
+					BEN.moveLeft = true;
+				}
+			}
+		  
+			//COLLISION DETECTION FOR SPANISH WITH TOUCH
+
+			if (BEN.tapY > 800 && BEN.tapX > 320 && BEN.currentPage === -1 && BEN.swipeLength === 0) {
+		 
+				if (BEN.touchDown && BEN.pages[0].x === 0) {
+					context.drawImage(spanishPressedImage,spanishPressed.x,spanishPressed.y,spanishPressed.width,spanishPressed.height);
+				}
+				if (BEN.touchUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {
+					BEN.spanishChosen = true;
+					BEN.spanishOn = true;
+					BEN.englishOn = false;
+					BEN.moveLeft = true;
+				}
+			}
+
+			//BUILDING THIS GUY RIGHT NOW
+			/*
+			function checkCollisionMouse(obj1,) {
+				
+				for (var i = 0; i < BEN.hotSpots.length; i++) {
+									
+					var vx = obj1.mouseX - BEN.hotSpots[i].centerX();
+					var vy = obj1.mouseY - BEN.hotSpots[i].centerY();
+					
+					var combinedWidths = obj1.halfWidth() + BEN.hotSpots[i].halfWidth();
+					var combinesHeights = obj1.halfHeight() + BEN.hotSpots[i].halfHeight();
+					
+					if (Math.abs(vx) < combinedHalfWidths) {
+						
+						if (Math.abs(vy) < combinedHalfHeights) {
+							
+							if (BEN.currentPage >= 0) {
+								
+								if (BEN.mouseUp && !BEN.unfolding && !BEN.folding && !BEN.moveLeft && !BEN.moveRight) {
+						
+									if (BEN.currentSide === 0) {
+										BEN.canProceed = true;
+										BEN.folding = true;
+										BEN.mouseUp = false;
+									}
+								}
+							
+								if (BEN.mouseUp && !BEN.unfolding && !BEN.folding && !BEN.moveLeft && !BEN.moveRight) {
+								
+									if (BEN.currentSide === 1) {
+										BEN.canProceed = true;
+										BEN.folding = true;
+										BEN.mouseUp = false;
+									}
+								}
+							}
+						}
+					}
+				}
+			 */
+			
+			//COLLISION DETECTION FOR ENGLISH WITH MOUSE
+			
+			var vx4 = BEN.mouseX - BEN.hotSpots[1].centerX();				
+			var vy4 = BEN.mouseY - BEN.hotSpots[1].centerY();
+		  
+			var combinedHalfWidths4 = BEN.mouseW + BEN.hotSpots[1].halfWidth();
+			var combinedHalfHeights4 = BEN.mouseH + BEN.hotSpots[1].halfHeight();
+
+			if (Math.abs(vx4) < combinedHalfWidths4) {
+			
+				if (Math.abs(vy4) < combinedHalfHeights4) {
+				
+					if (BEN.mouseDown && BEN.currentPage === -1 && BEN.pages[0].x === 0) {
+						context.drawImage(englishPressedImage,englishPressed.x,englishPressed.y,englishPressed.width,englishPressed.height);
+					}
+					if (BEN.mouseUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {	
+						BEN.englishChosen = true;
+						BEN.englishOn = true;
+						BEN.spanishOn = false;
+					}
+				}
+			}
+		  
+			//COLLISION DETECTION FOR SPANISH WITH MOUSE
+		  
+			var vx5 = BEN.mouseX - BEN.hotSpots[2].centerX();				
+			var vy5 = BEN.mouseY - BEN.hotSpots[2].centerY();
+		  
+			var combinedHalfWidths5 = BEN.mouseW + BEN.hotSpots[2].halfWidth();
+			var combinedHalfHeights5 = BEN.mouseH + BEN.hotSpots[2].halfHeight();
+
+			if (Math.abs(vx5) < combinedHalfWidths5) {
+			
+				if (Math.abs(vy5) < combinedHalfHeights5) {
+					
+					if (BEN.mouseDown && BEN.currentPage === -1 && BEN.pages[0].x === 0) {
+			
+						context.drawImage(spanishPressedImage,spanishPressed.x,spanishPressed.y,spanishPressed.width,spanishPressed.height);
+					}
+					if (BEN.mouseUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {
+						BEN.spanishChosen = true;
+						BEN.spanishOn = true;
+						BEN.englishOn = false;
+					}
+				}
+			}
+		  
+			//COLLISION DETECTION FOR CARDS WITH MOUSE
+		  
+			var vx1 = BEN.mouseX - BEN.hotSpots[0].centerX();				
+			var vy1 = BEN.mouseY - BEN.hotSpots[0].centerY();
+		  
+			var combinedHalfWidths1 = BEN.mouseW + BEN.hotSpots[0].halfWidth();
+			var combinedHalfHeights1 = BEN.mouseH + BEN.hotSpots[0].halfHeight();
+
+			if (Math.abs(vx1) < combinedHalfWidths1) {
+			
+				if (Math.abs(vy1) < combinedHalfHeights1) {
+				
+					if (BEN.currentPage >= 0) {
+				   
+						if (BEN.mouseUp && !BEN.unfolding && !BEN.folding && !BEN.moveLeft && !BEN.moveRight) {
+						
+							if (BEN.currentSide === 0) {
+								BEN.canProceed = true;
+								BEN.folding = true;
+								BEN.mouseUp = false;
+							}
+						}
+					
+						if (BEN.mouseUp && !BEN.unfolding && !BEN.folding && !BEN.moveLeft && !BEN.moveRight) {
+						
+							if (BEN.currentSide === 1) {
+								BEN.canProceed = true;
+								BEN.folding = true;
+								BEN.mouseUp = false;
+							}
+						}
+					}		
+				}
+			}
+		  
+			//COLLISION DETECTION FOR CARDS WITH TOUCH
+			
+			var vx = BEN.tapX - BEN.hotSpots[0].centerX();				
+			var vy = BEN.tapY - BEN.hotSpots[0].centerY();
+		  
+			var combinedHalfWidths = BEN.tapW + BEN.hotSpots[0].halfWidth();
+			var combinedHalfHeights = BEN.tapH + BEN.hotSpots[0].halfHeight();
+
+			if (Math.abs(vx) < combinedHalfWidths) {
+			
+				if (Math.abs(vy) < combinedHalfHeights) {
+			
+					if (BEN.currentPage >= 0) {
+					
+						if (BEN.touchUp) {
+							
+							if (BEN.currentSide === 0 && !BEN.moveLeft && !BEN.unfolding && !BEN.folding && !BEN.moveRight) {
+								BEN.canProceed = true;
+								BEN.folding = true;
+								BEN.touchUp = false;
+							}
+						} 
+						if (BEN.touchUp) {
+						
+							if (BEN.currentSide === 1 && !BEN.moveLeft && !BEN.unfolding && !BEN.folding && !BEN.moveRight) {
+								BEN.canProceed = true;
+								BEN.folding = true;
+								BEN.touchUp = false;
+							}
+						}
+					}
+				}
+			}
+		  
+			//COLLISION DETECTION FOR X BUTTON WITH MOUSE
+
+			var vx2 = BEN.mouseX - BEN.hotSpots[3].centerX();				
+			var vy2 = BEN.mouseY - BEN.hotSpots[3].centerY();
+		  
+			var combinedHalfWidths2 = BEN.mouseW + BEN.hotSpots[3].halfWidth();
+			var combinedHalfHeights2 = BEN.mouseH + BEN.hotSpots[3].halfHeight();
+
+			if (Math.abs(vx2) < combinedHalfWidths2) {
+			
+				if (Math.abs(vy2) < combinedHalfHeights2) {
+				
+					if (BEN.mouseDown) {
+						window.history.back();
+					}
+				}
+			}
+		  
+			//COLLISION DETECTION FOR X BUTTON WITH TOUCH
+
+			if (BEN.tapY < 200 && BEN.tapX > 500) {
+				
+				if (BEN.touchDown) {
+					window.history.back();
+				}
+			 }
+		  
+			//COLLISION DETECTION FOR LEFT BUTTON WITH MOUSE
+		  
+			var vx2 = BEN.mouseX - BEN.hotSpots[4].centerX();				
+			var vy2 = BEN.mouseY - BEN.hotSpots[4].centerY();
+		  
+			var combinedHalfWidths2 = BEN.mouseW + BEN.hotSpots[4].halfWidth();
+			var combinedHalfHeights2 = BEN.mouseH + BEN.hotSpots[4].halfHeight();
+
+			if (Math.abs(vx2) < combinedHalfWidths2) {
+			
+				if (Math.abs(vy2) < combinedHalfHeights2) {
+				
+					if (BEN.mouseDown && BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight && BEN.canProceed) {
+						BEN.folding = false;
+						BEN.unfolding = false;
+						BEN.moveRight = true;
+						context.drawImage(leftButtonPressedImage,leftButtonPressed.x,leftButtonPressed.y,leftButtonPressed.width,leftButtonPressed.height);
+					}
+				}
+			}
+		  
+			//COLLISION DETECTION FOR LEFT BUTTON WITH TOUCH
+			
+			var vx3 = BEN.tapX - BEN.hotSpots[4].centerX();				
+			var vy3 = BEN.tapY - BEN.hotSpots[4].centerY();
+		  
+			var combinedHalfWidths3 = BEN.mouseW + BEN.hotSpots[4].halfWidth();
+			var combinedHalfHeights3 = BEN.mouseH + BEN.hotSpots[4].halfHeight();
+
+			if (Math.abs(vx3) < combinedHalfWidths3) {
+			
+				if (Math.abs(vy3) < combinedHalfHeights3) {
+				
+					if (BEN.touchDown && BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight) {
+						BEN.folding = false;
+						BEN.unfolding = false;
+						BEN.moveRight = true;
+						context.drawImage(leftButtonPressedImage,leftButtonPressed.x,leftButtonPressed.y,leftButtonPressed.width,leftButtonPressed.height);
+					}
+				}
+			}
+		  
+			//COLLISION DETECTION FOR RIGHT BUTTON WITH MOUSE
+			
+			var vx2 = BEN.mouseX - BEN.hotSpots[5].centerX();				
+			var vy2 = BEN.mouseY - BEN.hotSpots[5].centerY();
+		  
+			var combinedHalfWidths2 = BEN.mouseW + BEN.hotSpots[5].halfWidth();
+			var combinedHalfHeights2 = BEN.mouseH + BEN.hotSpots[5].halfHeight();
+
+			if (Math.abs(vx2) < combinedHalfWidths2) {
+			
+				if (Math.abs(vy2) < combinedHalfHeights2) {
+				
+					if (BEN.mouseDown && BEN.currentPage < 14 && BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight && BEN.canProceed) {
+						BEN.canProceed = true;
+						BEN.folding = false;
+						BEN.unfolding = false;
+						BEN.moveLeft = true;
+						context.drawImage(rightButtonPressedImage,rightButtonPressed.x,rightButtonPressed.y,rightButtonPressed.width,rightButtonPressed.height);
+					}
+				}
+			}
+		  
+			//COLLISION DETECTION FOR RIGHT BUTTON WITH TOUCH
+			
+			var vx3 = BEN.tapX - BEN.hotSpots[5].centerX();				
+			var vy3 = BEN.tapY - BEN.hotSpots[5].centerY();
+		  
+			var combinedHalfWidths3 = BEN.mouseW + BEN.hotSpots[5].halfWidth();
+			var combinedHalfHeights3 = BEN.mouseH + BEN.hotSpots[5].halfHeight();
+
+			if (Math.abs(vx3) < combinedHalfWidths3) {
+			
+				if (Math.abs(vy3) < combinedHalfHeights3) {
+				
+					if (BEN.touchDown && BEN.currentPage < 14 && BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight && BEN.canProceed) {
+						BEN.folding = false;
+						BEN.unfolding = false;
+						BEN.moveLeft = true;
+						context.drawImage(rightButtonPressedImage,rightButtonPressed.x,rightButtonPressed.y,rightButtonPressed.width,rightButtonPressed.height);
+					}
+				}
+			}
 		}
 	};
 
@@ -575,483 +1053,6 @@
 	BEN.init();
 	BEN.prepareListeners();
 
-	function main() {
 
-		BEN.resizeScreen();
-			
-		requestAnimationFrame(main,canvas);
-		context.clearRect(0,0,canvas.width,canvas.height);
-		
-		function movePagesLeft() {
-			
-			var pageVX = -165;
-			
-			if (BEN.moveLeft && BEN.currentPage >= 0 && BEN.currentPage < 14 || BEN.englishChosen || BEN.spanishChosen) {
-				
-				if (BEN.pages[i].x < -600 && BEN.pages[i].x > -980) {
-					BEN.currentSide = 0;
-				}   	
-				if (BEN.pages[i].x < 0 && BEN.pages[i].x >= -600) {
-					BEN.mouseUp = false;
-					BEN.touchUp = false;
-				}	
-				if (BEN.pages[BEN.currentPage + 2].x < 0) {
-					BEN.moveLeft = false;
-				
-					if (BEN.currentPage < 14) {
-						BEN.currentPage++;
-						BEN.englishChosen = false;
-						BEN.spanishChosen = false;
-					}
-				}
-				
-				BEN.pages[i].x += pageVX * BEN.EASING;
-			}
-		}	
-
-		function movePagesRight() {
-			
-			if (BEN.moveRight && BEN.currentPage >= 0 && BEN.currentPage <= 14 && !BEN.englishChosen && !BEN.spanishChosen) {
-				  
-				if (BEN.pages[BEN.currentPage + 1].x > 700 && BEN.pages[BEN.currentPage + 1].x < 900) {
-					BEN.currentSide = 0;
-				}
-				if (BEN.pages[BEN.currentPage + 1].x > 0 && BEN.pages[BEN.currentPage + 1].x <= 700) {
-					BEN.mouseUp = false;
-					BEN.touchUp = false;
-				}	
-				if (BEN.pages[BEN.currentPage + 1].x > 1470) {
-					BEN.moveRight = false;
-					BEN.currentPage--;
-				}
-					
-				var vx = 165;
-				BEN.pages[i].x += vx * BEN.EASING; 
-			}
-		}	
-		
-		function keepPagesAligned() {
-				
-			if (!BEN.moveLeft && !BEN.moveRight && BEN.currentPage >= 0 && !BEN.folding && !BEN.unfolding) {
-				 
-				BEN.pages[BEN.currentPage + 1].x = 0;
-				BEN.pages[BEN.currentPage + 2].x = 1470;
-			} 
-		
-			if (BEN.pages[1].x === 0) {
-				BEN.pages[0].x = -1470;
-			}
-		}
-			
-		function enforcePageBoundaries() {
-		
-			if (BEN.pages[0].x > 0) {
-				BEN.pages[0].x = 0;
-			}
-			if (BEN.pages[15].x < 0) {
-				BEN.pages[15].x = 0;
-			}
-		}
-		
-		function renderCards() { 
-
-			for (var k = 0; k < 23; k++) {
-
-				if (BEN.currentSide === 0) {
-			
-					if (!BEN.englishOn && !BEN.spanishOn) {
-						context.drawImage(BEN.pagesFrontEN[0],BEN.pages[0].x,BEN.pages[0].y,BEN.pages[0].width,BEN.pages[0].height);
-					}
-					if (BEN.englishOn) {
-						context.drawImage(BEN.pagesFrontEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
-					}
-					if (BEN.spanishOn) {
-						context.drawImage(BEN.pagesFrontES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
-					}
-					if (BEN.folding && BEN.pages[k].width > 0) {
-						BEN.pages[k].x += 35.5;
-						BEN.pages[k].width -= 71.1;
-					}
-					if (BEN.unfolding && BEN.pages[k].width < 640) {
-						BEN.pages[k].x -= 35.5;
-						BEN.pages[k].width += 71.1;
-					}
-				}
-
-				if (BEN.currentSide === 1) {
-
-					if (BEN.englishOn) {
-						context.drawImage(BEN.pagesRearEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
-					}
-					if (BEN.spanishOn) {
-						context.drawImage(BEN.pagesRearES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
-					}	
-					if (BEN.folding && BEN.pages[k].width > 0 && !BEN.moveLeft && !BEN.moveRight) {
-						BEN.pages[k].x += 35.5;
-						BEN.pages[k].width -= 71.1;
-					}
-					if (BEN.unfolding && BEN.pages[k].width < 640) {
-						BEN.pages[k].x -= 35.5;
-						BEN.pages[k].width += 71.1;
-					}
-				}
-
-				if (BEN.folding && BEN.pages[k].width < 0 && BEN.currentSide === 0 && !BEN.moveLeft && !BEN.moveRight) {
-					BEN.pages[k].width = 0;
-					BEN.folding = false;
-					BEN.unfolding = true;
-					BEN.currentSide = 1;
-				}
-				if (BEN.folding && BEN.pages[k].width < 0 && BEN.currentSide === 1) {
-					BEN.pages[k].width = 0;
-					BEN.folding = false;
-					BEN.unfolding = true;
-					BEN.currentSide = 0;
-				}
-				if (BEN.unfolding && BEN.pages[k].width > 640) {
-					BEN.pages[k].width = 640;
-					BEN.unfolding = false;
-					BEN.folding = false;
-				}
-			}
-		}
-
-		function renderUI() {
-		
-			if (BEN.currentPage >= 1 && !BEN.moveLeft && !BEN.moveRight) {
-				context.font =  "bold 24pt sesame";
-				context.fillStyle = "#fff";
-				context.fillText(BEN.currentPage + " / 14",20,40);
-				
-				if (!BEN.android && !BEN.ios) {
-					context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
-				}
-				if (BEN.currentPage < 14 && !BEN.android && !BEN.ios) {
-					context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
-				}
-				if (BEN.currentPage === 0 && BEN.currentSide === 1 && !BEN.android && !BEN.ios) {
-					context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
-					context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
-				}
-				if (BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight) {
-					context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
-				}
-				if (BEN.currentPage === -1 && BEN.pages[0].x === 0) {
-					context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
-				}
-			}
-		}
-		
-	  	for (var i = 0; i < BEN.pages.length; i++) { 
-		
-				movePagesLeft();
-				movePagesRight();
-				keepPagesAligned();			
-		}	
-		
-		enforcePageBoundaries();	
-		renderCards();	
-		renderUI();
-		
-		//COLLISION DETECTION FOR ENGLISH WITH TOUCH
-
-		if (BEN.tapY > 500 && BEN.tapX <= 320 && BEN.currentPage === -1 && BEN.swipeLength === 0) {
-	 
-			if (BEN.touchDown && BEN.pages[0].x === 0) {
-				context.drawImage(englishPressedImage,englishPressed.x,englishPressed.y,englishPressed.width,englishPressed.height);
-			}
-			
-			if (BEN.touchUp && !BEN.moveLeft && !BEN.moveRight) {
-				BEN.englishChosen = true;
-				BEN.englishOn = true;
-				BEN.spanishOn = false;
-				BEN.moveLeft = true;
-			}
-		}
-	  
-		//COLLISION DETECTION FOR SPANISH WITH TOUCH
-
-		if (BEN.tapY > 800 && BEN.tapX > 320 && BEN.currentPage === -1 && BEN.swipeLength === 0) {
-	 
-			if (BEN.touchDown && BEN.pages[0].x === 0) {
-				context.drawImage(spanishPressedImage,spanishPressed.x,spanishPressed.y,spanishPressed.width,spanishPressed.height);
-			}
-			if (BEN.touchUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {
-				BEN.spanishChosen = true;
-				BEN.spanishOn = true;
-				BEN.englishOn = false;
-				BEN.moveLeft = true;
-			}
-		}
-
-		//BUILDING THIS GUY RIGHT NOW
-	    /*
-        function checkCollisionMouse(obj1,) {
-			
-			for (var i = 0; i < BEN.hotSpots.length; i++) {
-								
-				var vx = obj1.mouseX - BEN.hotSpots[i].centerX();
-				var vy = obj1.mouseY - BEN.hotSpots[i].centerY();
-				
-				var combinedWidths = obj1.halfWidth() + BEN.hotSpots[i].halfWidth();
-				var combinesHeights = obj1.halfHeight() + BEN.hotSpots[i].halfHeight();
-				
-				if (Math.abs(vx) < combinedHalfWidths) {
-					
-					if (Math.abs(vy) < combinedHalfHeights) {
-						
-						if (BEN.currentPage >= 0) {
-							
-							if (BEN.mouseUp && !BEN.unfolding && !BEN.folding && !BEN.moveLeft && !BEN.moveRight) {
-					
-								if (BEN.currentSide === 0) {
-									BEN.canProceed = true;
-									BEN.folding = true;
-									BEN.mouseUp = false;
-								}
-							}
-						
-							if (BEN.mouseUp && !BEN.unfolding && !BEN.folding && !BEN.moveLeft && !BEN.moveRight) {
-							
-								if (BEN.currentSide === 1) {
-									BEN.canProceed = true;
-									BEN.folding = true;
-									BEN.mouseUp = false;
-								}
-							}
-						}
-					}
-				}
-			}
-         */
-        
-		//COLLISION DETECTION FOR ENGLISH WITH MOUSE
-		
-		var vx4 = BEN.mouseX - BEN.hotSpots[1].centerX();				
-	    var vy4 = BEN.mouseY - BEN.hotSpots[1].centerY();
-	  
-		var combinedHalfWidths4 = BEN.mouseW + BEN.hotSpots[1].halfWidth();
-		var combinedHalfHeights4 = BEN.mouseH + BEN.hotSpots[1].halfHeight();
-
-		if (Math.abs(vx4) < combinedHalfWidths4) {
-		
-			if (Math.abs(vy4) < combinedHalfHeights4) {
-			
-				if (BEN.mouseDown && BEN.currentPage === -1 && BEN.pages[0].x === 0) {
-					context.drawImage(englishPressedImage,englishPressed.x,englishPressed.y,englishPressed.width,englishPressed.height);
-				}
-				if (BEN.mouseUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {	
-					BEN.englishChosen = true;
-					BEN.englishOn = true;
-					BEN.spanishOn = false;
-				}
-			}
-		}
-	  
-		//COLLISION DETECTION FOR SPANISH WITH MOUSE
-	  
-		var vx5 = BEN.mouseX - BEN.hotSpots[2].centerX();				
-		var vy5 = BEN.mouseY - BEN.hotSpots[2].centerY();
-	  
-		var combinedHalfWidths5 = BEN.mouseW + BEN.hotSpots[2].halfWidth();
-		var combinedHalfHeights5 = BEN.mouseH + BEN.hotSpots[2].halfHeight();
-
-		if (Math.abs(vx5) < combinedHalfWidths5) {
-		
-			if (Math.abs(vy5) < combinedHalfHeights5) {
-				
-				if (BEN.mouseDown && BEN.currentPage === -1 && BEN.pages[0].x === 0) {
-		
-					context.drawImage(spanishPressedImage,spanishPressed.x,spanishPressed.y,spanishPressed.width,spanishPressed.height);
-				}
-				if (BEN.mouseUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {
-					BEN.spanishChosen = true;
-					BEN.spanishOn = true;
-					BEN.englishOn = false;
-				}
-			}
-		}
-	  
-		//COLLISION DETECTION FOR CARDS WITH MOUSE
-	  
-		var vx1 = BEN.mouseX - BEN.hotSpots[0].centerX();				
-		var vy1 = BEN.mouseY - BEN.hotSpots[0].centerY();
-	  
-		var combinedHalfWidths1 = BEN.mouseW + BEN.hotSpots[0].halfWidth();
-		var combinedHalfHeights1 = BEN.mouseH + BEN.hotSpots[0].halfHeight();
-
-		if (Math.abs(vx1) < combinedHalfWidths1) {
-		
-			if (Math.abs(vy1) < combinedHalfHeights1) {
-			
-				if (BEN.currentPage >= 0) {
-			   
-					if (BEN.mouseUp && !BEN.unfolding && !BEN.folding && !BEN.moveLeft && !BEN.moveRight) {
-					
-						if (BEN.currentSide === 0) {
-							BEN.canProceed = true;
-							BEN.folding = true;
-							BEN.mouseUp = false;
-						}
-					}
-				
-					if (BEN.mouseUp && !BEN.unfolding && !BEN.folding && !BEN.moveLeft && !BEN.moveRight) {
-					
-						if (BEN.currentSide === 1) {
-							BEN.canProceed = true;
-							BEN.folding = true;
-							BEN.mouseUp = false;
-						}
-					}
-				}		
-			}
-		}
-	  
-	    //COLLISION DETECTION FOR CARDS WITH TOUCH
-		
-		var vx = BEN.tapX - BEN.hotSpots[0].centerX();				
-		var vy = BEN.tapY - BEN.hotSpots[0].centerY();
-	  
-		var combinedHalfWidths = BEN.tapW + BEN.hotSpots[0].halfWidth();
-		var combinedHalfHeights = BEN.tapH + BEN.hotSpots[0].halfHeight();
-
-		if (Math.abs(vx) < combinedHalfWidths) {
-		
-			if (Math.abs(vy) < combinedHalfHeights) {
-		
-				if (BEN.currentPage >= 0) {
-				
-					if (BEN.touchUp) {
-						
-						if (BEN.currentSide === 0 && !BEN.moveLeft && !BEN.unfolding && !BEN.folding && !BEN.moveRight) {
-							BEN.canProceed = true;
-							BEN.folding = true;
-							BEN.touchUp = false;
-						}
-					} 
-					if (BEN.touchUp) {
-					
-						if (BEN.currentSide === 1 && !BEN.moveLeft && !BEN.unfolding && !BEN.folding && !BEN.moveRight) {
-							BEN.canProceed = true;
-							BEN.folding = true;
-							BEN.touchUp = false;
-						}
-					}
-				}
-			}
-		}
-	  
-		//COLLISION DETECTION FOR X BUTTON WITH MOUSE
-
-		var vx2 = BEN.mouseX - BEN.hotSpots[3].centerX();				
-		var vy2 = BEN.mouseY - BEN.hotSpots[3].centerY();
-	  
-		var combinedHalfWidths2 = BEN.mouseW + BEN.hotSpots[3].halfWidth();
-		var combinedHalfHeights2 = BEN.mouseH + BEN.hotSpots[3].halfHeight();
-
-		if (Math.abs(vx2) < combinedHalfWidths2) {
-		
-			if (Math.abs(vy2) < combinedHalfHeights2) {
-			
-				if (BEN.mouseDown) {
-					window.history.back();
-				}
-			}
-		}
-	  
-		//COLLISION DETECTION FOR X BUTTON WITH TOUCH
-
-		if (BEN.tapY < 200 && BEN.tapX > 500) {
-			
-			if (BEN.touchDown) {
-				window.history.back();
-			}
-		 }
-	  
-		//COLLISION DETECTION FOR LEFT BUTTON WITH MOUSE
-	  
-		var vx2 = BEN.mouseX - BEN.hotSpots[4].centerX();				
-		var vy2 = BEN.mouseY - BEN.hotSpots[4].centerY();
-	  
-		var combinedHalfWidths2 = BEN.mouseW + BEN.hotSpots[4].halfWidth();
-		var combinedHalfHeights2 = BEN.mouseH + BEN.hotSpots[4].halfHeight();
-
-		if (Math.abs(vx2) < combinedHalfWidths2) {
-		
-			if (Math.abs(vy2) < combinedHalfHeights2) {
-			
-				if (BEN.mouseDown && BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight && BEN.canProceed) {
-					BEN.folding = false;
-					BEN.unfolding = false;
-					BEN.moveRight = true;
-					context.drawImage(leftButtonPressedImage,leftButtonPressed.x,leftButtonPressed.y,leftButtonPressed.width,leftButtonPressed.height);
-				}
-			}
-		}
-	  
-		//COLLISION DETECTION FOR LEFT BUTTON WITH TOUCH
-		
-		var vx3 = BEN.tapX - BEN.hotSpots[4].centerX();				
-		var vy3 = BEN.tapY - BEN.hotSpots[4].centerY();
-	  
-		var combinedHalfWidths3 = BEN.mouseW + BEN.hotSpots[4].halfWidth();
-		var combinedHalfHeights3 = BEN.mouseH + BEN.hotSpots[4].halfHeight();
-
-		if (Math.abs(vx3) < combinedHalfWidths3) {
-		
-			if (Math.abs(vy3) < combinedHalfHeights3) {
-			
-				if (BEN.touchDown && BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight) {
-					BEN.folding = false;
-					BEN.unfolding = false;
-					BEN.moveRight = true;
-					context.drawImage(leftButtonPressedImage,leftButtonPressed.x,leftButtonPressed.y,leftButtonPressed.width,leftButtonPressed.height);
-				}
-			}
-		}
-	  
-		//COLLISION DETECTION FOR RIGHT BUTTON WITH MOUSE
-		
-		var vx2 = BEN.mouseX - BEN.hotSpots[5].centerX();				
-		var vy2 = BEN.mouseY - BEN.hotSpots[5].centerY();
-	  
-		var combinedHalfWidths2 = BEN.mouseW + BEN.hotSpots[5].halfWidth();
-		var combinedHalfHeights2 = BEN.mouseH + BEN.hotSpots[5].halfHeight();
-
-		if (Math.abs(vx2) < combinedHalfWidths2) {
-		
-			if (Math.abs(vy2) < combinedHalfHeights2) {
-			
-				if (BEN.mouseDown && BEN.currentPage < 14 && BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight && BEN.canProceed) {
-					BEN.canProceed = true;
-					BEN.folding = false;
-					BEN.unfolding = false;
-					BEN.moveLeft = true;
-					context.drawImage(rightButtonPressedImage,rightButtonPressed.x,rightButtonPressed.y,rightButtonPressed.width,rightButtonPressed.height);
-				}
-			}
-		}
-	  
-		//COLLISION DETECTION FOR RIGHT BUTTON WITH TOUCH
-		
-		var vx3 = BEN.tapX - BEN.hotSpots[5].centerX();				
-		var vy3 = BEN.tapY - BEN.hotSpots[5].centerY();
-	  
-		var combinedHalfWidths3 = BEN.mouseW + BEN.hotSpots[5].halfWidth();
-		var combinedHalfHeights3 = BEN.mouseH + BEN.hotSpots[5].halfHeight();
-
-		if (Math.abs(vx3) < combinedHalfWidths3) {
-		
-			if (Math.abs(vy3) < combinedHalfHeights3) {
-			
-				if (BEN.touchDown && BEN.currentPage < 14 && BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight && BEN.canProceed) {
-					BEN.folding = false;
-					BEN.unfolding = false;
-					BEN.moveLeft = true;
-					context.drawImage(rightButtonPressedImage,rightButtonPressed.x,rightButtonPressed.y,rightButtonPressed.width,rightButtonPressed.height);
-				}
-			}
-		}
-	}
 
 })();
