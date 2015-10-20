@@ -5,6 +5,8 @@
 		
 		canvas: document.getElementById("canvas"),
 		context: this.canvas.getContext("2d"),
+		
+		totalPages: 8,
 	
 		mouseY: 0,		
 		mouseY: 0,
@@ -359,7 +361,7 @@
 		},
 		processingRoutine: function() {
 	
-			if (BEN.swipeDirection == 'left' && BEN.currentPage >= 1 && BEN.currentPage < 14 && BEN.canProceed) {
+			if (BEN.swipeDirection == 'left' && BEN.currentPage >= 1 && BEN.currentPage < BEN.totalPages && BEN.canProceed) {
 				BEN.moveLeft = true;
 				BEN.moveRight = false;
 			}
@@ -369,7 +371,7 @@
 				BEN.moveRight = false;
 			}
 		
-			if (BEN.swipeDirection == 'right' && BEN.currentPage >= 1 && BEN.currentPage <= 14) {
+			if (BEN.swipeDirection == 'right' && BEN.currentPage >= 1 && BEN.currentPage <= BEN.totalPages) {
 				BEN.moveRight = true;
 				BEN.moveLeft = false;
 			}
@@ -513,7 +515,7 @@
 				
 				var pageVX = -165;
 				
-				if (BEN.moveLeft && BEN.currentPage >= 0 && BEN.currentPage < 14 || BEN.englishChosen || BEN.spanishChosen) {
+				if (BEN.moveLeft && BEN.currentPage >= 0 && BEN.currentPage < BEN.totalPages || BEN.englishChosen || BEN.spanishChosen) {
 					
 					if (BEN.pages[i].x < -600 && BEN.pages[i].x > -980) {
 						BEN.currentSide = 0;
@@ -525,7 +527,7 @@
 					if (BEN.pages[BEN.currentPage + 2].x < 0) {
 						BEN.moveLeft = false;
 					
-						if (BEN.currentPage < 14) {
+						if (BEN.currentPage < BEN.totalPages) {
 							BEN.currentPage++;
 							BEN.englishChosen = false;
 							BEN.spanishChosen = false;
@@ -538,7 +540,7 @@
 
 			function movePagesRight() {
 				
-				if (BEN.moveRight && BEN.currentPage >= 0 && BEN.currentPage <= 14 && !BEN.englishChosen && !BEN.spanishChosen) {
+				if (BEN.moveRight && BEN.currentPage >= 0 && BEN.currentPage <= BEN.totalPages && !BEN.englishChosen && !BEN.spanishChosen) {
 					  
 					if (BEN.pages[BEN.currentPage + 1].x > 700 && BEN.pages[BEN.currentPage + 1].x < 900) {
 						BEN.currentSide = 0;
@@ -648,12 +650,12 @@
 				if (BEN.currentPage >= 1 && !BEN.moveLeft && !BEN.moveRight) {
 					BEN.context.font =  "bold 24pt sesame";
 					BEN.context.fillStyle = "#fff";
-					BEN.context.fillText(BEN.currentPage + " / 14",20,40);
+					BEN.context.fillText(BEN.currentPage + " / " + BEN.totalPages,20,40);
 					
 					if (!BEN.android && !BEN.ios) {
 						BEN.context.drawImage(BEN.UIImages[1],BEN.UI[4].x,BEN.UI[4].y,BEN.UI[4].width,BEN.UI[4].height);
 					}
-					if (BEN.currentPage < 14 && !BEN.android && !BEN.ios) {
+					if (BEN.currentPage < BEN.totalPages && !BEN.android && !BEN.ios) {
 						BEN.context.drawImage(BEN.UIImages[2],BEN.UI[5].x,BEN.UI[5].y,BEN.UI[5].width,BEN.UI[5].height);
 					}
 					if (BEN.currentPage === 0 && BEN.currentSide === 1 && !BEN.android && !BEN.ios) {
@@ -940,7 +942,7 @@
 			
 				if (Math.abs(vy2) < combinedHalfHeights2) {
 				
-					if (BEN.mouseDown && BEN.currentPage < 14 && BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight && BEN.canProceed) {
+					if (BEN.mouseDown && BEN.currentPage < BEN.totalPages && BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight && BEN.canProceed) {
 						BEN.canProceed = true;
 						BEN.folding = false;
 						BEN.unfolding = false;
@@ -961,7 +963,7 @@
 			
 				if (Math.abs(vy3) < combinedHalfHeights3) {
 				
-					if (BEN.touchDown && BEN.currentPage < 14 && BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight && BEN.canProceed) {
+					if (BEN.touchDown && BEN.currentPage < BEN.totalPages && BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight && BEN.canProceed) {
 						BEN.folding = false;
 						BEN.unfolding = false;
 						BEN.moveLeft = true;
