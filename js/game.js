@@ -5,12 +5,7 @@
 		
 		canvas: document.getElementById("canvas"),
 		context: this.canvas.getContext("2d"),
-
-		pagesFrontEN: [],
-		pagesRearEN: [],
-		pagesFrontES: [],
-		pagesRearES: [],
-		
+	
 		mouseY: 0,		
 		mouseY: 0,
 		mouseW: 1,
@@ -71,6 +66,11 @@
 			"PNC_mathcards_Xbtn.png","MOTG_arrowleft_default.png", "MOTG_arrowright_default.png", "loading-color.png", 
 			"loading-white.png"
 		],
+		
+		pagesFrontEN: [],
+		pagesRearEN: [],
+		pagesFrontES: [],
+		pagesRearES: [],
 		
 		pages: [],
 		rears: [],
@@ -147,6 +147,23 @@
 			return this.height / 2;
 		},
 		
+		setUpApplication: function() {
+			
+			BEN.createPageImages();
+			BEN.createUIImages(BEN.imageArrayUI);
+			BEN.checkCurrentState();
+			BEN.initializeHotSpots();
+			BEN.initializeUI();
+			BEN.initializeCards();
+			BEN.init();
+			BEN.prepareListeners();
+		},
+		createPageImages: function() {
+			BEN.createENPageImages(BEN.imageArrayFrontEnglish);
+			BEN.createESPageImages(BEN.imageArrayFrontSpanish);
+			BEN.createENRearPageImages(BEN.imageArrayRearEnglish);
+			BEN.createESRearPageImages(BEN.imageArrayRearSpanish);
+		},
 		init: function() {
 		
 			BEN.RATIO = BEN.WIDTH / BEN.HEIGHT;
@@ -227,22 +244,6 @@
 			BEN.addCardsToArray(22,BEN.rears,1000,0,640,960);
 			
 			BEN.defineCardSpacing();
-		},
-		createPageImages: function() {
-			BEN.createENPageImages(BEN.imageArrayFrontEnglish);
-			BEN.createESPageImages(BEN.imageArrayFrontSpanish);
-			BEN.createENRearPageImages(BEN.imageArrayRearEnglish);
-			BEN.createESRearPageImages(BEN.imageArrayRearSpanish);
-		},
-		setUpApplication: function() {
-			BEN.createPageImages();
-			BEN.createUIImages(BEN.imageArrayUI);
-			BEN.checkCurrentState();
-			BEN.initializeHotSpots();
-			BEN.initializeUI();
-			BEN.initializeCards();
-			BEN.init();
-			BEN.prepareListeners();
 		},
 		onMouseDown: function (event) {
 		
@@ -973,8 +974,7 @@
 
 	BEN.ua = navigator.userAgent.toLowerCase();
 	BEN.android = BEN.ua.indexOf('android') > -1 ? true : false;
-	BEN.ios = ( BEN.ua.indexOf('iphone') > -1 || BEN.ua.indexOf('ipad') > -1  ) ? 
-		true : false;
+	BEN.ios = ( BEN.ua.indexOf('iphone') > -1 || BEN.ua.indexOf('ipad') > -1  ) ? true : false;
 
 	BEN.setUpApplication();
 
