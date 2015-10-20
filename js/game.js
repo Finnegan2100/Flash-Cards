@@ -1,10 +1,10 @@
 
 (function() {
-
-	var canvas = document.getElementById("canvas"),
-		context = canvas.getContext("2d");
 		
 	var BEN = {
+		
+		canvas: document.getElementById("canvas"),
+		context: this.canvas.getContext("2d"),
 
 		pagesFrontEN: [],
 		pagesRearEN: [],
@@ -399,7 +399,7 @@
 
 			if (!BEN.mainCalled) {
 				window.setTimeout(this.checkCurrentState,24);
-				context.clearRect(0,0,canvas.width,canvas.height);
+				BEN.context.clearRect(0,0,canvas.width,canvas.height);
 			
 				switch (BEN.currentState) {
 
@@ -410,9 +410,9 @@
 						BEN.increment = BEN.pagesFrontEN.length / 100;	
 						BEN.percentage = BEN.checkingLoads / 100;
 					
-						context.drawImage(loadingWhiteImage,loadingWhite.x,loadingWhite.y,loadingWhite.width,loadingWhite.height);
+						BEN.context.drawImage(loadingWhiteImage,loadingWhite.x,loadingWhite.y,loadingWhite.width,loadingWhite.height);
 				
-						context.drawImage(loadingColorImage,0,loadingColor.height - (loadingColor.height * BEN.percentage),
+						BEN.context.drawImage(loadingColorImage,0,loadingColor.height - (loadingColor.height * BEN.percentage),
 							loadingColor.width, loadingColor.height * BEN.percentage,50, 449 - (loadingColor.height * BEN.percentage),
 							loadingColor.width,	loadingColor.height * BEN.percentage);
 					
@@ -449,7 +449,7 @@
 			BEN.resizeScreen();
 				
 			requestAnimationFrame(BEN.main,canvas);
-			context.clearRect(0,0,canvas.width,canvas.height);
+			BEN.context.clearRect(0,0,canvas.width,canvas.height);
 			
 			function movePagesLeft() {
 				
@@ -529,13 +529,13 @@
 					if (BEN.currentSide === 0) {
 				
 						if (!BEN.englishOn && !BEN.spanishOn) {
-							context.drawImage(BEN.pagesFrontEN[0],BEN.pages[0].x,BEN.pages[0].y,BEN.pages[0].width,BEN.pages[0].height);
+							BEN.context.drawImage(BEN.pagesFrontEN[0],BEN.pages[0].x,BEN.pages[0].y,BEN.pages[0].width,BEN.pages[0].height);
 						}
 						if (BEN.englishOn) {
-							context.drawImage(BEN.pagesFrontEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+							BEN.context.drawImage(BEN.pagesFrontEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
 						}
 						if (BEN.spanishOn) {
-							context.drawImage(BEN.pagesFrontES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+							BEN.context.drawImage(BEN.pagesFrontES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
 						}
 						if (BEN.folding && BEN.pages[k].width > 0) {
 							BEN.pages[k].x += 35.5;
@@ -550,10 +550,10 @@
 					if (BEN.currentSide === 1) {
 
 						if (BEN.englishOn) {
-							context.drawImage(BEN.pagesRearEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+							BEN.context.drawImage(BEN.pagesRearEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
 						}
 						if (BEN.spanishOn) {
-							context.drawImage(BEN.pagesRearES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+							BEN.context.drawImage(BEN.pagesRearES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
 						}	
 						if (BEN.folding && BEN.pages[k].width > 0 && !BEN.moveLeft && !BEN.moveRight) {
 							BEN.pages[k].x += 35.5;
@@ -588,25 +588,25 @@
 			function renderUI() {
 			
 				if (BEN.currentPage >= 1 && !BEN.moveLeft && !BEN.moveRight) {
-					context.font =  "bold 24pt sesame";
-					context.fillStyle = "#fff";
-					context.fillText(BEN.currentPage + " / 14",20,40);
+					BEN.context.font =  "bold 24pt sesame";
+					BEN.context.fillStyle = "#fff";
+					BEN.context.fillText(BEN.currentPage + " / 14",20,40);
 					
 					if (!BEN.android && !BEN.ios) {
-						context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
+						BEN.context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
 					}
 					if (BEN.currentPage < 14 && !BEN.android && !BEN.ios) {
-						context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
+						BEN.context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
 					}
 					if (BEN.currentPage === 0 && BEN.currentSide === 1 && !BEN.android && !BEN.ios) {
-						context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
-						context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
+						BEN.context.drawImage(leftButtonImage,leftButton.x,leftButton.y,leftButton.width,leftButton.height);
+						BEN.context.drawImage(rightButtonImage,rightButton.x,rightButton.y,rightButton.width,rightButton.height);
 					}
 					if (BEN.currentPage >= 0 && !BEN.moveLeft && !BEN.moveRight) {
-						context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
+						BEN.context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
 					}
 					if (BEN.currentPage === -1 && BEN.pages[0].x === 0) {
-						context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
+						BEN.context.drawImage(xBtnImage,xBtn.x,xBtn.y,xBtn.width,xBtn.height);
 					}
 				}
 			}
@@ -627,7 +627,7 @@
 			if (BEN.tapY > 500 && BEN.tapX <= 320 && BEN.currentPage === -1 && BEN.swipeLength === 0) {
 		 
 				if (BEN.touchDown && BEN.pages[0].x === 0) {
-					context.drawImage(englishPressedImage,englishPressed.x,englishPressed.y,englishPressed.width,englishPressed.height);
+					BEN.context.drawImage(englishPressedImage,englishPressed.x,englishPressed.y,englishPressed.width,englishPressed.height);
 				}
 				
 				if (BEN.touchUp && !BEN.moveLeft && !BEN.moveRight) {
@@ -643,7 +643,7 @@
 			if (BEN.tapY > 800 && BEN.tapX > 320 && BEN.currentPage === -1 && BEN.swipeLength === 0) {
 		 
 				if (BEN.touchDown && BEN.pages[0].x === 0) {
-					context.drawImage(spanishPressedImage,spanishPressed.x,spanishPressed.y,spanishPressed.width,spanishPressed.height);
+					BEN.context.drawImage(spanishPressedImage,spanishPressed.x,spanishPressed.y,spanishPressed.width,spanishPressed.height);
 				}
 				if (BEN.touchUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {
 					BEN.spanishChosen = true;
@@ -707,7 +707,7 @@
 				if (Math.abs(vy4) < combinedHalfHeights4) {
 				
 					if (BEN.mouseDown && BEN.currentPage === -1 && BEN.pages[0].x === 0) {
-						context.drawImage(englishPressedImage,englishPressed.x,englishPressed.y,englishPressed.width,englishPressed.height);
+						BEN.context.drawImage(englishPressedImage,englishPressed.x,englishPressed.y,englishPressed.width,englishPressed.height);
 					}
 					if (BEN.mouseUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {	
 						BEN.englishChosen = true;
@@ -731,7 +731,7 @@
 					
 					if (BEN.mouseDown && BEN.currentPage === -1 && BEN.pages[0].x === 0) {
 			
-						context.drawImage(spanishPressedImage,spanishPressed.x,spanishPressed.y,spanishPressed.width,spanishPressed.height);
+						BEN.context.drawImage(spanishPressedImage,spanishPressed.x,spanishPressed.y,spanishPressed.width,spanishPressed.height);
 					}
 					if (BEN.mouseUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {
 						BEN.spanishChosen = true;
@@ -853,7 +853,7 @@
 						BEN.folding = false;
 						BEN.unfolding = false;
 						BEN.moveRight = true;
-						context.drawImage(leftButtonPressedImage,leftButtonPressed.x,leftButtonPressed.y,leftButtonPressed.width,leftButtonPressed.height);
+						BEN.context.drawImage(leftButtonPressedImage,leftButtonPressed.x,leftButtonPressed.y,leftButtonPressed.width,leftButtonPressed.height);
 					}
 				}
 			}
@@ -874,7 +874,7 @@
 						BEN.folding = false;
 						BEN.unfolding = false;
 						BEN.moveRight = true;
-						context.drawImage(leftButtonPressedImage,leftButtonPressed.x,leftButtonPressed.y,leftButtonPressed.width,leftButtonPressed.height);
+						BEN.context.drawImage(leftButtonPressedImage,leftButtonPressed.x,leftButtonPressed.y,leftButtonPressed.width,leftButtonPressed.height);
 					}
 				}
 			}
@@ -896,7 +896,7 @@
 						BEN.folding = false;
 						BEN.unfolding = false;
 						BEN.moveLeft = true;
-						context.drawImage(rightButtonPressedImage,rightButtonPressed.x,rightButtonPressed.y,rightButtonPressed.width,rightButtonPressed.height);
+						BEN.context.drawImage(rightButtonPressedImage,rightButtonPressed.x,rightButtonPressed.y,rightButtonPressed.width,rightButtonPressed.height);
 					}
 				}
 			}
@@ -917,7 +917,7 @@
 						BEN.folding = false;
 						BEN.unfolding = false;
 						BEN.moveLeft = true;
-						context.drawImage(rightButtonPressedImage,rightButtonPressed.x,rightButtonPressed.y,rightButtonPressed.width,rightButtonPressed.height);
+						BEN.context.drawImage(rightButtonPressedImage,rightButtonPressed.x,rightButtonPressed.y,rightButtonPressed.width,rightButtonPressed.height);
 					}
 				}
 			}
@@ -1052,7 +1052,5 @@
 	BEN.initializeCards();
 	BEN.init();
 	BEN.prepareListeners();
-
-
 
 })();
