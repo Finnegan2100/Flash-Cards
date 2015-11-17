@@ -472,9 +472,9 @@
 					
 						BEN.context.drawImage(BEN.UIImage[3],BEN.UI[7].x,BEN.UI[7].y,BEN.UI[7].width,BEN.UI[7].height);
 				
-						BEN.context.drawImage(BEN.UIImage[4],0,BEN.UI[6].height - (BEN.UI[6].height * BEN.percentage),
-							BEN.UI[6].width, BEN.UI[6].height * BEN.percentage,50, 449 - (BEN.UI[6].height * BEN.percentage),
-							BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
+BEN.context.drawImage(BEN.UIImage[4],0,BEN.UI[6].height - (BEN.UI[6].height * BEN.percentage),
+BEN.UI[6].width, BEN.UI[6].height * BEN.percentage,50, 449 - (BEN.UI[6].height * BEN.percentage),
+BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 					
 						if (BEN.percentage > .9) {
 							BEN.currentState = "play";
