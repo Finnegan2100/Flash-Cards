@@ -25,47 +25,47 @@
 		currentState: "loading", 
 		
 		imageArrayFrontEnglish: [
-            "placeholderTitle.png", "placeholderFront.png", "placeholderFront.png",
-            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
-            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png", 
-            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
+            "coverButtons.jpg", "instructions.jpg", "card_front.jpg",
+            "card_front.jpg", "card_front.jpg", "card_front.jpg",
+            "card_front.jpg", "card_front.jpg", "card_front.jpg",
+            "card_front.jpg", "placeholderFront.png", "placeholderFront.png",
             "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
             "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
             "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
             "placeholderFront.png", "placeholderFront.png" 
 		],
 		imageArrayFrontSpanish: [
-			"placeholderTitle.png", "placeholderFront.png", "placeholderFront.png",
-            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
-            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png", 
-            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
+			"coverButtons.jpg", "instructions.jpg", "card_front.jpg",
+            "card_front.jpg", "card_front.jpg", "card_front.jpg",
+            "card_front.jpg", "card_front.jpg", "card_front.jpg",
+            "card_front.jpg", "placeholderFront.png", "placeholderFront.png",
             "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
             "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
             "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
             "placeholderFront.png", "placeholderFront.png" 
 		],
 		imageArrayRearEnglish: [
-			"placeholderTitle.png", "placeholderRear.png", "placeholderRear.png",
-            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
-            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png", 
-            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
+			"coverButtons.jpg", "instructions.jpg", "speak.jpg",
+            "drive.jpg", "eat.jpg", "swim.jpg",
+            "sing.jpg", "sleep.jpg", "dance.jpg", 
+            "fallInLove.jpg", "placeholderRear.png", "placeholderRear.png",
             "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
             "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
             "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
             "placeholderRear.png", "placeholderRear.png" 
 		],
 		imageArrayRearSpanish: [
-			"placeholderTitle.png", "placeholderRear.png", "placeholderRear.png",
-            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
-            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png", 
-            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
+			"coverButtons.jpg", "instructions.jpg","speak.jpg",
+            "drive.jpg", "eat.jpg", "swim.jpg",
+            "sing.jpg", "sleep.jpg", "dance.jpg", 
+            "fallInLove.jpg", "placeholderRear.png", "placeholderRear.png",
             "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
             "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
             "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
             "placeholderRear.png", "placeholderRear.png" 
 		],
 		imageArrayUI: [
-			"PNC_mathcards_Xbtn.png","MOTG_arrowleft_default.png", "MOTG_arrowright_default.png", "loading-color.png", 
+			"PNC_mathcards_Xbtn.png","left.png", "right.png", "loading-color.png", 
 			"loading-white.png"
 		],
 		
@@ -233,8 +233,8 @@
 			BEN.createUIObjects(BEN.UI,"xBtn",580,10,50,50);
 			BEN.createUIObjects(BEN.UI,"englishPressed",0,820,321,125);
 			BEN.createUIObjects(BEN.UI,"spanishPressed",320,820,321,125);
-			BEN.createUIObjects(BEN.UI,"leftButton",0,853,70,70);
-			BEN.createUIObjects(BEN.UI,"rightButton",565,853,70,70);
+			BEN.createUIObjects(BEN.UI,"leftButton",0,803,70,70);
+			BEN.createUIObjects(BEN.UI,"rightButton",565,803,70,70);
 			BEN.createUIObjects(BEN.UI,"loadingColor",300,200,530,200);
 			BEN.createUIObjects(BEN.UI,"loadingWhite",50,250,530,200);
 		},		
