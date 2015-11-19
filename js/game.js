@@ -569,17 +569,27 @@ BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 			
 				if (BEN.pages[1].x === 0) {
 					BEN.pages[0].x = -1470;
+					
+				}
+				
+				if (BEN.pages[1].x > 1470) {
+					BEN.pages[0].x = 0;
 				}
 			}
 				
 			function enforcePageBoundaries() {
-			
+				
+				console.log(BEN.pages[1].x);
+				
 				if (BEN.pages[0].x > 0) {
 					BEN.pages[0].x = 0;
 				}
+				
 				if (BEN.pages[15].x < 0) {
 					BEN.pages[15].x = 0;
 				}
+				
+				
 			}
 			
 			function renderCards() { 
