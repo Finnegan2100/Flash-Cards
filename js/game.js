@@ -28,41 +28,25 @@
             "coverButtons.jpg", "instructions.jpg", "card_front.jpg",
             "card_front.jpg", "card_front.jpg", "card_front.jpg",
             "card_front.jpg", "card_front.jpg", "card_front.jpg",
-            "card_front.jpg", "placeholderFront.png", "placeholderFront.png",
-            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
-            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
-            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
-            "placeholderFront.png", "placeholderFront.png" 
+            "card_front.jpg"
 		],
 		imageArrayFrontSpanish: [
 			"coverButtons.jpg", "instructions.jpg", "card_front.jpg",
             "card_front.jpg", "card_front.jpg", "card_front.jpg",
             "card_front.jpg", "card_front.jpg", "card_front.jpg",
-            "card_front.jpg", "placeholderFront.png", "placeholderFront.png",
-            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
-            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
-            "placeholderFront.png", "placeholderFront.png", "placeholderFront.png",
-            "placeholderFront.png", "placeholderFront.png" 
+            "card_front.jpg" 
 		],
 		imageArrayRearEnglish: [
 			"coverButtons.jpg", "instructions.jpg", "speak.jpg",
             "drive.jpg", "eat.jpg", "swim.jpg",
             "sing.jpg", "sleep.jpg", "dance.jpg", 
-            "fallInLove.jpg", "placeholderRear.png", "placeholderRear.png",
-            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
-            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
-            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
-            "placeholderRear.png", "placeholderRear.png" 
+            "fallInLove.jpg"
 		],
 		imageArrayRearSpanish: [
 			"coverButtons.jpg", "instructions.jpg","speak.jpg",
             "drive.jpg", "eat.jpg", "swim.jpg",
             "sing.jpg", "sleep.jpg", "dance.jpg", 
-            "fallInLove.jpg", "placeholderRear.png", "placeholderRear.png",
-            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
-            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
-            "placeholderRear.png", "placeholderRear.png", "placeholderRear.png",
-            "placeholderRear.png", "placeholderRear.png" 
+            "fallInLove.jpg"
 		],
 		imageArrayUI: [
 			"PNC_mathcards_Xbtn.png","left.png", "right.png", "loading-color.png", 
@@ -578,9 +562,7 @@ BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 			}
 				
 			function enforcePageBoundaries() {
-				
-				console.log(BEN.pages[1].x);
-				
+								
 				if (BEN.pages[0].x > 0) {
 					BEN.pages[0].x = 0;
 				}
@@ -589,12 +571,11 @@ BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 					BEN.pages[15].x = 0;
 				}
 				
-				
 			}
 			
 			function renderCards() { 
 
-				for (var k = 0; k < 23; k++) {
+				for (var k = 0; k < 10; k++) {
 
 					if (BEN.currentSide === 0) {
 				
