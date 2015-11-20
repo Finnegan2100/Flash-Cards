@@ -639,9 +639,9 @@ BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 			function renderUI() {
 			
 				if (BEN.currentPage >= 1 && !BEN.moveLeft && !BEN.moveRight) {
-					//BEN.context.font =  "bold 24pt sesame";
-					//BEN.context.fillStyle = "#fff";
-					//BEN.context.fillText(BEN.currentPage + " / " + BEN.totalPages,20,40);
+					BEN.context.font =  "bold 44pt letstracebasic";
+					BEN.context.fillStyle = "#000";
+					BEN.context.fillText(BEN.currentPage + " / " + BEN.totalPages,20,40);
 					
 					if (!BEN.android && !BEN.ios) {
 						BEN.context.drawImage(BEN.UIImages[1],BEN.UI[4].x,BEN.UI[4].y,BEN.UI[4].width,BEN.UI[4].height);

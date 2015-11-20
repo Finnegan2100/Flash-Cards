@@ -3,15 +3,15 @@
     canvas { display:block; border: 0px solid #333; margin-right: auto; margin-left: auto; padding: 0px;
         background: #000; }
 
-    @font-face { 
-        font-family: 'Sesame'; 
-        src: url('/sesamestreet-theme/css/fonts/sesamewkshp-regular-webfont.eot'); 
-        src: url('/sesamestreet-theme/css/fonts/sesamewkshp-regular-webfont.eot?#iefix')
-            format('embedded-opentype'), 
-            url('/sesamestreet-theme/css/fonts/sesamewkshp-regular-webfont.woff') format('woff'),  
-            url('/sesamestreet-theme/css/fonts/sesamewkshp-regular-webfont.ttf') format('truetype'),
-            url('/sesamestreet-theme/css/fonts/sesamewkshp-regular-webfont.svg#SesameWkshpRegular')    
-            format('svg');
-        font-weight: normal;    
-        font-style: normal; 
-    } 
+  @font-face {
+    font-family: 'letstracebasic';
+    src: url('fonts/letstracebasic-webfont.eot');
+    src: url('../fonts/letstracebasic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/letstracebasic-webfont.woff2') format('woff2'),
+         url('../fonts/letstracebasic-webfont.woff') format('woff'),
+         url('../fonts/letstracebasic-webfont.ttf') format('truetype'),
+         url('../fonts/letstracebasic-webfont.svg#letstracebasic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
