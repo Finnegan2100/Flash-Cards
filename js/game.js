@@ -49,7 +49,7 @@
             "fallInLove.jpg"
 		],
 		imageArrayUI: [
-			"PNC_mathcards_Xbtn.png","left.png", "right.png", "loading-color.png", 
+			"xButton.png","left.png", "right.png", "loading-color.png", 
 			"loading-white.png"
 		],
 		
@@ -214,7 +214,7 @@
 		initializeUI: function() {
 
 			BEN.createUIObjects(BEN.UI,"loading",30,30,640,960);
-			BEN.createUIObjects(BEN.UI,"xBtn",580,10,50,50);
+			BEN.createUIObjects(BEN.UI,"xBtn",540,0,100,100);
 			BEN.createUIObjects(BEN.UI,"englishPressed",0,820,321,125);
 			BEN.createUIObjects(BEN.UI,"spanishPressed",320,820,321,125);
 			BEN.createUIObjects(BEN.UI,"leftButton",0,803,70,70);
@@ -639,9 +639,9 @@ BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 			function renderUI() {
 			
 				if (BEN.currentPage >= 1 && !BEN.moveLeft && !BEN.moveRight) {
-					BEN.context.font =  "bold 24pt sesame";
-					BEN.context.fillStyle = "#fff";
-					BEN.context.fillText(BEN.currentPage + " / " + BEN.totalPages,20,40);
+					//BEN.context.font =  "bold 24pt sesame";
+					//BEN.context.fillStyle = "#fff";
+					//BEN.context.fillText(BEN.currentPage + " / " + BEN.totalPages,20,40);
 					
 					if (!BEN.android && !BEN.ios) {
 						BEN.context.drawImage(BEN.UIImages[1],BEN.UI[4].x,BEN.UI[4].y,BEN.UI[4].width,BEN.UI[4].height);
