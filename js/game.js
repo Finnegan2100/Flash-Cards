@@ -52,8 +52,11 @@
 			"xButton.png","left.png", "right.png", "loading-color.png", 
 			"loading-white.png"
 		],
-		verbsItalian: [
+		lang1Verbs: [
 			"Parlare","Guidare","Mangiare","Nuotare","Cantare","Dormire","Ballare","Innamorarsi"
+		],
+		lang2Verbs: [
+			"Parler","Conduire","Manger","Nager","Chanter","Dormir","Danser","Tomber Amoureux"
 		],
 		
 		pagesFrontEN: [],
@@ -584,27 +587,38 @@ BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 				
 						if (!BEN.lang1On && !BEN.spanishOn) {
 							BEN.context.drawImage(BEN.pagesFrontEN[0],BEN.pages[0].x,BEN.pages[0].y,BEN.pages[0].width,BEN.pages[0].height);
+if (!BEN.moveLeft && !BEN.moveRight && BEN.currentPage === -1) {
+	BEN.context.font = "92pt letstracebasic";
+	BEN.context.fillStyle = "#000";
+	BEN.context.fillText("Italiano",60,900);
+}							
 						
 						}
 						if (BEN.lang1On) {
 							BEN.context.drawImage(BEN.pagesFrontEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
-if (!BEN.moveLeft && !BEN.moveRight && BEN.currentPage === -1) {
-	BEN.context.font = "92pt letstracebasic";
-	BEN.context.fillStyle = "#000";
-	BEN.context.fillText("Italiano",200,500);
-}
+
 					
 if (!BEN.moveLeft && !BEN.moveRight && BEN.currentPage >= 1) {							
 BEN.context.font = "92pt letstracebasic";
 BEN.context.fillStyle = "#000";
 if (BEN.currentPage < 8)
-BEN.context.fillText(BEN.verbsItalian[BEN.currentPage - 1],200,500);
+BEN.context.fillText(BEN.lang1Verbs[BEN.currentPage - 1],200,500);
 else 
-BEN.context.fillText(BEN.verbsItalian[BEN.currentPage - 1],140,500);	
+BEN.context.fillText(BEN.lang1Verbs[BEN.currentPage - 1],140,500);	
 }
 						}
 						if (BEN.spanishOn) {
 							BEN.context.drawImage(BEN.pagesFrontES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+if (!BEN.moveLeft && !BEN.moveRight && BEN.currentPage >= 1) {							
+BEN.context.font = "92pt letstracebasic";
+BEN.context.fillStyle = "#000";
+if (BEN.currentPage < 8)
+BEN.context.fillText(BEN.lang2Verbs[BEN.currentPage - 1],200,500);
+else 
+BEN.context.fillText(BEN.lang2Verbs[BEN.currentPage - 1],140,500);	
+}							
+							
+							
 						}
 						if (BEN.folding && BEN.pages[k].width > 0) {
 							BEN.pages[k].x += 35.5;
