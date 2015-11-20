@@ -52,6 +52,9 @@
 			"xButton.png","left.png", "right.png", "loading-color.png", 
 			"loading-white.png"
 		],
+		verbsItalian: [
+			"Parlare","Guidare","Mangiare","Nuotare","Cantare","Dormire","Ballare","Innamorarsi"
+		],
 		
 		pagesFrontEN: [],
 		pagesRearEN: [],
@@ -70,9 +73,9 @@
 		moveRight: false,
 		canProceed: false,
 		
-		englishChosen: false,
+		lang1Chosen: false,
 		spanishChosen: false,
-		englishOn: false,
+		lang1On: false,
 		spanishOn: false,
 
 		folding: false,
@@ -499,7 +502,7 @@ BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 				
 				var pageVX = -165;
 				
-				if (BEN.moveLeft && BEN.currentPage >= 0 && BEN.currentPage < BEN.totalPages || BEN.englishChosen || BEN.spanishChosen) {
+				if (BEN.moveLeft && BEN.currentPage >= 0 && BEN.currentPage < BEN.totalPages || BEN.lang1Chosen || BEN.spanishChosen) {
 					
 					if (BEN.pages[i].x < -600 && BEN.pages[i].x > -980) {
 						BEN.currentSide = 0;
@@ -513,7 +516,7 @@ BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 					
 						if (BEN.currentPage < BEN.totalPages) {
 							BEN.currentPage++;
-							BEN.englishChosen = false;
+							BEN.lang1Chosen = false;
 							BEN.spanishChosen = false;
 						}
 					}
@@ -524,7 +527,7 @@ BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 
 			function movePagesRight() {
 				
-				if (BEN.moveRight && BEN.currentPage >= 0 && BEN.currentPage <= BEN.totalPages && !BEN.englishChosen && !BEN.spanishChosen) {
+				if (BEN.moveRight && BEN.currentPage >= 0 && BEN.currentPage <= BEN.totalPages && !BEN.lang1Chosen && !BEN.spanishChosen) {
 					  
 					if (BEN.pages[BEN.currentPage + 1].x > 700 && BEN.pages[BEN.currentPage + 1].x < 900) {
 						BEN.currentSide = 0;
@@ -579,11 +582,26 @@ BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 
 					if (BEN.currentSide === 0) {
 				
-						if (!BEN.englishOn && !BEN.spanishOn) {
+						if (!BEN.lang1On && !BEN.spanishOn) {
 							BEN.context.drawImage(BEN.pagesFrontEN[0],BEN.pages[0].x,BEN.pages[0].y,BEN.pages[0].width,BEN.pages[0].height);
+						
 						}
-						if (BEN.englishOn) {
+						if (BEN.lang1On) {
 							BEN.context.drawImage(BEN.pagesFrontEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+if (!BEN.moveLeft && !BEN.moveRight && BEN.currentPage === -1) {
+	BEN.context.font = "92pt letstracebasic";
+	BEN.context.fillStyle = "#000";
+	BEN.context.fillText("Italiano",200,500);
+}
+					
+if (!BEN.moveLeft && !BEN.moveRight && BEN.currentPage >= 1) {							
+BEN.context.font = "92pt letstracebasic";
+BEN.context.fillStyle = "#000";
+if (BEN.currentPage < 8)
+BEN.context.fillText(BEN.verbsItalian[BEN.currentPage - 1],200,500);
+else 
+BEN.context.fillText(BEN.verbsItalian[BEN.currentPage - 1],140,500);	
+}
 						}
 						if (BEN.spanishOn) {
 							BEN.context.drawImage(BEN.pagesFrontES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
@@ -600,8 +618,9 @@ BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 
 					if (BEN.currentSide === 1) {
 
-						if (BEN.englishOn) {
+						if (BEN.lang1On) {
 							BEN.context.drawImage(BEN.pagesRearEN[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
+							
 						}
 						if (BEN.spanishOn) {
 							BEN.context.drawImage(BEN.pagesRearES[k],BEN.pages[k].x,BEN.pages[k].y,BEN.pages[k].width,BEN.pages[k].height);
@@ -682,8 +701,8 @@ BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 				}
 				
 				if (BEN.touchUp && !BEN.moveLeft && !BEN.moveRight) {
-					BEN.englishChosen = true;
-					BEN.englishOn = true;
+					BEN.lang1Chosen = true;
+					BEN.lang1On = true;
 					BEN.spanishOn = false;
 					BEN.moveLeft = true;
 				}
@@ -699,7 +718,7 @@ BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 				if (BEN.touchUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {
 					BEN.spanishChosen = true;
 					BEN.spanishOn = true;
-					BEN.englishOn = false;
+					BEN.lang1On = false;
 					BEN.moveLeft = true;
 				}
 			}
@@ -758,8 +777,8 @@ BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 				if (Math.abs(vy4) < combinedHalfHeights4) {
 				
 					if (BEN.mouseUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {	
-						BEN.englishChosen = true;
-						BEN.englishOn = true;
+						BEN.lang1Chosen = true;
+						BEN.lang1On = true;
 						BEN.spanishOn = false;
 					}
 				}
@@ -780,7 +799,7 @@ BEN.UI[6].width, BEN.UI[6].height * BEN.percentage);
 					if (BEN.mouseUp && BEN.currentPage === -1 && !BEN.moveLeft && !BEN.moveRight) {
 						BEN.spanishChosen = true;
 						BEN.spanishOn = true;
-						BEN.englishOn = false;
+						BEN.lang1On = false;
 					}
 				}
 			}
